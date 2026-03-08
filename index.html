@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amtsschimmel AI – Bald verfügbar</title>
+    <meta name="description" content="Die KI-Wissensbasis für die öffentliche Verwaltung. Quellensicher, zitierfähig, kostenlos. Bald verfügbar.">
+    <!-- Kein Google Fonts – System-Font-Stack -->
+    <style>
+        :root {
+            --blue-900: #0c1d3a;
+            --blue-800: #122b54;
+            --blue-700: #1a3a6e;
+            --blue-600: #1e4d8f;
+            --blue-500: #2563EB;
+            --blue-400: #4a82f0;
+            --blue-200: #b3cdf9;
+            --blue-100: #dce8fd;
+            --blue-50:  #eef4fe;
+            --gold-400: #e8b830;
+            --gold-300: #f0d060;
+            --gold-100: #fdf6e3;
+            --slate-900: #0f172a;
+            --slate-700: #334155;
+            --slate-600: #475569;
+            --slate-500: #64748b;
+            --slate-400: #94a3b8;
+            --slate-300: #cbd5e1;
+            --slate-200: #e2e8f0;
+            --slate-100: #f1f5f9;
+            --white: #ffffff;
+            --green-soft: #16a34a;
+            --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+                    'Helvetica Neue', Arial, sans-serif;
+            --radius-sm: 6px;
+            --radius-md: 10px;
+            --radius-lg: 16px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { font-size: 16px; }
+        body {
+            font-family: var(--font);
+            background: linear-gradient(175deg, var(--blue-900) 0%, var(--blue-800) 60%, var(--blue-900) 100%);
+            color: var(--white);
+            min-height: 100vh;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            padding: 24px;
+            -webkit-font-smoothing: antialiased;
+            position: relative; overflow-x: hidden;
+        }
+
+        /* Hintergrund-Effekt */
+        body::before {
+            content: '';
+            position: fixed; inset: 0;
+            background:
+                radial-gradient(circle at 20% 30%, rgba(37,99,235,0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(212,160,23,0.06) 0%, transparent 40%);
+            pointer-events: none;
+        }
+        body::after {
+            content: '';
+            position: fixed; inset: 0;
+            background-image:
+                linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+            background-size: 48px 48px;
+            pointer-events: none;
+        }
+
+        /* ===== LOGO ===== */
+        .logo {
+            display: flex; align-items: center; gap: 12px;
+            margin-bottom: 48px;
+            position: relative; z-index: 1;
+        }
+        .logo-icon {
+            width: 44px; height: 44px;
+            background: linear-gradient(135deg, var(--blue-500), var(--blue-400));
+            border-radius: var(--radius-sm);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 22px; font-weight: 800; color: white;
+            box-shadow: 0 4px 16px rgba(37,99,235,0.4);
+            font-style: normal; letter-spacing: -0.02em;
+        }
+        .logo-text {
+            font-size: 1.25rem; font-weight: 700;
+            letter-spacing: -0.01em;
+        }
+        .logo-text span { color: var(--blue-400); }
+
+        /* ===== HAUPT-CARD ===== */
+        .card {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 24px;
+            padding: 48px 44px;
+            max-width: 620px; width: 100%;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 24px 60px rgba(0,0,0,0.3);
+            position: relative; z-index: 1;
+            text-align: center;
+        }
+
+        .status-badge {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: rgba(22,163,74,0.15);
+            border: 1px solid rgba(22,163,74,0.3);
+            color: #4ade80;
+            padding: 6px 14px; border-radius: 100px;
+            font-size: 0.78rem; font-weight: 700;
+            letter-spacing: 0.05em; text-transform: uppercase;
+            margin-bottom: 24px;
+        }
+        .status-dot {
+            width: 7px; height: 7px; border-radius: 50%;
+            background: #4ade80;
+            box-shadow: 0 0 0 3px rgba(74,222,128,0.2);
+            animation: pulse 2s ease-in-out infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 0 3px rgba(74,222,128,0.2); }
+            50% { box-shadow: 0 0 0 6px rgba(74,222,128,0.1); }
+        }
+
+        h1 {
+            font-size: clamp(1.8rem, 4vw, 2.4rem);
+            font-weight: 800; line-height: 1.2;
+            letter-spacing: -0.02em; margin-bottom: 16px;
+        }
+        h1 em {
+            font-style: normal; color: var(--gold-400); position: relative;
+        }
+
+        .subtitle {
+            font-size: 1rem; color: var(--blue-200);
+            line-height: 1.65; margin-bottom: 36px;
+        }
+
+        /* ===== URL GENERATOR ===== */
+        .generator {
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            margin-bottom: 28px;
+            text-align: left;
+        }
+        .generator-headline {
+            font-size: 0.78rem; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 0.08em;
+            color: var(--gold-400); margin-bottom: 16px;
+            display: flex; align-items: center; gap: 8px;
+        }
+        .gen-fields {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+            margin-bottom: 14px;
+        }
+        .gen-fields input,
+        .gen-fields select {
+            width: 100%; padding: 10px 14px;
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: var(--radius-sm);
+            color: white; font-family: var(--font);
+            font-size: 0.88rem;
+            transition: border-color 0.2s;
+            appearance: none; -webkit-appearance: none;
+        }
+        .gen-fields input::placeholder { color: rgba(255,255,255,0.35); }
+        .gen-fields input:focus,
+        .gen-fields select:focus {
+            outline: none;
+            border-color: var(--blue-400);
+            background: rgba(255,255,255,0.12);
+        }
+        .gen-fields select option { background: var(--slate-900); color: white; }
+
+        .url-row {
+            display: flex; gap: 8px; align-items: stretch;
+        }
+        .url-box {
+            flex: 1;
+            background: var(--slate-900);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: var(--radius-sm);
+            padding: 10px 14px;
+            font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+            font-size: 0.75rem; color: #a5f3fc;
+            overflow: hidden; word-break: break-all; line-height: 1.5;
+        }
+        .copy-btn {
+            padding: 0 16px;
+            background: var(--blue-500); color: white;
+            border: none; border-radius: var(--radius-sm);
+            font-family: var(--font); font-size: 0.82rem;
+            font-weight: 600; cursor: pointer; white-space: nowrap;
+            transition: all 0.2s; min-width: 110px;
+        }
+        .copy-btn:hover { background: var(--blue-600); }
+        .copy-btn.copied { background: var(--green-soft); }
+        .gen-hint {
+            font-size: 0.72rem; color: rgba(255,255,255,0.35);
+            margin-top: 10px; text-align: center;
+        }
+
+        /* ===== NOTIFY ===== */
+        .notify-form {
+            display: flex; gap: 8px; margin-bottom: 28px;
+        }
+        .notify-form input {
+            flex: 1; padding: 12px 16px;
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: var(--radius-md);
+            color: white; font-family: var(--font); font-size: 0.9rem;
+        }
+        .notify-form input::placeholder { color: rgba(255,255,255,0.4); }
+        .notify-form input:focus {
+            outline: none; border-color: var(--blue-400);
+            background: rgba(255,255,255,0.12);
+        }
+        .notify-btn {
+            padding: 12px 20px;
+            background: var(--gold-400); color: var(--blue-900);
+            border: none; border-radius: var(--radius-md);
+            font-family: var(--font); font-size: 0.88rem;
+            font-weight: 700; cursor: pointer; white-space: nowrap;
+            transition: all 0.2s;
+        }
+        .notify-btn:hover { background: var(--gold-300); transform: translateY(-1px); }
+        .notify-success {
+            display: none;
+            background: rgba(22,163,74,0.15);
+            border: 1px solid rgba(22,163,74,0.3);
+            color: #4ade80; padding: 12px 16px;
+            border-radius: var(--radius-md); font-size: 0.88rem;
+            margin-bottom: 28px; text-align: center;
+        }
+        .notify-success.show { display: block; }
+
+        /* ===== DIVIDER ===== */
+        .divider {
+            border: none; border-top: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 24px;
+        }
+
+        /* ===== TRUST PILLS ===== */
+        .trust-pills {
+            display: flex; gap: 8px; flex-wrap: wrap;
+            justify-content: center;
+        }
+        .pill {
+            display: inline-flex; align-items: center; gap: 5px;
+            padding: 5px 12px;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 100px;
+            font-size: 0.75rem; color: var(--blue-200);
+        }
+
+        /* ===== FOOTER-LINK ===== */
+        .footer-link {
+            margin-top: 32px;
+            font-size: 0.78rem; color: rgba(255,255,255,0.3);
+            position: relative; z-index: 1;
+            text-align: center;
+        }
+        .footer-link a {
+            color: rgba(255,255,255,0.45);
+            text-decoration: none; transition: color 0.2s;
+        }
+        .footer-link a:hover { color: var(--gold-400); }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 500px) {
+            .card { padding: 32px 20px; }
+            .gen-fields { grid-template-columns: 1fr; }
+            .url-row { flex-direction: column; }
+            .copy-btn { width: 100%; padding: 10px; }
+            .notify-form { flex-direction: column; }
+            .notify-btn { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="logo">
+        <div class="logo-icon">A</div>
+        <div class="logo-text">Amtsschimmel<span>.AI</span></div>
+    </div>
+
+    <div class="card">
+
+        <div class="status-badge">
+            <div class="status-dot"></div>
+            KI-Server läuft – Website im Aufbau
+        </div>
+
+        <h1>Verwaltungswissen. <em>Quellensicher.</em><br>Für Ihre KI.</h1>
+
+        <p class="subtitle">
+            Die Website ist gerade im Aufbau –
+            aber der Server ist bereits live und einsatzbereit.
+            Testen Sie ihn jetzt einfach in Claude oder ChatGPT.
+        </p>
+
+        <!-- URL GENERATOR -->
+        <div class="generator">
+            <div class="generator-headline">
+                ⚡ Jetzt sofort testen
+            </div>
+            <div class="gen-fields">
+                <input
+                    type="text"
+                    id="geoInput"
+                    placeholder="Ihre Gemeinde, z. B. Bad Boll"
+                    oninput="updateUrl()"
+                    autocomplete="off"
+                >
+                <select id="rolleSelect" onchange="updateUrl()">
+                    <option value="verwaltung">👔 Verwaltung</option>
+                    <option value="buergermeister">👑 Bürgermeister:in</option>
+                    <option value="gemeinderat">🏛️ Gemeinderat</option>
+                    <option value="buerger">🏠 Bürger:in</option>
+                </select>
+            </div>
+            <div class="url-row">
+                <div class="url-box" id="generatedUrl">https://mcp.amtsschimmel.ai/mcp?rolle=verwaltung</div>
+                <button class="copy-btn" id="copyBtn" onclick="copyUrl()">📋 Kopieren</button>
+            </div>
+            <div class="gen-hint">Kein API-Key · Keine Registrierung · Kostenlos</div>
+        </div>
+
+        <!-- NOTIFY -->
+        <div id="notifyForm" class="notify-form">
+            <input
+                type="email"
+                id="notifyEmail"
+                placeholder="ihre@gemeinde.de – bei Launch benachrichtigen"
+            >
+            <button class="notify-btn" onclick="submitNotify()">Benachrichtigen</button>
+        </div>
+        <div class="notify-success" id="notifySuccess">
+            ✓ Eingetragen! Wir melden uns beim Launch.
+        </div>
+
+        <hr class="divider">
+
+        <div class="trust-pills">
+            <span class="pill">🔓 Open Source</span>
+            <span class="pill">🔗 Claude · ChatGPT · LangDoc</span>
+            <span class="pill">📄 Quellensicher</span>
+            <span class="pill">🇩🇪 DSGVO-konform*</span>
+        </div>
+
+    </div>
+
+    <div class="footer-link">
+        Technik: <a href="https://ragsource.ai" target="_blank" rel="noopener">RAGSource Open Source</a>
+        &nbsp;·&nbsp;
+        <a href="mailto:hallo@amtsschimmel.ai">Kontakt</a>
+    </div>
+
+<script>
+    // URL Generator
+    function updateUrl() {
+        const geo   = document.getElementById('geoInput').value.trim();
+        const rolle = document.getElementById('rolleSelect').value;
+        let url = 'https://mcp.amtsschimmel.ai/mcp';
+        const params = [];
+        if (geo) params.push('geo=' + encodeURIComponent(geo).replace(/%20/g, '+'));
+        params.push('rolle=' + encodeURIComponent(rolle));
+        url += '?' + params.join('&');
+        const el = document.getElementById('generatedUrl');
+        el.textContent = url;
+        el.dataset.url = url;
+        resetCopyBtn();
+    }
+
+    function copyUrl() {
+        const el  = document.getElementById('generatedUrl');
+        const url = el.dataset.url || el.textContent;
+        navigator.clipboard.writeText(url).then(() => {
+            const btn = document.getElementById('copyBtn');
+            btn.classList.add('copied');
+            btn.textContent = '✓ Kopiert!';
+            setTimeout(resetCopyBtn, 2500);
+        });
+    }
+
+    function resetCopyBtn() {
+        const btn = document.getElementById('copyBtn');
+        if (btn) { btn.classList.remove('copied'); btn.textContent = '📋 Kopieren'; }
+    }
+
+    // Launch-Benachrichtigung (Formspree-Platzhalter)
+    function submitNotify() {
+        const email = document.getElementById('notifyEmail').value.trim();
+        if (!email || !email.includes('@')) {
+            document.getElementById('notifyEmail').focus(); return;
+        }
+        // TODO: Formspree-ID eintragen, dann funktioniert das echt
+        // fetch('https://formspree.io/f/DEINE_ID', {
+        //   method: 'POST',
+        //   headers: { 'Content-Type': 'application/json' },
+        //   body: JSON.stringify({ email, _subject: 'Launch-Benachrichtigung' })
+        // });
+        document.getElementById('notifyForm').style.display = 'none';
+        document.getElementById('notifySuccess').classList.add('show');
+    }
+
+    updateUrl();
+</script>
+
+</body>
+</html>
