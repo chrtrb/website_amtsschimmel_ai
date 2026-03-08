@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Amtsschimmel AI – Bald verfügbar</title>
-    <meta name="description" content="Die KI-Wissensbasis für die öffentliche Verwaltung. Quellensicher, zitierfähig, kostenlos. Bald verfügbar.">
-    <!-- Kein Google Fonts – System-Font-Stack -->
+    <title>Amtsschimmel AI – Verwaltungswissen. KI-gestützt. Quellensicher.</title>
+    <meta name="description" content="Die KI-Wissensbasis für die öffentliche Verwaltung. Quellensicher, zitierfähig, kostenlos. Jetzt testen.">
+    <!-- Kein Google Fonts – System-Font-Stack (DSGVO) -->
     <style>
         :root {
             --blue-900: #0c1d3a;
@@ -17,10 +17,12 @@
             --blue-200: #b3cdf9;
             --blue-100: #dce8fd;
             --blue-50:  #eef4fe;
+            --gold-500: #d4a017;
             --gold-400: #e8b830;
             --gold-300: #f0d060;
             --gold-100: #fdf6e3;
             --slate-900: #0f172a;
+            --slate-800: #1e293b;
             --slate-700: #334155;
             --slate-600: #475569;
             --slate-500: #64748b;
@@ -28,6 +30,7 @@
             --slate-300: #cbd5e1;
             --slate-200: #e2e8f0;
             --slate-100: #f1f5f9;
+            --slate-50:  #f8fafc;
             --white: #ffffff;
             --green-soft: #16a34a;
             --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
@@ -35,148 +38,175 @@
             --radius-sm: 6px;
             --radius-md: 10px;
             --radius-lg: 16px;
+            --radius-xl: 24px;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
+            --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+            --shadow-lg: 0 12px 32px rgba(0,0,0,0.1);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { font-size: 16px; }
+        html { font-size: 16px; scroll-behavior: smooth; }
         body {
             font-family: var(--font);
-            background: linear-gradient(175deg, var(--blue-900) 0%, var(--blue-800) 60%, var(--blue-900) 100%);
-            color: var(--white);
+            background: linear-gradient(175deg, var(--blue-50) 0%, var(--white) 50%, var(--slate-50) 100%);
+            color: var(--slate-800);
             min-height: 100vh;
-            display: flex; flex-direction: column;
-            align-items: center; justify-content: center;
-            padding: 24px;
             -webkit-font-smoothing: antialiased;
-            position: relative; overflow-x: hidden;
         }
 
-        /* Hintergrund-Effekt */
-        body::before {
-            content: '';
-            position: fixed; inset: 0;
-            background:
-                radial-gradient(circle at 20% 30%, rgba(37,99,235,0.15) 0%, transparent 50%),
-                radial-gradient(circle at 80% 70%, rgba(212,160,23,0.06) 0%, transparent 40%);
-            pointer-events: none;
+        /* ===== NAV ===== */
+        .nav {
+            background: rgba(255,255,255,0.92);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--slate-200);
+            position: sticky; top: 0; z-index: 100;
         }
-        body::after {
-            content: '';
-            position: fixed; inset: 0;
-            background-image:
-                linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
-            background-size: 48px 48px;
-            pointer-events: none;
+        .nav-inner {
+            max-width: 900px; margin: 0 auto;
+            padding: 0 24px; height: 60px;
+            display: flex; align-items: center; justify-content: space-between;
         }
-
-        /* ===== LOGO ===== */
         .logo {
-            display: flex; align-items: center; gap: 12px;
-            margin-bottom: 48px;
-            position: relative; z-index: 1;
+            display: flex; align-items: center; gap: 10px;
+            text-decoration: none; color: var(--blue-900);
         }
         .logo-icon {
-            width: 44px; height: 44px;
-            background: linear-gradient(135deg, var(--blue-500), var(--blue-400));
+            width: 36px; height: 36px;
+            background: linear-gradient(135deg, var(--blue-500), var(--blue-700));
             border-radius: var(--radius-sm);
             display: flex; align-items: center; justify-content: center;
-            font-size: 22px; font-weight: 800; color: white;
-            box-shadow: 0 4px 16px rgba(37,99,235,0.4);
-            font-style: normal; letter-spacing: -0.02em;
+            font-size: 18px; font-weight: 800; color: white;
+            box-shadow: 0 2px 8px rgba(37,99,235,0.3);
         }
         .logo-text {
-            font-size: 1.25rem; font-weight: 700;
-            letter-spacing: -0.01em;
+            font-size: 1.05rem; font-weight: 700; letter-spacing: -0.01em;
         }
-        .logo-text span { color: var(--blue-400); }
-
-        /* ===== HAUPT-CARD ===== */
-        .card {
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 24px;
-            padding: 48px 44px;
-            max-width: 620px; width: 100%;
-            backdrop-filter: blur(12px);
-            box-shadow: 0 24px 60px rgba(0,0,0,0.3);
-            position: relative; z-index: 1;
-            text-align: center;
+        .logo-text span { color: var(--blue-500); }
+        .nav-badge {
+            display: inline-flex; align-items: center; gap: 6px;
+            background: rgba(22,163,74,0.1);
+            border: 1px solid rgba(22,163,74,0.25);
+            color: var(--green-soft);
+            padding: 5px 12px; border-radius: 100px;
+            font-size: 0.75rem; font-weight: 700;
         }
-
-        .status-badge {
-            display: inline-flex; align-items: center; gap: 8px;
-            background: rgba(22,163,74,0.15);
-            border: 1px solid rgba(22,163,74,0.3);
-            color: #4ade80;
-            padding: 6px 14px; border-radius: 100px;
-            font-size: 0.78rem; font-weight: 700;
-            letter-spacing: 0.05em; text-transform: uppercase;
-            margin-bottom: 24px;
-        }
-        .status-dot {
-            width: 7px; height: 7px; border-radius: 50%;
-            background: #4ade80;
-            box-shadow: 0 0 0 3px rgba(74,222,128,0.2);
-            animation: pulse 2s ease-in-out infinite;
+        .nav-dot {
+            width: 6px; height: 6px; border-radius: 50%;
+            background: var(--green-soft);
+            animation: pulse 2s infinite;
         }
         @keyframes pulse {
-            0%, 100% { box-shadow: 0 0 0 3px rgba(74,222,128,0.2); }
-            50% { box-shadow: 0 0 0 6px rgba(74,222,128,0.1); }
+            0%,100% { box-shadow: 0 0 0 2px rgba(22,163,74,0.2); }
+            50% { box-shadow: 0 0 0 5px rgba(22,163,74,0.08); }
         }
 
-        h1 {
-            font-size: clamp(1.8rem, 4vw, 2.4rem);
-            font-weight: 800; line-height: 1.2;
-            letter-spacing: -0.02em; margin-bottom: 16px;
+        /* ===== HERO ===== */
+        .hero {
+            max-width: 900px; margin: 0 auto;
+            padding: 60px 24px 48px;
+            text-align: center;
         }
-        h1 em {
-            font-style: normal; color: var(--gold-400); position: relative;
+        .hero-eyebrow {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: var(--blue-100); color: var(--blue-700);
+            padding: 6px 14px; border-radius: 100px;
+            font-size: 0.8rem; font-weight: 700;
+            margin-bottom: 24px; letter-spacing: 0.02em;
+        }
+        .hero h1 {
+            font-size: clamp(1.9rem, 4vw, 2.8rem);
+            font-weight: 800; line-height: 1.18;
+            color: var(--blue-900); letter-spacing: -0.02em;
+            margin-bottom: 16px;
+        }
+        .hero h1 em {
+            font-style: normal; color: var(--blue-500); position: relative;
+        }
+        .hero h1 em::after {
+            content: '';
+            position: absolute; bottom: 2px; left: 0; right: 0;
+            height: 5px; background: var(--gold-300);
+            opacity: 0.5; border-radius: 3px; z-index: -1;
+        }
+        .hero-sub {
+            font-size: 1.05rem; color: var(--slate-600);
+            max-width: 580px; margin: 0 auto 32px;
+            line-height: 1.7;
         }
 
-        .subtitle {
-            font-size: 1rem; color: var(--blue-200);
-            line-height: 1.65; margin-bottom: 36px;
-        }
-
-        /* ===== URL GENERATOR ===== */
-        .generator {
-            background: rgba(255,255,255,0.06);
-            border: 1px solid rgba(255,255,255,0.12);
-            border-radius: var(--radius-lg);
-            padding: 24px;
-            margin-bottom: 28px;
+        /* ===== PRIVACY NOTE ===== */
+        .privacy-note {
+            display: inline-flex; align-items: flex-start; gap: 10px;
+            background: var(--gold-100);
+            border: 1px solid rgba(212,160,23,0.3);
+            border-radius: var(--radius-md);
+            padding: 12px 16px;
+            max-width: 620px; margin: 0 auto 48px;
             text-align: left;
         }
-        .generator-headline {
-            font-size: 0.78rem; font-weight: 700;
-            text-transform: uppercase; letter-spacing: 0.08em;
-            color: var(--gold-400); margin-bottom: 16px;
-            display: flex; align-items: center; gap: 8px;
+        .privacy-note-icon { font-size: 1rem; flex-shrink: 0; margin-top: 1px; }
+        .privacy-note p {
+            font-size: 0.82rem; color: var(--slate-700); line-height: 1.55;
         }
+        .privacy-note strong { color: var(--slate-800); }
+
+        /* ===== STEPS CONTAINER ===== */
+        .steps-section {
+            max-width: 900px; margin: 0 auto;
+            padding: 0 24px 60px;
+            display: flex; flex-direction: column; gap: 20px;
+        }
+
+        /* ===== STEP CARD ===== */
+        .step-card {
+            background: var(--white);
+            border: 1px solid var(--slate-200);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            overflow: hidden;
+        }
+        .step-header {
+            display: flex; align-items: center; gap: 16px;
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--slate-100);
+        }
+        .step-num {
+            width: 36px; height: 36px; border-radius: 50%;
+            background: linear-gradient(135deg, var(--blue-500), var(--blue-600));
+            color: white; font-weight: 800; font-size: 1rem;
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0; box-shadow: 0 3px 10px rgba(37,99,235,0.25);
+        }
+        .step-title {
+            font-size: 0.95rem; font-weight: 700; color: var(--blue-900);
+            line-height: 1.35;
+        }
+        .step-hint {
+            font-size: 0.8rem; color: var(--slate-500); margin-top: 3px;
+        }
+        .step-body { padding: 20px 24px; }
+
+        /* ===== SCHRITT 1: URL GENERATOR ===== */
         .gen-fields {
             display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
-            margin-bottom: 14px;
+            margin-bottom: 12px;
         }
         .gen-fields input,
         .gen-fields select {
             width: 100%; padding: 10px 14px;
-            background: rgba(255,255,255,0.08);
-            border: 1px solid rgba(255,255,255,0.15);
+            border: 1.5px solid var(--slate-300);
             border-radius: var(--radius-sm);
-            color: white; font-family: var(--font);
-            font-size: 0.88rem;
+            font-family: var(--font); font-size: 0.9rem;
+            color: var(--slate-800); background: var(--white);
             transition: border-color 0.2s;
             appearance: none; -webkit-appearance: none;
         }
-        .gen-fields input::placeholder { color: rgba(255,255,255,0.35); }
         .gen-fields input:focus,
         .gen-fields select:focus {
-            outline: none;
-            border-color: var(--blue-400);
-            background: rgba(255,255,255,0.12);
+            outline: none; border-color: var(--blue-400);
+            box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
         }
-        .gen-fields select option { background: var(--slate-900); color: white; }
+        .gen-fields input::placeholder { color: var(--slate-400); }
 
         .url-row {
             display: flex; gap: 8px; align-items: stretch;
@@ -184,134 +214,200 @@
         .url-box {
             flex: 1;
             background: var(--slate-900);
-            border: 1px solid rgba(255,255,255,0.1);
             border-radius: var(--radius-sm);
-            padding: 10px 14px;
+            padding: 11px 16px;
             font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
-            font-size: 0.75rem; color: #a5f3fc;
-            overflow: hidden; word-break: break-all; line-height: 1.5;
+            font-size: 0.78rem; color: #a5f3fc;
+            word-break: break-all; line-height: 1.5;
         }
         .copy-btn {
-            padding: 0 16px;
+            padding: 0 18px;
             background: var(--blue-500); color: white;
             border: none; border-radius: var(--radius-sm);
-            font-family: var(--font); font-size: 0.82rem;
-            font-weight: 600; cursor: pointer; white-space: nowrap;
-            transition: all 0.2s; min-width: 110px;
+            font-family: var(--font); font-size: 0.85rem; font-weight: 600;
+            cursor: pointer; white-space: nowrap; min-width: 120px;
+            transition: all 0.2s;
         }
         .copy-btn:hover { background: var(--blue-600); }
         .copy-btn.copied { background: var(--green-soft); }
-        .gen-hint {
-            font-size: 0.72rem; color: rgba(255,255,255,0.35);
-            margin-top: 10px; text-align: center;
+        .gen-footer {
+            margin-top: 12px;
+            display: flex; align-items: center; justify-content: space-between;
+            flex-wrap: wrap; gap: 8px;
         }
+        .gen-hint { font-size: 0.75rem; color: var(--slate-400); }
+        .search-tip {
+            font-size: 0.78rem; color: var(--slate-500);
+            background: var(--slate-50); border: 1px solid var(--slate-200);
+            border-radius: var(--radius-sm); padding: 8px 12px;
+            margin-top: 12px; line-height: 1.5;
+        }
+        .search-tip a { color: var(--blue-500); }
 
-        /* ===== NOTIFY ===== */
-        .notify-form {
-            display: flex; gap: 8px; margin-bottom: 28px;
-        }
-        .notify-form input {
-            flex: 1; padding: 12px 16px;
-            background: rgba(255,255,255,0.08);
-            border: 1px solid rgba(255,255,255,0.15);
+        /* ===== SCHRITT 2: MASTERPROMPT ===== */
+        .prompt-box {
+            background: var(--slate-50);
+            border: 1px solid var(--slate-200);
             border-radius: var(--radius-md);
-            color: white; font-family: var(--font); font-size: 0.9rem;
+            padding: 16px;
+            font-size: 0.85rem; color: var(--slate-700); line-height: 1.7;
+            white-space: pre-wrap; font-family: var(--font);
+            margin-bottom: 12px;
         }
-        .notify-form input::placeholder { color: rgba(255,255,255,0.4); }
-        .notify-form input:focus {
-            outline: none; border-color: var(--blue-400);
-            background: rgba(255,255,255,0.12);
+        .copy-prompt-btn {
+            display: inline-flex; align-items: center; gap: 6px;
+            padding: 9px 18px;
+            background: var(--white); color: var(--slate-700);
+            border: 1.5px solid var(--slate-300);
+            border-radius: var(--radius-sm);
+            font-family: var(--font); font-size: 0.85rem; font-weight: 600;
+            cursor: pointer; transition: all 0.2s;
         }
-        .notify-btn {
-            padding: 12px 20px;
-            background: var(--gold-400); color: var(--blue-900);
-            border: none; border-radius: var(--radius-md);
-            font-family: var(--font); font-size: 0.88rem;
-            font-weight: 700; cursor: pointer; white-space: nowrap;
-            transition: all 0.2s;
+        .copy-prompt-btn:hover {
+            border-color: var(--blue-400); color: var(--blue-600);
+            background: var(--blue-50);
         }
-        .notify-btn:hover { background: var(--gold-300); transform: translateY(-1px); }
-        .notify-success {
-            display: none;
-            background: rgba(22,163,74,0.15);
-            border: 1px solid rgba(22,163,74,0.3);
-            color: #4ade80; padding: 12px 16px;
-            border-radius: var(--radius-md); font-size: 0.88rem;
-            margin-bottom: 28px; text-align: center;
+        .copy-prompt-btn.copied { background: var(--green-soft); color: white; border-color: var(--green-soft); }
+        .prompt-note {
+            margin-top: 10px; font-size: 0.78rem; color: var(--slate-400);
         }
-        .notify-success.show { display: block; }
 
-        /* ===== DIVIDER ===== */
-        .divider {
-            border: none; border-top: 1px solid rgba(255,255,255,0.1);
-            margin-bottom: 24px;
+        /* ===== SCHRITT 3 ===== */
+        .step3-info {
+            font-size: 0.9rem; color: var(--slate-600); line-height: 1.7;
+        }
+        .step3-example {
+            margin-top: 14px;
+            background: var(--blue-50);
+            border: 1px solid var(--blue-200);
+            border-radius: var(--radius-md);
+            padding: 14px 16px;
+        }
+        .step3-example-label {
+            font-size: 0.72rem; font-weight: 700; text-transform: uppercase;
+            letter-spacing: 0.06em; color: var(--blue-500); margin-bottom: 6px;
+        }
+        .step3-example p {
+            font-size: 0.88rem; color: var(--blue-800);
+            font-style: italic; line-height: 1.5;
+        }
+        .step3-source {
+            display: inline-flex; align-items: center; gap: 4px;
+            background: var(--blue-100); color: var(--blue-700);
+            padding: 2px 8px; border-radius: 4px;
+            font-size: 0.72rem; font-weight: 600;
+            margin-top: 6px; font-style: normal;
         }
 
         /* ===== TRUST PILLS ===== */
-        .trust-pills {
-            display: flex; gap: 8px; flex-wrap: wrap;
-            justify-content: center;
+        .trust-section {
+            max-width: 900px; margin: 0 auto;
+            padding: 0 24px 60px;
+            display: flex; gap: 8px; flex-wrap: wrap; justify-content: center;
         }
         .pill {
             display: inline-flex; align-items: center; gap: 5px;
-            padding: 5px 12px;
-            background: rgba(255,255,255,0.06);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 100px;
-            font-size: 0.75rem; color: var(--blue-200);
+            padding: 6px 14px;
+            background: var(--white); border: 1px solid var(--slate-200);
+            border-radius: 100px; box-shadow: var(--shadow-sm);
+            font-size: 0.78rem; color: var(--slate-600); font-weight: 500;
         }
 
-        /* ===== FOOTER-LINK ===== */
-        .footer-link {
-            margin-top: 32px;
-            font-size: 0.78rem; color: rgba(255,255,255,0.3);
-            position: relative; z-index: 1;
-            text-align: center;
+        /* ===== IMPRESSUM ===== */
+        .impressum {
+            background: var(--slate-100);
+            border-top: 1px solid var(--slate-200);
+            padding: 40px 24px;
         }
-        .footer-link a {
-            color: rgba(255,255,255,0.45);
-            text-decoration: none; transition: color 0.2s;
+        .impressum-inner {
+            max-width: 900px; margin: 0 auto;
+            display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 32px;
         }
-        .footer-link a:hover { color: var(--gold-400); }
+        .impressum h3 {
+            font-size: 0.78rem; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 0.08em;
+            color: var(--slate-500); margin-bottom: 10px;
+        }
+        .impressum p, .impressum a {
+            font-size: 0.82rem; color: var(--slate-600); line-height: 1.7;
+        }
+        .impressum a { color: var(--blue-500); text-decoration: none; }
+        .impressum a:hover { color: var(--blue-600); text-decoration: underline; }
+        .impressum-bottom {
+            max-width: 900px; margin: 24px auto 0;
+            padding-top: 20px; border-top: 1px solid var(--slate-200);
+            font-size: 0.75rem; color: var(--slate-400);
+            display: flex; justify-content: space-between; align-items: center;
+            flex-wrap: wrap; gap: 8px;
+        }
+        .impressum-bottom a { color: var(--slate-400); text-decoration: none; }
+        .impressum-bottom a:hover { color: var(--blue-500); }
 
         /* ===== RESPONSIVE ===== */
-        @media (max-width: 500px) {
-            .card { padding: 32px 20px; }
+        @media (max-width: 640px) {
+            .hero { padding: 40px 16px 32px; }
+            .steps-section { padding: 0 16px 48px; }
+            .trust-section { padding: 0 16px 48px; }
             .gen-fields { grid-template-columns: 1fr; }
             .url-row { flex-direction: column; }
-            .copy-btn { width: 100%; padding: 10px; }
-            .notify-form { flex-direction: column; }
-            .notify-btn { width: 100%; }
+            .copy-btn { width: 100%; padding: 11px; }
+            .impressum-inner { grid-template-columns: 1fr; gap: 24px; }
+            .impressum { padding: 32px 16px; }
+            .impressum-bottom { flex-direction: column; text-align: center; }
+            .nav-inner { padding: 0 16px; }
         }
     </style>
 </head>
 <body>
 
-    <div class="logo">
-        <div class="logo-icon">A</div>
-        <div class="logo-text">Amtsschimmel<span>.AI</span></div>
-    </div>
-
-    <div class="card">
-
-        <div class="status-badge">
-            <div class="status-dot"></div>
-            KI-Server läuft – Website im Aufbau
+<!-- NAV -->
+<nav class="nav">
+    <div class="nav-inner">
+        <a href="#" class="logo">
+            <div class="logo-icon">A</div>
+            <div class="logo-text">Amtsschimmel<span>.AI</span></div>
+        </a>
+        <div class="nav-badge">
+            <div class="nav-dot"></div>
+            Server live
         </div>
+    </div>
+</nav>
 
-        <h1>Verwaltungswissen. <em>Quellensicher.</em><br>Für Ihre KI.</h1>
+<!-- HERO -->
+<div class="hero">
+    <div class="hero-eyebrow">🏛️ Website im Aufbau – Server bereits einsatzbereit</div>
+    <h1>Verwaltungswissen.<br><em>Quellensicher</em> in Ihrer KI.</h1>
+    <p class="hero-sub">
+        Die Website befindet sich noch im Aufbau – aber der Amtsschimmel AI
+        Wissensserver läuft bereits. Damit können Sie ihn heute schon
+        direkt in Ihrer KI verbinden und sofort loslegen.
+    </p>
 
-        <p class="subtitle">
-            Die Website ist gerade im Aufbau –
-            aber der Server ist bereits live und einsatzbereit.
-            Testen Sie ihn jetzt einfach in Claude oder ChatGPT.
+    <!-- DATENSCHUTZ-HINWEIS -->
+    <div class="privacy-note">
+        <div class="privacy-note-icon">🔒</div>
+        <p>
+            <strong>Datenschutz:</strong> Die KI ruft Verwaltungswissen vom Amtsschimmel AI Server ab –
+            aber <strong>keine Inhalte Ihrer Anfragen oder Bürgerdaten werden an amtsschimmel.ai übertragen</strong>.
+            Der Server liefert ausschließlich Rechtstexte und Quellenangaben zurück.
         </p>
+    </div>
+</div>
 
-        <!-- URL GENERATOR -->
-        <div class="generator">
-            <div class="generator-headline">
-                ⚡ Jetzt sofort testen
+<!-- STEPS -->
+<div class="steps-section">
+
+    <!-- SCHRITT 1 -->
+    <div class="step-card">
+        <div class="step-header">
+            <div class="step-num">1</div>
+            <div>
+                <div class="step-title">MCP-Server in Ihrem KI-Tool verbinden</div>
+                <div class="step-hint">Einmalig einrichten – funktioniert in Claude, Langdock und allen MCP-fähigen KI-Tools</div>
             </div>
+        </div>
+        <div class="step-body">
             <div class="gen-fields">
                 <input
                     type="text"
@@ -321,7 +417,7 @@
                     autocomplete="off"
                 >
                 <select id="rolleSelect" onchange="updateUrl()">
-                    <option value="verwaltung">👔 Verwaltung</option>
+                    <option value="verwaltung">👔 Verwaltung &amp; Sachbearbeitung</option>
                     <option value="buergermeister">👑 Bürgermeister:in</option>
                     <option value="gemeinderat">🏛️ Gemeinderat</option>
                     <option value="buerger">🏠 Bürger:in</option>
@@ -329,43 +425,128 @@
             </div>
             <div class="url-row">
                 <div class="url-box" id="generatedUrl">https://mcp.amtsschimmel.ai/mcp?rolle=verwaltung</div>
-                <button class="copy-btn" id="copyBtn" onclick="copyUrl()">📋 Kopieren</button>
+                <button class="copy-btn" id="copyBtn" onclick="copyUrl()">📋 Link kopieren</button>
             </div>
-            <div class="gen-hint">Kein API-Key · Keine Registrierung · Kostenlos</div>
+            <div class="gen-footer">
+                <span class="gen-hint">Kein API-Key · Keine Registrierung · Kostenlos</span>
+            </div>
+            <div class="search-tip">
+                💡 <strong>Wie füge ich einen MCP-Server ein?</strong>
+                Suchen Sie in Ihrem KI-Tool nach „MCP Server hinzufügen" oder „Integration / Konnektor".
+                Anleitungen für die gängigen Tools gibt es zuhauf – einfach nach
+                „<em>[Ihr KI-Tool] MCP Server einrichten</em>" suchen.
+            </div>
         </div>
-
-        <!-- NOTIFY -->
-        <div id="notifyForm" class="notify-form">
-            <input
-                type="email"
-                id="notifyEmail"
-                placeholder="ihre@gemeinde.de – bei Launch benachrichtigen"
-            >
-            <button class="notify-btn" onclick="submitNotify()">Benachrichtigen</button>
-        </div>
-        <div class="notify-success" id="notifySuccess">
-            ✓ Eingetragen! Wir melden uns beim Launch.
-        </div>
-
-        <hr class="divider">
-
-        <div class="trust-pills">
-            <span class="pill">🔓 Open Source</span>
-            <span class="pill">🔗 Claude · ChatGPT · LangDoc</span>
-            <span class="pill">📄 Quellensicher</span>
-            <span class="pill">🇩🇪 DSGVO-konform*</span>
-        </div>
-
     </div>
 
-    <div class="footer-link">
-        Technik: <a href="https://ragsource.ai" target="_blank" rel="noopener">RAGSource Open Source</a>
-        &nbsp;·&nbsp;
-        <a href="mailto:hallo@amtsschimmel.ai">Kontakt</a>
+    <!-- SCHRITT 2 -->
+    <div class="step-card">
+        <div class="step-header">
+            <div class="step-num">2</div>
+            <div>
+                <div class="step-title">Masterprompt in Ihren Assistenten / Ihr Projekt einfügen</div>
+                <div class="step-hint">In Claude: Projekt-Systemanweisung · In Langdock: Assistent-Systemprompt · In ChatGPT: Custom Instructions</div>
+            </div>
+        </div>
+        <div class="step-body">
+            <div class="prompt-box" id="masterprompt">Du bist ein KI-Assistent für die öffentliche Verwaltung in Deutschland und hast über den amtsschimmel.ai MCP-Server Zugriff auf aktuelle Rechtstexte: Bundesgesetze, Landesrecht Baden-Württemberg sowie gemeindespezifische Satzungen und Vorschriften.
+
+Nutze die verfügbaren Tools, um Verwaltungsfragen quellensicher zu beantworten:
+- Zitiere immer den genauen Paragraphen, Absatz und Gesetzesnamen
+- Weise auf die verwendeten Quellen hin
+- Halte Antworten präzise und verwaltungspraktisch
+- Bei rechtlicher Unsicherheit: Hinweis auf fachkundige Rechtsberatung geben
+
+Deine Antworten ersetzen keine anwaltliche Rechtsprüfung.</div>
+            <button class="copy-prompt-btn" id="copyPromptBtn" onclick="copyPrompt()">
+                <span id="copyPromptIcon">📋</span>
+                <span id="copyPromptText">Masterprompt kopieren</span>
+            </button>
+            <p class="prompt-note">
+                Hinweis: Bei MCP-fähigen Clients wie Claude Desktop wird der Systemprompt
+                automatisch vom Server geliefert – dieser Schritt ist dann optional.
+            </p>
+        </div>
     </div>
+
+    <!-- SCHRITT 3 -->
+    <div class="step-card">
+        <div class="step-header">
+            <div class="step-num">3</div>
+            <div>
+                <div class="step-title">Loslegen – einfach wie gewohnt chatten</div>
+                <div class="step-hint">Die KI greift automatisch und korrekt auf Verwaltungswissen zu</div>
+            </div>
+        </div>
+        <div class="step-body">
+            <p class="step3-info">
+                Starten Sie einen Chat in Ihrem konfigurierten Assistenten oder Projekt.
+                Die KI erkennt automatisch, wann sie auf Verwaltungswissen zugreifen muss –
+                und liefert quellensichere Antworten mit Paragraphenangabe.
+                Kein spezieller Befehl nötig, einfach loslegen.
+            </p>
+            <div class="step3-example">
+                <div class="step3-example-label">Beispiel-Anfrage</div>
+                <p>„Welche Voraussetzungen gelten für die Fällung eines Baumes im Vorgarten?"</p>
+                <div class="step3-source">📄 Antwort mit Quelle: Baumschutzsatzung § 3 Abs. 2 + BNatSchG § 29</div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- TRUST PILLS -->
+<div class="trust-section">
+    <div class="pill">🔓 Open Source</div>
+    <div class="pill">🔗 Claude · Langdock · ChatGPT</div>
+    <div class="pill">📄 Quellensicher &amp; zitierfähig</div>
+    <div class="pill">🇩🇪 Keine Datenweitergabe</div>
+    <div class="pill">⚡ Kostenlos nutzbar</div>
+</div>
+
+<!-- IMPRESSUM -->
+<footer class="impressum" id="impressum">
+    <div class="impressum-inner">
+        <div>
+            <h3>Angaben gem. § 5 TMG</h3>
+            <p>
+                Christian Traub<br>
+                [Straße Hausnummer]<br>
+                [PLZ Ort]<br><br>
+                E-Mail: <a href="mailto:hallo@amtsschimmel.ai">hallo@amtsschimmel.ai</a>
+            </p>
+        </div>
+        <div>
+            <h3>Verantwortlich</h3>
+            <p>
+                Verantwortlich für den Inhalt<br>
+                nach § 55 Abs. 2 RStV:<br><br>
+                Christian Traub<br>
+                (Adresse wie oben)
+            </p>
+        </div>
+        <div>
+            <h3>Haftungshinweis</h3>
+            <p>
+                Amtsschimmel AI stellt Verwaltungswissen
+                quellensicher bereit. Die Inhalte ersetzen
+                keine anwaltliche Rechtsberatung.
+                Technik: <a href="https://ragsource.ai" target="_blank" rel="noopener">RAGSource Open Source</a>.
+            </p>
+        </div>
+    </div>
+    <div class="impressum-bottom">
+        <span>© 2025 Amtsschimmel AI · Christian Traub</span>
+        <span>
+            <a href="#impressum">Impressum</a> ·
+            <a href="mailto:hallo@amtsschimmel.ai">Kontakt</a> ·
+            Powered by <a href="https://ragsource.ai" target="_blank" rel="noopener">RAGSource</a>
+        </span>
+    </div>
+</footer>
 
 <script>
-    // URL Generator
+    // ===== URL GENERATOR =====
     function updateUrl() {
         const geo   = document.getElementById('geoInput').value.trim();
         const rolle = document.getElementById('rolleSelect').value;
@@ -393,23 +574,25 @@
 
     function resetCopyBtn() {
         const btn = document.getElementById('copyBtn');
-        if (btn) { btn.classList.remove('copied'); btn.textContent = '📋 Kopieren'; }
+        if (btn) { btn.classList.remove('copied'); btn.textContent = '📋 Link kopieren'; }
     }
 
-    // Launch-Benachrichtigung (Formspree-Platzhalter)
-    function submitNotify() {
-        const email = document.getElementById('notifyEmail').value.trim();
-        if (!email || !email.includes('@')) {
-            document.getElementById('notifyEmail').focus(); return;
-        }
-        // TODO: Formspree-ID eintragen, dann funktioniert das echt
-        // fetch('https://formspree.io/f/DEINE_ID', {
-        //   method: 'POST',
-        //   headers: { 'Content-Type': 'application/json' },
-        //   body: JSON.stringify({ email, _subject: 'Launch-Benachrichtigung' })
-        // });
-        document.getElementById('notifyForm').style.display = 'none';
-        document.getElementById('notifySuccess').classList.add('show');
+    // ===== MASTERPROMPT KOPIEREN =====
+    function copyPrompt() {
+        const text = document.getElementById('masterprompt').textContent;
+        navigator.clipboard.writeText(text).then(() => {
+            const btn  = document.getElementById('copyPromptBtn');
+            const icon = document.getElementById('copyPromptIcon');
+            const txt  = document.getElementById('copyPromptText');
+            btn.classList.add('copied');
+            icon.textContent = '✓';
+            txt.textContent  = 'Kopiert!';
+            setTimeout(() => {
+                btn.classList.remove('copied');
+                icon.textContent = '📋';
+                txt.textContent  = 'Masterprompt kopieren';
+            }, 2500);
+        });
     }
 
     updateUrl();
