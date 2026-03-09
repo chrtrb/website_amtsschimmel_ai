@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Datenschutzerklärung – amtsschimmel.ai</title>
+    <meta name="robots" content="noindex">
+    <!-- Kein Google Fonts – System-Font-Stack (DSGVO) -->
+    <style>
+        :root {
+            --blue-900: #0c1d3a;
+            --blue-800: #122b54;
+            --blue-700: #1a3a6e;
+            --blue-600: #1e4d8f;
+            --blue-500: #2563EB;
+            --blue-400: #4a82f0;
+            --blue-300: #93b4f8;
+            --blue-200: #b3cdf9;
+            --blue-100: #dce8fd;
+            --blue-50:  #eef4fe;
+            --slate-900: #0f172a;
+            --slate-800: #1e293b;
+            --slate-700: #334155;
+            --slate-600: #475569;
+            --slate-500: #64748b;
+            --slate-400: #94a3b8;
+            --slate-300: #cbd5e1;
+            --slate-200: #e2e8f0;
+            --slate-100: #f1f5f9;
+            --slate-50:  #f8fafc;
+            --white: #ffffff;
+            --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+                    'Helvetica Neue', Arial, sans-serif;
+            --radius-sm: 6px;
+            --radius-md: 10px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { font-size: 16px; scroll-behavior: smooth; }
+        body {
+            font-family: var(--font);
+            background: var(--white);
+            color: var(--slate-800);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ===== NAV ===== */
+        .nav {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--slate-200);
+            position: sticky; top: 0; z-index: 100;
+        }
+        .nav-inner {
+            max-width: 1000px; margin: 0 auto;
+            padding: 0 24px; height: 60px;
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .logo {
+            display: flex; align-items: center; gap: 10px;
+            text-decoration: none; color: var(--blue-900);
+        }
+        .logo-text {
+            font-weight: 800; letter-spacing: -0.02em; color: var(--blue-900);
+        }
+        .logo-text span { color: var(--blue-500); }
+        .nav-back {
+            font-size: 0.85rem; color: var(--slate-500); text-decoration: none;
+            display: flex; align-items: center; gap: 6px;
+        }
+        .nav-back:hover { color: var(--blue-500); }
+
+        /* ===== MAIN CONTENT ===== */
+        .legal-page {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 56px 24px 80px;
+        }
+        .legal-page h1 {
+            font-size: clamp(1.6rem, 3vw, 2.2rem);
+            font-weight: 800;
+            color: var(--slate-900);
+            letter-spacing: -0.02em;
+            margin-bottom: 8px;
+        }
+        .legal-page .subtitle {
+            font-size: 0.95rem;
+            color: var(--slate-500);
+            margin-bottom: 48px;
+        }
+        .legal-page h2 {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--slate-800);
+            margin-top: 36px;
+            margin-bottom: 10px;
+        }
+        .legal-page p {
+            font-size: 0.93rem;
+            color: var(--slate-700);
+            line-height: 1.75;
+            margin-bottom: 12px;
+        }
+        .legal-page a {
+            color: var(--blue-500);
+            text-decoration: none;
+        }
+        .legal-page a:hover { text-decoration: underline; }
+
+        /* ===== FOOTER ===== */
+        .impressum {
+            background: var(--slate-100); border-top: 1px solid var(--slate-200);
+            padding: 48px 24px;
+        }
+        .impressum-inner {
+            max-width: 1000px; margin: 0 auto;
+            display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 32px;
+        }
+        .impressum h3 {
+            font-size: 0.75rem; font-weight: 700; text-transform: uppercase;
+            letter-spacing: 0.08em; color: var(--slate-500); margin-bottom: 10px;
+        }
+        .impressum p, .impressum a {
+            font-size: 0.82rem; color: var(--slate-600); line-height: 1.7;
+        }
+        .impressum a { color: var(--blue-500); text-decoration: none; }
+        .impressum a:hover { text-decoration: underline; }
+        .impressum-bottom {
+            max-width: 1000px; margin: 20px auto 0;
+            padding-top: 16px; border-top: 1px solid var(--slate-200);
+            font-size: 0.75rem; color: var(--slate-400);
+            display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px;
+        }
+        .impressum-bottom a { color: var(--slate-400); text-decoration: none; }
+        .impressum-bottom a:hover { color: var(--blue-500); }
+
+        @media (max-width: 640px) {
+            .legal-page { padding: 36px 16px 60px; }
+            .impressum-inner { grid-template-columns: 1fr; gap: 24px; }
+            .impressum-bottom { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+    <div class="nav-inner">
+        <a href="/" class="logo">
+            <div class="logo-text" style="font-size:1.1rem">amtsschimmel<span>.ai</span></div>
+        </a>
+        <a href="/" class="nav-back">← Zurück zur Startseite</a>
+    </div>
+</nav>
+
+<!-- DATENSCHUTZERKLÄRUNG -->
+<main class="legal-page">
+    <h1>Datenschutzerklärung</h1>
+    <p class="subtitle">Informationen gemäß Art. 13 DSGVO</p>
+
+    <h2>1. Verantwortlicher</h2>
+    <p>Christian Traub · Hauptstraße 71 · 73087 Bad Boll<br>
+    E-Mail: <a href="mailto:kontakt@amtsschimmel.ai">kontakt@amtsschimmel.ai</a></p>
+
+    <h2>2. Welche Daten werden verarbeitet?</h2>
+    <p><strong>Server-Logs (Cloudflare):</strong> Beim Aufruf dieser Website speichert der Hosting-Anbieter Cloudflare automatisch technische Zugriffsdaten in Server-Logs: IP-Adresse, aufgerufene URL, Datum und Uhrzeit, Browser und Betriebssystem. Diese Daten dienen der Betriebssicherheit und werden nicht mit anderen Daten zusammengeführt. Rechtsgrundlage: Art. 6 Abs. 1 lit. f DSGVO (berechtigte Interessen).</p>
+    <p><strong>E-Mail-Kontakt:</strong> Wenn Sie uns per E-Mail kontaktieren, werden Ihre Angaben (Name, E-Mail-Adresse, Nachricht) zur Bearbeitung Ihrer Anfrage gespeichert. Rechtsgrundlage: Art. 6 Abs. 1 lit. f DSGVO. Eine Weitergabe an Dritte findet nicht statt.</p>
+    <p><strong>MCP-Server:</strong> Der amtsschimmel.ai-Wissensserver überträgt ausschließlich Rechtstexte an das anfragende KI-Tool. Nutzeranfragen, Bürgerdaten und sonstige Inhalte werden von amtsschimmel.ai weder empfangen noch gespeichert.</p>
+
+    <h2>3. Hosting – Cloudflare Pages &amp; Workers</h2>
+    <p>Diese Website sowie der MCP-Server werden über Dienste der Cloudflare, Inc., 101 Townsend St., San Francisco, CA 94107, USA betrieben. Cloudflare ist zertifiziert nach dem EU-US Data Privacy Framework; ein Datentransfer in die USA erfolgt auf Grundlage von Art. 45 DSGVO (Angemessenheitsbeschluss) sowie Standardvertragsklauseln gem. Art. 46 Abs. 2 lit. c DSGVO. Es besteht ein Auftragsverarbeitungsvertrag (DPA) gemäß Art. 28 DSGVO.<br>
+    Datenschutzerklärung Cloudflare: <a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener">cloudflare.com/privacypolicy</a></p>
+
+    <h2>4. Webanalyse – Cloudflare Web Analytics</h2>
+    <p>Wir nutzen Cloudflare Web Analytics zur Analyse von Seitenaufrufen. Dieses Tool ist cookie-frei, erstellt kein Fingerprinting und verarbeitet keine personenbezogenen Daten. Es werden ausschließlich aggregierte Nutzungsstatistiken (Seitenaufrufe, Performance-Metriken) erhoben. Eine Identifizierung einzelner Personen ist nicht möglich.</p>
+
+    <h2>5. Cookies</h2>
+    <p>Diese Website setzt keine Cookies.</p>
+
+    <h2>6. Ihre Rechte (Art. 15–22 DSGVO)</h2>
+    <p>Sie haben das Recht auf Auskunft, Berichtigung, Löschung, Einschränkung der Verarbeitung, Datenübertragbarkeit und Widerspruch. Beschwerden richten Sie an den Landesbeauftragten für Datenschutz und Informationsfreiheit Baden-Württemberg (<a href="https://www.baden-wuerttemberg.datenschutz.de" target="_blank" rel="noopener">www.lfd.bwl.de</a>).</p>
+
+    <h2>7. Kontakt Datenschutz</h2>
+    <p>Für datenschutzrechtliche Anfragen wenden Sie sich an: <a href="mailto:kontakt@amtsschimmel.ai">kontakt@amtsschimmel.ai</a></p>
+</main>
+
+<!-- FOOTER -->
+<footer class="impressum" id="impressum">
+    <div class="impressum-inner">
+        <div>
+            <h3>Angaben gem. § 5 TMG</h3>
+            <p>
+                Christian Traub<br>
+                Hauptstraße 71<br>
+                73087 Bad Boll<br><br>
+                E-Mail: <a href="mailto:kontakt@amtsschimmel.ai">kontakt@amtsschimmel.ai</a>
+            </p>
+        </div>
+        <div>
+            <h3>Verantwortlich</h3>
+            <p>
+                Verantwortlich für den Inhalt<br>
+                gem. § 18 Abs. 2 MStV:<br><br>
+                Christian Traub<br>
+                Hauptstraße 71, 73087 Bad Boll
+            </p>
+        </div>
+        <div>
+            <h3>Haftungshinweis</h3>
+            <p>
+                amtsschimmel.ai stellt Verwaltungswissen
+                quellensicher bereit. Die Inhalte ersetzen
+                keine anwaltliche Rechtsberatung.<br><br>
+                Technik: <a href="https://ragsource.ai" target="_blank" rel="noopener">RAGSource Open Source</a>
+            </p>
+        </div>
+    </div>
+    <div class="impressum-bottom">
+        <span>© 2026 amtsschimmel.ai · Christian Traub · Hauptstraße 71, 73087 Bad Boll</span>
+        <span>
+            <a href="/#impressum">Impressum</a> ·
+            <a href="/datenschutz.html">Datenschutz</a> ·
+            <a href="mailto:kontakt@amtsschimmel.ai">Kontakt</a> ·
+            Powered by <a href="https://ragsource.ai" target="_blank" rel="noopener">RAGSource</a>
+        </span>
+    </div>
+</footer>
+
+</body>
+</html>
