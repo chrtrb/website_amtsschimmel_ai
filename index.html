@@ -646,7 +646,7 @@
                             autocomplete="off"
                             oninput="onArsInput()"
                             onkeydown="onArsKeydown(event)"
-                            onfocus="onArsInput()"
+                            onfocus="onArsFocus()"
                         >
                         <div class="ars-dropdown" id="arsDropdown"></div>
                     </div>
@@ -1028,7 +1028,6 @@
     </div>
 </footer>
 
-<script src="ars_data.js"></script>
 <script>
 // ============================================================
 // LEVEL-LABELS
@@ -1041,10 +1040,32 @@ const LEVEL_LABEL = {
     gemeinde:   "🏠 Gemeinde"
 };
 
-// ARS-Daten: alle deutschen Gemeinden, Verbände, Kreise, Länder (Stand 2026-01-31)
-// Werden aus ars_data.js geladen (ARS_RAW: [[name, ars, level], ...], ca. 11.200 Einträge)
-const ARS_DATA = (typeof ARS_RAW !== 'undefined' ? ARS_RAW : [])
-    .map(([name, ars, level]) => ({name, ars, level}));
+// ARS-Daten lazy-loaded beim ersten Fokus auf das Suchfeld
+let ARS_DATA = [];
+let _arsLoaded = false;
+let _arsLoading = null;
+
+function ensureArsData() {
+    if (_arsLoaded) return Promise.resolve();
+    if (_arsLoading) return _arsLoading;
+    _arsLoading = new Promise(resolve => {
+        const s = document.createElement('script');
+        s.src = 'ars_data.js';
+        s.onload = () => {
+            ARS_DATA = (typeof ARS_RAW !== 'undefined' ? ARS_RAW : [])
+                .map(([name, ars, level]) => ({name, ars, level}));
+            _arsLoaded = true;
+            resolve();
+        };
+        document.head.appendChild(s);
+    });
+    return _arsLoading;
+}
+
+function onArsFocus() {
+    ensureArsData(); // Daten im Hintergrund vorladen
+    onArsInput();
+}
 
 // ============================================================
 // MASTERPROMPT (vollständiger Text)
@@ -1129,11 +1150,13 @@ function normalizeStr(s) {
 function onArsInput() {
     const q = document.getElementById('arsSearchInput').value.trim();
     if (q.length < 2) { closeDropdown(); return; }
-    const qn = normalizeStr(q);
-    currentResults = ARS_DATA.filter(e =>
-        normalizeStr(e.name).includes(qn) || e.ars.startsWith(q)
-    ).slice(0, 10);
-    renderDropdown(currentResults);
+    ensureArsData().then(() => {
+        const qn = normalizeStr(q);
+        currentResults = ARS_DATA.filter(e =>
+            normalizeStr(e.name).includes(qn) || e.ars.startsWith(q)
+        ).slice(0, 10);
+        renderDropdown(currentResults);
+    });
 }
 
 function renderDropdown(results) {
