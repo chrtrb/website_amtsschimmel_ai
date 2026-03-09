@@ -1021,11 +1021,10 @@
     </div>
 </footer>
 
+<script src="ars_data.js"></script>
 <script>
 // ============================================================
-// ARS DATEN (aus gemeinden.json + Ebenen-Labels)
-// Derzeit: GVV Bad Boll / LKR Göppingen / BW
-// Erweiterbar: weitere Einträge hier hinzufügen
+// LEVEL-LABELS
 // ============================================================
 const LEVEL_LABEL = {
     land:       "🏛️ Bundesland",
@@ -1035,126 +1034,10 @@ const LEVEL_LABEL = {
     gemeinde:   "🏠 Gemeinde"
 };
 
-// Hinweis: BW-Landkreise + 16 Bundesländer + kreisfreie Städte (Stand 2026).
-// Vollständige Gemeindeliste folgt – ARS-Code kann auch direkt eingegeben werden.
-const ARS_DATA = [
-    // ─── BUNDESLÄNDER ─────────────────────────────────────────
-    { name: "Baden-Württemberg",      ars: "08", level: "land", search: ["bw","badenwuerttemberg","badenwürttemberg"] },
-    { name: "Bayern",                 ars: "09", level: "land", search: ["by","freistaat","freistaat bayern"] },
-    { name: "Berlin",                 ars: "11", level: "land", search: ["be"] },
-    { name: "Brandenburg",            ars: "12", level: "land", search: ["bb"] },
-    { name: "Bremen",                 ars: "04", level: "land", search: ["hb","hansestadt"] },
-    { name: "Hamburg",                ars: "02", level: "land", search: ["hh"] },
-    { name: "Hessen",                 ars: "06", level: "land", search: ["he"] },
-    { name: "Mecklenburg-Vorpommern", ars: "13", level: "land", search: ["mv","mecklenburg","vorpommern"] },
-    { name: "Niedersachsen",          ars: "03", level: "land", search: ["ni","nds"] },
-    { name: "Nordrhein-Westfalen",    ars: "05", level: "land", search: ["nrw","nordrhein","westfalen"] },
-    { name: "Rheinland-Pfalz",        ars: "07", level: "land", search: ["rp","rlp","rheinland"] },
-    { name: "Saarland",               ars: "10", level: "land", search: ["sl"] },
-    { name: "Sachsen",                ars: "14", level: "land", search: ["sn","freistaat sachsen"] },
-    { name: "Sachsen-Anhalt",         ars: "15", level: "land", search: ["st","sachsenanhalt"] },
-    { name: "Schleswig-Holstein",     ars: "01", level: "land", search: ["sh"] },
-    { name: "Thüringen",              ars: "16", level: "land", search: ["th","thueringen","freistaat thüringen"] },
-    // ─── BW: KREISFREIE STÄDTE ─────────────────────────────────
-    { name: "Stuttgart",          ars: "08111", level: "kreisfrei", search: ["lhs","landeshauptstadt"] },
-    { name: "Heilbronn, Stadt",   ars: "08121", level: "kreisfrei", search: [] },
-    { name: "Baden-Baden",        ars: "08211", level: "kreisfrei", search: ["badenbaden"] },
-    { name: "Karlsruhe",          ars: "08212", level: "kreisfrei", search: ["ka"] },
-    { name: "Heidelberg",         ars: "08221", level: "kreisfrei", search: ["hd"] },
-    { name: "Mannheim",           ars: "08222", level: "kreisfrei", search: ["ma"] },
-    { name: "Pforzheim",          ars: "08231", level: "kreisfrei", search: [] },
-    { name: "Freiburg im Breisgau", ars: "08311", level: "kreisfrei", search: ["fr","freiburg"] },
-    { name: "Ulm, Stadt",         ars: "08421", level: "kreisfrei", search: [] },
-    // ─── BW: LANDKREISE – Reg.bez. Stuttgart (081xx) ────────────
-    { name: "Böblingen",          ars: "08115", level: "kreis", search: ["bob","boeblingen"] },
-    { name: "Esslingen",          ars: "08116", level: "kreis", search: ["es"] },
-    { name: "Göppingen",          ars: "08117", level: "kreis", search: ["gp","goeppingen"] },
-    { name: "Ludwigsburg",        ars: "08118", level: "kreis", search: ["lb"] },
-    { name: "Rems-Murr-Kreis",    ars: "08119", level: "kreis", search: ["rems","murr","waiblingen","backnang"] },
-    { name: "Heilbronn",          ars: "08125", level: "kreis", search: [] },
-    { name: "Hohenlohekreis",     ars: "08126", level: "kreis", search: ["hohenlohe","oehringen","öhringen"] },
-    { name: "Schwäbisch Hall",    ars: "08127", level: "kreis", search: ["sha","schwaebisch hall"] },
-    { name: "Main-Tauber-Kreis",  ars: "08128", level: "kreis", search: ["tauberbischofsheim","main-tauber"] },
-    { name: "Heidenheim",         ars: "08135", level: "kreis", search: ["hdh"] },
-    { name: "Ostalbkreis",        ars: "08136", level: "kreis", search: ["ostalb","aalen","ellwangen","gmünd","gmuend"] },
-    // ─── BW: LANDKREISE – Reg.bez. Karlsruhe (082xx) ────────────
-    { name: "Karlsruhe (Landkreis)", ars: "08215", level: "kreis", search: ["landkreis karlsruhe"] },
-    { name: "Rastatt",               ars: "08216", level: "kreis", search: [] },
-    { name: "Neckar-Odenwald-Kreis", ars: "08225", level: "kreis", search: ["mosbach","buchen","neckar-odenwald"] },
-    { name: "Rhein-Neckar-Kreis",    ars: "08226", level: "kreis", search: ["wiesloch","sinsheim","rhein-neckar"] },
-    { name: "Calw",                  ars: "08235", level: "kreis", search: [] },
-    { name: "Enzkreis",              ars: "08236", level: "kreis", search: ["muehlacker","mühlacker"] },
-    { name: "Freudenstadt",          ars: "08237", level: "kreis", search: [] },
-    // ─── BW: LANDKREISE – Reg.bez. Freiburg (083xx) ─────────────
-    { name: "Breisgau-Hochschwarzwald", ars: "08315", level: "kreis", search: ["breisgau","hochschwarzwald","staufen"] },
-    { name: "Emmendingen",              ars: "08316", level: "kreis", search: ["em"] },
-    { name: "Ortenaukreis",             ars: "08317", level: "kreis", search: ["offenburg","lahr","kehl","ortenau"] },
-    { name: "Rottweil",                 ars: "08325", level: "kreis", search: [] },
-    { name: "Schwarzwald-Baar-Kreis",   ars: "08326", level: "kreis", search: ["villingen","schwenningen","vs"] },
-    { name: "Tuttlingen",               ars: "08327", level: "kreis", search: ["ttl"] },
-    { name: "Konstanz",                 ars: "08335", level: "kreis", search: ["singen","radolfzell"] },
-    { name: "Lörrach",                  ars: "08336", level: "kreis", search: ["loerrach"] },
-    { name: "Waldshut",                 ars: "08337", level: "kreis", search: [] },
-    // ─── BW: LANDKREISE – Reg.bez. Tübingen (084xx) ─────────────
-    { name: "Reutlingen",      ars: "08415", level: "kreis", search: ["rt"] },
-    { name: "Tübingen",        ars: "08416", level: "kreis", search: ["tue","tüb","tuebingen"] },
-    { name: "Zollernalbkreis", ars: "08417", level: "kreis", search: ["balingen","albstadt","zollern"] },
-    { name: "Alb-Donau-Kreis", ars: "08425", level: "kreis", search: ["ehingen","laupheim","alb-donau"] },
-    { name: "Biberach",        ars: "08426", level: "kreis", search: ["bc"] },
-    { name: "Bodenseekreis",   ars: "08427", level: "kreis", search: ["friedrichshafen","fn","bodensee"] },
-    { name: "Ravensburg",      ars: "08428", level: "kreis", search: ["rv","weingarten"] },
-    { name: "Sigmaringen",     ars: "08435", level: "kreis", search: [] },
-    // ─── GVV BAD BOLL ──────────────────────────────────────────
-    { name: "GVV Raum Bad Boll", ars: "081175009",    level: "verband",  search: ["gvv","gemeindeverbund bad boll"] },
-    { name: "Bad Boll",          ars: "081175009012", level: "gemeinde", search: ["badboll"] },
-    { name: "Aichelberg",        ars: "081175009002", level: "gemeinde", search: ["aichelb"] },
-    { name: "Dürnau",            ars: "081175009017", level: "gemeinde", search: ["duernau"] },
-    { name: "Gammelshausen",     ars: "081175009023", level: "gemeinde", search: [] },
-    { name: "Hattenhofen",       ars: "081175009029", level: "gemeinde", search: [] },
-    { name: "Zell u.A.",         ars: "081175009060", level: "gemeinde", search: ["zell ua","zell unter aichelberg"] },
-    // ─── KREISFREIE STÄDTE – Bayern ────────────────────────────
-    { name: "München",    ars: "09162", level: "kreisfrei", search: ["muenchen","by"] },
-    { name: "Nürnberg",   ars: "09564", level: "kreisfrei", search: ["nuernberg","nbg"] },
-    { name: "Augsburg",   ars: "09761", level: "kreisfrei", search: [] },
-    { name: "Würzburg",   ars: "09663", level: "kreisfrei", search: ["wuerzburg","wue"] },
-    { name: "Ingolstadt", ars: "09161", level: "kreisfrei", search: [] },
-    { name: "Erlangen",   ars: "09562", level: "kreisfrei", search: [] },
-    { name: "Fürth",      ars: "09563", level: "kreisfrei", search: ["fuerth"] },
-    // ─── KREISFREIE STÄDTE – Nordrhein-Westfalen ────────────────
-    { name: "Köln",        ars: "05315", level: "kreisfrei", search: ["koeln"] },
-    { name: "Düsseldorf",  ars: "05111", level: "kreisfrei", search: ["duesseldorf"] },
-    { name: "Dortmund",    ars: "05913", level: "kreisfrei", search: [] },
-    { name: "Essen",       ars: "05113", level: "kreisfrei", search: [] },
-    { name: "Duisburg",    ars: "05112", level: "kreisfrei", search: [] },
-    { name: "Bochum",      ars: "05911", level: "kreisfrei", search: [] },
-    { name: "Wuppertal",   ars: "05124", level: "kreisfrei", search: [] },
-    { name: "Bielefeld",   ars: "05711", level: "kreisfrei", search: ["bi"] },
-    { name: "Bonn",        ars: "05314", level: "kreisfrei", search: ["bn"] },
-    { name: "Münster",     ars: "05515", level: "kreisfrei", search: ["ms"] },
-    // ─── KREISFREIE STÄDTE – Hessen ────────────────────────────
-    { name: "Frankfurt am Main", ars: "06412", level: "kreisfrei", search: ["ffm","frankfurt"] },
-    { name: "Wiesbaden",         ars: "06414", level: "kreisfrei", search: ["wi"] },
-    { name: "Kassel",            ars: "06611", level: "kreisfrei", search: ["ks"] },
-    { name: "Darmstadt",         ars: "06411", level: "kreisfrei", search: ["da"] },
-    // ─── KREISFREIE STÄDTE – weitere Bundesländer ──────────────
-    { name: "Hannover (Region)", ars: "03241", level: "kreis",      search: ["hannover","h"] },
-    { name: "Braunschweig",      ars: "03101", level: "kreisfrei",  search: ["bs"] },
-    { name: "Dresden",           ars: "14612", level: "kreisfrei",  search: ["dd"] },
-    { name: "Leipzig",           ars: "14713", level: "kreisfrei",  search: ["l"] },
-    { name: "Chemnitz",          ars: "14511", level: "kreisfrei",  search: ["c"] },
-    { name: "Magdeburg",         ars: "15003", level: "kreisfrei",  search: ["md"] },
-    { name: "Halle (Saale)",     ars: "15002", level: "kreisfrei",  search: ["hal"] },
-    { name: "Erfurt",            ars: "16051", level: "kreisfrei",  search: ["ef"] },
-    { name: "Potsdam",           ars: "12054", level: "kreisfrei",  search: ["p"] },
-    { name: "Rostock",           ars: "13003", level: "kreisfrei",  search: ["hro"] },
-    { name: "Schwerin",          ars: "13004", level: "kreisfrei",  search: [] },
-    { name: "Kiel",              ars: "01002", level: "kreisfrei",  search: [] },
-    { name: "Lübeck",            ars: "01003", level: "kreisfrei",  search: ["hl"] },
-    { name: "Saarbrücken",       ars: "10041", level: "kreisfrei",  search: ["sb"] },
-    { name: "Mainz",             ars: "07315", level: "kreisfrei",  search: ["mz"] },
-    { name: "Koblenz",           ars: "07111", level: "kreisfrei",  search: ["ko"] },
-    { name: "Trier",             ars: "07211", level: "kreisfrei",  search: ["tr"] },
-];
+// ARS-Daten: alle deutschen Gemeinden, Verbände, Kreise, Länder (Stand 2026-01-31)
+// Werden aus ars_data.js geladen (ARS_RAW: [[name, ars, level], ...], ca. 11.200 Einträge)
+const ARS_DATA = (typeof ARS_RAW !== 'undefined' ? ARS_RAW : [])
+    .map(([name, ars, level]) => ({name, ars, level}));
 
 // ============================================================
 // MASTERPROMPT (vollständiger Text)
@@ -1240,11 +1123,9 @@ function onArsInput() {
     const q = document.getElementById('arsSearchInput').value.trim();
     if (q.length < 2) { closeDropdown(); return; }
     const qn = normalizeStr(q);
-    currentResults = ARS_DATA.filter(e => {
-        const n = normalizeStr(e.name);
-        const s = e.search.map(normalizeStr).join(' ');
-        return n.includes(qn) || e.ars.startsWith(q) || s.includes(qn);
-    }).slice(0, 8);
+    currentResults = ARS_DATA.filter(e =>
+        normalizeStr(e.name).includes(qn) || e.ars.startsWith(q)
+    ).slice(0, 10);
     renderDropdown(currentResults);
 }
 
