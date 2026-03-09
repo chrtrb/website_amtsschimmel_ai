@@ -527,6 +527,9 @@
         }
 
         /* ===== RESPONSIVE ===== */
+        .hints-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+        @media (max-width: 768px) { .hints-grid { grid-template-columns: 1fr; } }
+
         @media (max-width: 900px) {
             .benefits-grid { grid-template-columns: repeat(2, 1fr); }
         }
@@ -568,9 +571,9 @@
             <div class="logo-text" style="font-size:1.1rem">amtsschimmel<span>.ai</span></div>
         </a>
         <nav class="nav-center">
-            <a href="#einrichten" class="nav-link">Einrichten</a>
             <a href="#anwendungsfaelle" class="nav-link">Anwendungsfälle</a>
-            <a href="#ueber-uns" class="nav-link">Über uns</a>
+            <a href="#einrichten" class="nav-link">Einrichten</a>
+            <a href="#ueber-uns" class="nav-link">Über amtsschimmel.ai</a>
         </nav>
         <div class="nav-right">
             <div class="nav-badge">
@@ -604,18 +607,201 @@
         <div class="trust-item"><span>📄</span> Quellensicher &amp; zitierfähig</div>
         <div class="trust-divider"></div>
         <div class="trust-item"><span>🇩🇪</span> DSGVO-konform*</div>
+        <div class="trust-divider"></div>
+        <div class="trust-item"><span>🍪</span> Cookie-frei</div>
     </div>
 </div>
 
-<!-- DSGVO-NOTE -->
-<div style="max-width:1000px; margin:0 auto; padding:14px 24px 0;">
-    <div class="setup-hint">
-        <strong>* Hinweis zur DSGVO-Konformität:</strong>
-        amtsschimmel.ai überträgt ausschließlich Rechtstexte an das anfragende Sprachmodell.
-        Nutzeranfragen, Bürgerdaten und sonstige vertrauliche Inhalte verlassen Ihre KI-Umgebung
-        nicht und werden nicht an amtsschimmel.ai übermittelt.
+<!-- ============================================================ ANWENDUNGSFÄLLE -->
+<section id="anwendungsfaelle" class="section section-gray">
+    <div class="section-inner">
+        <div class="section-header">
+            <h2>Anwendungsfälle</h2>
+            <p>Was Sie mit amtsschimmel.ai täglich erledigen können.</p>
+        </div>
+        <div class="usecases-grid">
+            <div class="usecase-card">
+                <div class="usecase-icon">🗂️</div>
+                <div class="usecase-title">Sitzungen vorbereiten</div>
+                <div class="usecase-desc">Beschlussvorlagen, Tagesordnungspunkte und Sachinformationen – rechtssicher aufbereitet für Gemeinderat und Ausschüsse.</div>
+                <div class="usecase-example">„Welche Beschlüsse benötigt der Gemeinderat zur Aufstellung eines Bebauungsplans?"</div>
+            </div>
+            <div class="usecase-card">
+                <div class="usecase-icon">💬</div>
+                <div class="usecase-title">Bürgeranfragen beantworten</div>
+                <div class="usecase-desc">Fundierte Auskunft zu Satzungen, Gebühren und Verfahren – direkt aus der Rechtsquelle, ohne langes Suchen.</div>
+                <div class="usecase-example">„Was kostet die Müllabfuhr für einen 120-Liter-Behälter?"</div>
+            </div>
+            <div class="usecase-card">
+                <div class="usecase-icon">✅</div>
+                <div class="usecase-title">Checklisten erstellen</div>
+                <div class="usecase-desc">Schritt-für-Schritt-Checklisten für typische Verwaltungsvorgänge – vollständig, rechtssicher und sofort einsatzbereit.</div>
+                <div class="usecase-example">„Erstelle eine Checkliste für die Vorbereitung einer Gemeinderatswahl."</div>
+            </div>
+            <div class="usecase-card">
+                <div class="usecase-icon">📋</div>
+                <div class="usecase-title">Satzungen analysieren</div>
+                <div class="usecase-desc">Vergleich, Interpretation und Aktualisierungsbedarf kommunaler Satzungen auf einen Blick.</div>
+                <div class="usecase-example">„Entspricht unsere Abwassersatzung noch den aktuellen gesetzlichen Anforderungen?"</div>
+            </div>
+            <div class="usecase-card">
+                <div class="usecase-icon">🚒</div>
+                <div class="usecase-title">Termine vorbereiten</div>
+                <div class="usecase-desc">Vorbereitung von Hauptversammlungen, Führungswechseln und Regularien für Feuerwehren und kommunale Einrichtungen.</div>
+                <div class="usecase-example">„Was sind die gesetzlichen Pflichten des Kommandanten bei der Hauptversammlung der Feuerwehr?"</div>
+            </div>
+            <div class="usecase-card">
+                <div class="usecase-icon">👋</div>
+                <div class="usecase-title">Neue Mitarbeitende einarbeiten</div>
+                <div class="usecase-desc">Rechtliche Grundlagen schnell und strukturiert vermitteln – quellensicher und nachvollziehbar.</div>
+                <div class="usecase-example">„Welche Gesetze regeln die Befugnisse der Bürgermeisterin?"</div>
+            </div>
+        </div>
     </div>
-</div>
+</section>
+
+<!-- ============================================================ VORTEILE -->
+<section id="vorteile" class="section section-gray">
+    <div class="section-inner">
+        <div class="section-header">
+            <h2>Vorteile auf einen Blick</h2>
+            <p>Warum amtsschimmel.ai für die Verwaltung besser ist als ein LLM ohne Wissensbasis.</p>
+        </div>
+        <div class="benefits-grid">
+            <div class="benefit-item">
+                <div class="benefit-icon">🔒</div>
+                <div>
+                    <div class="benefit-title">Keine Datenweitergabe</div>
+                    <div class="benefit-desc">Anfragen und Bürgerdaten verlassen Ihre KI-Umgebung nicht. amtsschimmel.ai liefert ausschließlich Rechtstexte.</div>
+                </div>
+            </div>
+            <div class="benefit-item">
+                <div class="benefit-icon">🔄</div>
+                <div>
+                    <div class="benefit-title">Immer aktuelle Rechtsquellen</div>
+                    <div class="benefit-desc">Die Wissensdatenbank wird laufend gepflegt – kein veraltetes Trainingswissen, sondern aktuelle Gesetzestexte.</div>
+                </div>
+            </div>
+            <div class="benefit-item">
+                <div class="benefit-icon">📎</div>
+                <div>
+                    <div class="benefit-title">Zitierfähige Antworten</div>
+                    <div class="benefit-desc">Jede Antwort enthält Paragraphenangabe und Quellenlink – prüfbar und dokumentierbar.</div>
+                </div>
+            </div>
+            <div class="benefit-item">
+                <div class="benefit-icon">💰</div>
+                <div>
+                    <div class="benefit-title">Kostenlos nutzbar</div>
+                    <div class="benefit-desc">amtsschimmel.ai ist für alle Gemeinden, Behörden und Ehrenamtliche kostenlos zugänglich.</div>
+                </div>
+            </div>
+            <div class="benefit-item">
+                <div class="benefit-icon">🔓</div>
+                <div>
+                    <div class="benefit-title">Open Source</div>
+                    <div class="benefit-desc">Die gesamte Technologie ist quelloffen. Transparenz, Prüfbarkeit und Mitgestaltung sind ausdrücklich erwünscht.</div>
+                </div>
+            </div>
+            <div class="benefit-item">
+                <div class="benefit-icon">🔌</div>
+                <div>
+                    <div class="benefit-title">Für jede KI-Lösung</div>
+                    <div class="benefit-desc">ChatGPT, Claude, Langdock und alle weiteren MCP-fähigen Tools werden unterstützt – ohne Vendor-Lock-in.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================ VERGLEICH -->
+<section id="vergleich" class="section">
+    <div class="section-inner">
+        <div class="section-header">
+            <h2>amtsschimmel.ai vs. LLM ohne Wissensbasis</h2>
+            <p>Was der Unterschied in der Praxis bedeutet.</p>
+        </div>
+        <div class="comp-wrap">
+            <table class="comp-table">
+                <thead>
+                    <tr>
+                        <th>Merkmal</th>
+                        <th>amtsschimmel.ai</th>
+                        <th>LLM ohne amtsschimmel.ai</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Aktuelle Gesetzestexte</td>
+                        <td><span class="check">✅</span> Stets aktuell gepflegt</td>
+                        <td><span class="cross">❌</span> Veraltetes Trainingswissen</td>
+                    </tr>
+                    <tr>
+                        <td>Zitierfähige Quellenangaben</td>
+                        <td><span class="check">✅</span> Paragraphengenau</td>
+                        <td><span class="cross">❌</span> Keine Quellenangaben</td>
+                    </tr>
+                    <tr>
+                        <td>Gemeindespezifische Satzungen</td>
+                        <td><span class="check">✅</span> Auf Anfrage verfügbar</td>
+                        <td><span class="cross">❌</span> Nicht verfügbar</td>
+                    </tr>
+                    <tr>
+                        <td>Kostenfrei nutzbar</td>
+                        <td><span class="check">✅</span> Ja</td>
+                        <td><span class="warn">⚠️</span> Je nach Anbieter</td>
+                    </tr>
+                    <tr>
+                        <td>DSGVO-konform*</td>
+                        <td><span class="check">✅</span> Keine Datenweitergabe</td>
+                        <td><span class="warn">⚠️</span> Abhängig vom Anbieter</td>
+                    </tr>
+                    <tr>
+                        <td>Open Source</td>
+                        <td><span class="check">✅</span> MIT-Lizenz</td>
+                        <td><span class="cross">❌</span> Meist proprietär</td>
+                    </tr>
+                    <tr>
+                        <td>Halluzinationsrisiko</td>
+                        <td><span class="check">✅</span> Stark reduziert (Antworten aus Normtexten)</td>
+                        <td><span class="cross">❌</span> Hoch – Fakten können erfunden sein</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================ HINWEISE -->
+<section id="hinweise" class="section section-gray">
+    <div class="section-inner">
+        <div class="section-header">
+            <h2>Wichtige Hinweise</h2>
+        </div>
+        <div class="hints-grid">
+            <div class="setup-hint">
+                <strong>* Hinweis zur DSGVO-Konformität:</strong>
+                amtsschimmel.ai überträgt ausschließlich Rechtstexte an das anfragende Sprachmodell.
+                Nutzeranfragen, Bürgerdaten und sonstige vertrauliche Inhalte verlassen Ihre KI-Umgebung
+                nicht und werden nicht an amtsschimmel.ai übermittelt.
+            </div>
+            <div class="setup-hint">
+                <strong>ℹ️ Hinweis zum Umfang:</strong>
+                amtsschimmel.ai ist ein junges Projekt – die Zahl der angebundenen Gemeinden und Bundesländer
+                wächst laufend. Falls Ihre Gemeinde oder Ihr Bundesland noch nicht hinterlegt sind, liefert
+                der Server Bundesrecht und – falls verfügbar – Landesrecht.<br><br>
+                Für Infos zur Aufnahme Ihrer Gemeinde:
+                <a href="mailto:kontakt@amtsschimmel.ai">kontakt@amtsschimmel.ai</a>
+            </div>
+            <div class="setup-hint">
+                <strong>🔐 Interne Daten &amp; Wissensartikel:</strong>
+                Die Einbindung gemeindespezifischer interner Dokumente und Wissensartikel ist über eine
+                authentifizierte Erweiterung möglich. Für weitere Informationen ist eine Kontaktaufnahme
+                erforderlich: <a href="mailto:kontakt@amtsschimmel.ai">kontakt@amtsschimmel.ai</a>
+            </div>
+        </div>
+    </div>
+</section>
 
 <!-- ============================================================ EINRICHTEN -->
 <section id="einrichten" class="section">
@@ -662,14 +848,7 @@
                         <div class="url-box" id="generatedUrl">https://mcp.amtsschimmel.ai/mcp</div>
                         <button class="copy-btn" id="copyBtn" onclick="copyUrl()">📋 Link kopieren</button>
                     </div>
-                    <div class="setup-hint">
-                        <strong>ℹ️ Hinweis zum Umfang:</strong>
-                        amtsschimmel.ai ist ein junges Projekt – die Zahl der angebundenen Gemeinden und Bundesländer
-                        wächst laufend. Falls Ihre Gemeinde oder Ihr Bundesland noch nicht hinterlegt sind, liefert
-                        der Server Bundesrecht und – falls verfügbar – Landesrecht.<br><br>
-                        Für Infos zur Aufnahme Ihrer Gemeinde:
-                        <a href="mailto:kontakt@amtsschimmel.ai">kontakt@amtsschimmel.ai</a>
-                    </div>
+                    
                     <div class="search-tip">
                         💡 <strong>Wie binde ich den MCP-Server an meine KI an?</strong>
                         Suchen Sie im Internet nach „<em>[Ihr KI-Tool] MCP Server einrichten</em>"
@@ -729,166 +908,6 @@
 
         </div><!-- /setup-cards -->
     </div><!-- /section-inner -->
-</section>
-
-<!-- ============================================================ ANWENDUNGSFÄLLE -->
-<section id="anwendungsfaelle" class="section section-gray">
-    <div class="section-inner">
-        <div class="section-header">
-            <h2>Anwendungsfälle</h2>
-            <p>Was Sie mit amtsschimmel.ai täglich erledigen können.</p>
-        </div>
-        <div class="usecases-grid">
-            <div class="usecase-card">
-                <div class="usecase-icon">🗂️</div>
-                <div class="usecase-title">Sitzungen vorbereiten</div>
-                <div class="usecase-desc">Beschlussvorlagen, Tagesordnungspunkte und Sachinformationen – rechtssicher aufbereitet für Gemeinderat und Ausschüsse.</div>
-                <div class="usecase-example">„Welche Beschlüsse benötigt der Gemeinderat zur Aufstellung eines Bebauungsplans?"</div>
-            </div>
-            <div class="usecase-card">
-                <div class="usecase-icon">💬</div>
-                <div class="usecase-title">Bürgeranfragen beantworten</div>
-                <div class="usecase-desc">Fundierte Auskunft zu Satzungen, Gebühren und Verfahren – direkt aus der Rechtsquelle, ohne langes Suchen.</div>
-                <div class="usecase-example">„Was kostet die Müllabfuhr für einen 120-Liter-Behälter?"</div>
-            </div>
-            <div class="usecase-card">
-                <div class="usecase-icon">✅</div>
-                <div class="usecase-title">Checklisten erstellen</div>
-                <div class="usecase-desc">Schritt-für-Schritt-Checklisten für typische Verwaltungsvorgänge – vollständig, rechtssicher und sofort einsatzbereit.</div>
-                <div class="usecase-example">„Erstelle eine Checkliste für die Vorbereitung einer Gemeinderatswahl."</div>
-            </div>
-            <div class="usecase-card">
-                <div class="usecase-icon">📋</div>
-                <div class="usecase-title">Satzungen analysieren</div>
-                <div class="usecase-desc">Vergleich, Interpretation und Aktualisierungsbedarf kommunaler Satzungen auf einen Blick.</div>
-                <div class="usecase-example">„Entspricht unsere Abwassersatzung noch den aktuellen gesetzlichen Anforderungen?"</div>
-            </div>
-            <div class="usecase-card">
-                <div class="usecase-icon">🚒</div>
-                <div class="usecase-title">Termine vorbereiten</div>
-                <div class="usecase-desc">Vorbereitung von Hauptversammlungen, Führungswechseln und Regularien für Feuerwehren und kommunale Einrichtungen.</div>
-                <div class="usecase-example">„Was sind die gesetzlichen Pflichten des Kommandanten bei der Hauptversammlung der Feuerwehr?"</div>
-            </div>
-            <div class="usecase-card">
-                <div class="usecase-icon">👋</div>
-                <div class="usecase-title">Neue Mitarbeitende einarbeiten</div>
-                <div class="usecase-desc">Rechtliche Grundlagen schnell und strukturiert vermitteln – quellensicher und nachvollziehbar.</div>
-                <div class="usecase-example">„Welche Gesetze regeln die Befugnisse der Bürgermeisterin?"</div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- ============================================================ VORTEILE -->
-<section id="vorteile" class="section">
-    <div class="section-inner">
-        <div class="section-header">
-            <h2>Vorteile auf einen Blick</h2>
-            <p>Warum amtsschimmel.ai für die Verwaltung besser ist als ein LLM ohne Wissensbasis.</p>
-        </div>
-        <div class="benefits-grid">
-            <div class="benefit-item">
-                <div class="benefit-icon">🔒</div>
-                <div>
-                    <div class="benefit-title">Keine Datenweitergabe</div>
-                    <div class="benefit-desc">Anfragen und Bürgerdaten verlassen Ihre KI-Umgebung nicht. amtsschimmel.ai liefert ausschließlich Rechtstexte.</div>
-                </div>
-            </div>
-            <div class="benefit-item">
-                <div class="benefit-icon">🔄</div>
-                <div>
-                    <div class="benefit-title">Immer aktuelle Rechtsquellen</div>
-                    <div class="benefit-desc">Die Wissensdatenbank wird laufend gepflegt – kein veraltetes Trainingswissen, sondern aktuelle Gesetzestexte.</div>
-                </div>
-            </div>
-            <div class="benefit-item">
-                <div class="benefit-icon">📎</div>
-                <div>
-                    <div class="benefit-title">Zitierfähige Antworten</div>
-                    <div class="benefit-desc">Jede Antwort enthält Paragraphenangabe und Quellenlink – prüfbar und dokumentierbar.</div>
-                </div>
-            </div>
-            <div class="benefit-item">
-                <div class="benefit-icon">💰</div>
-                <div>
-                    <div class="benefit-title">Kostenlos nutzbar</div>
-                    <div class="benefit-desc">amtsschimmel.ai ist für alle Gemeinden, Behörden und Ehrenamtliche kostenlos zugänglich.</div>
-                </div>
-            </div>
-            <div class="benefit-item">
-                <div class="benefit-icon">🔓</div>
-                <div>
-                    <div class="benefit-title">Open Source</div>
-                    <div class="benefit-desc">Die gesamte Technologie ist quelloffen. Transparenz, Prüfbarkeit und Mitgestaltung sind ausdrücklich erwünscht.</div>
-                </div>
-            </div>
-            <div class="benefit-item">
-                <div class="benefit-icon">🔌</div>
-                <div>
-                    <div class="benefit-title">Für jede KI-Lösung</div>
-                    <div class="benefit-desc">ChatGPT, Claude, Langdock und alle weiteren MCP-fähigen Tools werden unterstützt – ohne Vendor-Lock-in.</div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- ============================================================ VERGLEICH -->
-<section id="vergleich" class="section section-gray">
-    <div class="section-inner">
-        <div class="section-header">
-            <h2>amtsschimmel.ai vs. LLM ohne Wissensbasis</h2>
-            <p>Was der Unterschied in der Praxis bedeutet.</p>
-        </div>
-        <div class="comp-wrap">
-            <table class="comp-table">
-                <thead>
-                    <tr>
-                        <th>Merkmal</th>
-                        <th>amtsschimmel.ai</th>
-                        <th>LLM ohne amtsschimmel.ai</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Aktuelle Gesetzestexte</td>
-                        <td><span class="check">✅</span> Stets aktuell gepflegt</td>
-                        <td><span class="cross">❌</span> Veraltetes Trainingswissen</td>
-                    </tr>
-                    <tr>
-                        <td>Zitierfähige Quellenangaben</td>
-                        <td><span class="check">✅</span> Paragraphengenau</td>
-                        <td><span class="cross">❌</span> Keine Quellenangaben</td>
-                    </tr>
-                    <tr>
-                        <td>Gemeindespezifische Satzungen</td>
-                        <td><span class="check">✅</span> Auf Anfrage verfügbar</td>
-                        <td><span class="cross">❌</span> Nicht verfügbar</td>
-                    </tr>
-                    <tr>
-                        <td>Kostenfrei nutzbar</td>
-                        <td><span class="check">✅</span> Ja</td>
-                        <td><span class="warn">⚠️</span> Je nach Anbieter</td>
-                    </tr>
-                    <tr>
-                        <td>DSGVO-konform*</td>
-                        <td><span class="check">✅</span> Keine Datenweitergabe</td>
-                        <td><span class="warn">⚠️</span> Abhängig vom Anbieter</td>
-                    </tr>
-                    <tr>
-                        <td>Open Source</td>
-                        <td><span class="check">✅</span> MIT-Lizenz</td>
-                        <td><span class="cross">❌</span> Meist proprietär</td>
-                    </tr>
-                    <tr>
-                        <td>Halluzinationsrisiko</td>
-                        <td><span class="check">✅</span> Stark reduziert (Antworten aus Normtexten)</td>
-                        <td><span class="cross">❌</span> Hoch – Fakten können erfunden sein</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
 </section>
 
 <!-- ============================================================ SO FUNKTIONIERT'S -->
