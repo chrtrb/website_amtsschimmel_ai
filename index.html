@@ -5,6 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>amtsschimmel.ai – Verwaltungswissen. KI-gestützt. Quellensicher.</title>
     <meta name="description" content="amtsschimmel.ai macht Satzungen, Gesetze und Verwaltungsvorschriften in jeder KI-Lösung zitierfähig verfügbar – von ChatGPT über Claude bis Langdock. Kostenlos. Technik Open Source. In 5 Minuten einsatzbereit.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%232563EB'/><text x='16' y='23' text-anchor='middle' font-family='system-ui,sans-serif' font-size='17' font-weight='800' fill='white'>§</text></svg>">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://amtsschimmel.ai">
+    <meta property="og:title" content="amtsschimmel.ai – Verwaltungswissen. KI-gestützt. Quellensicher.">
+    <meta property="og:description" content="Satzungen, Gesetze und Verwaltungsvorschriften zitierfähig in jeder KI – kostenlos, ohne Registrierung, Open Source.">
+    <meta name="twitter:card" content="summary">
     <!-- Kein Google Fonts – System-Font-Stack (DSGVO) -->
     <style>
         :root {
@@ -963,7 +969,7 @@
                     </div>
                     <div style="margin-top:8px; display:flex; align-items:center; gap:8px">
                         <input type="checkbox" id="leanModeCheckbox" onchange="updateUrl()">
-                        <label for="leanModeCheckbox" style="font-size:0.85rem; color:var(--text-secondary); cursor:pointer">Bitte anklicken für Lean-Mode (Server ohne Funktion für Freitext-Suche)</label>
+                        <label for="leanModeCheckbox" style="font-size:0.85rem; color:var(--slate-600); cursor:pointer">Deaktivierung der Freitextsuche</label>
                     </div>
                     
                     <div class="search-tip">
@@ -1187,7 +1193,7 @@ function ensureArsData() {
     if (_arsLoading) return _arsLoading;
     _arsLoading = new Promise(resolve => {
         const s = document.createElement('script');
-        s.src = 'ars_data.js';
+        s.src = 'https://ragsource.ai/ars_data.js';
         s.onload = () => {
             ARS_DATA = (typeof ARS_RAW !== 'undefined' ? ARS_RAW : [])
                 .map(([name, ars, level]) => ({name, ars, level}));
