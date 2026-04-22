@@ -5,588 +5,353 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>amtsschimmel.ai – Verwaltungswissen. KI-gestützt. Quellensicher.</title>
     <meta name="description" content="amtsschimmel.ai macht Satzungen, Gesetze und Verwaltungsvorschriften in jeder KI-Lösung zitierfähig verfügbar – von ChatGPT über Claude bis Langdock. Kostenlos. Technik Open Source. In 5 Minuten einsatzbereit.">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%232563EB'/><text x='16' y='23' text-anchor='middle' font-family='system-ui,sans-serif' font-size='17' font-weight='800' fill='white'>§</text></svg>">
+    <link rel="icon" type="image/svg+xml" href="assets/favicon-amtsschimmel.svg">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://amtsschimmel.ai">
     <meta property="og:title" content="amtsschimmel.ai – Verwaltungswissen. KI-gestützt. Quellensicher.">
     <meta property="og:description" content="Satzungen, Gesetze und Verwaltungsvorschriften zitierfähig in jeder KI – kostenlos, ohne Registrierung, Open Source.">
     <meta name="twitter:card" content="summary">
-    <!-- Kein Google Fonts – System-Font-Stack (DSGVO) -->
+    <!-- JetBrains Mono via Bunny Fonts (DSGVO-konform, kein Google) -->
+    <link rel="preconnect" href="https://fonts.bunny.net" crossorigin>
+    <link href="https://fonts.bunny.net/css?family=jetbrains-mono:400,500&display=swap" rel="stylesheet">
     <style>
         :root {
-            --blue-900: #0c1d3a;
-            --blue-800: #122b54;
-            --blue-700: #1a3a6e;
-            --blue-600: #1e4d8f;
-            --blue-500: #2563EB;
-            --blue-400: #4a82f0;
-            --blue-300: #93b4f8;
-            --blue-200: #b3cdf9;
-            --blue-100: #dce8fd;
-            --blue-50:  #eef4fe;
-            --gold-500: #d4a017;
-            --gold-400: #e8b830;
-            --gold-300: #f0d060;
-            --gold-100: #fdf6e3;
-            --slate-900: #0f172a;
-            --slate-800: #1e293b;
-            --slate-700: #334155;
-            --slate-600: #475569;
-            --slate-500: #64748b;
-            --slate-400: #94a3b8;
-            --slate-300: #cbd5e1;
-            --slate-200: #e2e8f0;
-            --slate-100: #f1f5f9;
-            --slate-50:  #f8fafc;
-            --white: #ffffff;
+            /* Slate (identisch auf allen RAGSource-Sites) */
+            --slate-900: #0f172a; --slate-800: #1e293b; --slate-700: #334155;
+            --slate-600: #475569; --slate-500: #64748b; --slate-400: #94a3b8;
+            --slate-300: #cbd5e1; --slate-200: #e2e8f0; --slate-100: #f1f5f9;
+            --slate-50:  #f8fafc; --white: #ffffff;
             --green-soft: #16a34a;
-            --red-100: #fee2e2;
-            --red-700: #b91c1c;
+            --red-100: #fee2e2; --red-700: #b91c1c;
+
+            /* amtsschimmel-Akzent: Akten-Marineblau */
+            --accent:        #1e3a5f;
+            --accent-dark:   #0f2543;
+            --accent-600:    #1a3254;
+            --accent-light:  #eef3f9;
+            --accent-mid:    #8aaac8;
+            --accent-50:     #f4f7fb;
+            --highlight:     #1e3a5f;
+            --highlight-bg:  #eef3f9;
+            --highlight-300: #8aaac8;
+            --navy:          #1e3a5f;
+            --navy-dark:     #0f2543;
+
             --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
                     'Helvetica Neue', Arial, sans-serif;
-            --radius-sm: 6px;
-            --radius-md: 10px;
-            --radius-lg: 16px;
-            --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
-            --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
-            --shadow-lg: 0 12px 32px rgba(0,0,0,0.1);
+            --mono: 'JetBrains Mono','SF Mono','Fira Code',ui-monospace,Menlo,Consolas,monospace;
+            --radius-sm: 3px; --radius-md: 4px; --radius-lg: 6px;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,.06);
+            --shadow-md: 0 4px 12px rgba(0,0,0,.08);
+            --shadow-lg: 0 12px 32px rgba(0,0,0,.10);
         }
+
+        /* ===== TOPBAR ===== */
+        .topbar { border-bottom: 1px solid var(--slate-200); background: var(--white); font-size: 13px; color: var(--slate-500); }
+        .topbar-inner { max-width: 1000px; margin: 0 auto; padding: 0 24px; height: 40px; display: flex; align-items: center; justify-content: space-between; }
+        .topbar-live { display: inline-flex; align-items: center; gap: 7px; font-weight: 600; color: var(--green-soft); font-size: .75rem; }
+        .topbar-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green-soft); animation: topbar-pulse 2.4s infinite; }
+        @keyframes topbar-pulse { 0%,100% { opacity:1; transform:scale(1); } 50% { opacity:.5; transform:scale(.85); } }
+        .topbar-right { display: flex; align-items: center; gap: 16px; }
+        .topbar-right a { color: var(--slate-400); font-size: .75rem; transition: color .15s; text-decoration: none; }
+        .topbar-right a:hover { color: var(--accent); }
+        @media (max-width:640px) { .topbar-hide { display: none; } }
+
+        /* ===== NAV BADGE + CTA ===== */
+        .logo-badge { font-family: var(--mono); font-weight: 500; font-size: 12px; color: var(--white); background: var(--accent); padding: 3px 7px; border-radius: 3px; letter-spacing: 0; line-height: 1; }
+        .nav-cta-btn { font-size: .8rem; font-weight: 700; padding: 7px 14px; border: 1.5px solid var(--slate-800); color: var(--slate-800); border-radius: var(--radius-sm); transition: background .15s, color .15s; white-space: nowrap; text-decoration: none; }
+        .nav-cta-btn:hover { background: var(--slate-800); color: var(--white); }
+
+        /* ===== SECTION TAG ===== */
+        .sec-tag { display: inline-block; font-family: var(--mono); font-size: 1.3rem; font-weight: 700; letter-spacing: .01em; color: var(--accent); margin-bottom: 12px; }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html { font-size: 16px; scroll-behavior: smooth; }
-        body {
-            font-family: var(--font);
-            background: var(--white);
-            color: var(--slate-800);
-            -webkit-font-smoothing: antialiased;
-        }
+        body { font-family: var(--font); background: var(--white); color: var(--slate-800); -webkit-font-smoothing: antialiased; }
 
-
-        /* ===== LUCIDE ICONS ===== */
-        svg.icon {
-            display: inline-block;
-            width: 1em; height: 1em;
-            fill: none; stroke: currentColor;
+        svg.icon { display: inline-block; width: 1em; height: 1em; fill: none; stroke: currentColor;
             stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
-            vertical-align: -0.125em; flex-shrink: 0;
-            overflow: visible;
-        }
+            vertical-align: -0.125em; flex-shrink: 0; overflow: visible; }
+
         /* ===== NAV ===== */
-        .nav {
-            background: rgba(255,255,255,0.95);
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid var(--slate-200);
-            position: sticky; top: 0; z-index: 100;
-        }
-        .nav-inner {
-            max-width: 1000px; margin: 0 auto;
-            padding: 0 24px; height: 60px;
-            display: flex; align-items: center; justify-content: space-between;
-        }
-        .logo {
-            display: flex; align-items: center; gap: 10px;
-            text-decoration: none; color: var(--blue-900);
-        }
-        .logo-icon {
-            width: 34px; height: 34px;
-            background: linear-gradient(135deg, var(--blue-500), var(--blue-700));
-            border-radius: var(--radius-sm);
-            display: flex; align-items: center; justify-content: center;
-            font-size: 17px; font-weight: 800; color: white;
-            box-shadow: 0 2px 8px rgba(37,99,235,0.3);
-        }
-        .logo-text { font-size: 1rem; font-weight: 700; letter-spacing: -0.01em; }
-        .logo-text span { color: var(--blue-500); }
-        .nav-center {
-            display: flex; align-items: center; gap: 2px;
-        }
-        .nav-link {
-            font-size: 0.85rem; color: var(--slate-600);
-            text-decoration: none; padding: 6px 12px;
-            border-radius: var(--radius-sm);
-            transition: color 0.2s, background 0.2s;
-        }
-        .nav-link:hover { color: var(--blue-600); background: var(--blue-50); }
+        .nav { background: rgba(255,255,255,.95); backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--slate-200); position: sticky; top: 0; z-index: 100; }
+        .nav-inner { max-width: 1000px; margin: 0 auto; padding: 0 24px; height: 60px;
+            display: flex; align-items: center; justify-content: space-between; }
+        .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--accent-dark); }
+        .logo-text { font-size: 1rem; font-weight: 700; letter-spacing: -0.01em; color: var(--slate-900); }
+        .logo-text span { color: var(--accent); }
+        .nav-center { display: flex; align-items: center; gap: 2px; }
+        .nav-link { font-size: 0.85rem; color: var(--slate-600); text-decoration: none;
+            padding: 6px 12px; border-radius: var(--radius-sm); transition: color .2s, background .2s; }
+        .nav-link:hover { color: var(--accent); background: var(--accent-light); }
         .nav-right { display: flex; align-items: center; gap: 10px; }
-        .nav-badge {
-            display: inline-flex; align-items: center; gap: 6px;
-            background: rgba(22,163,74,0.1);
-            border: 1px solid rgba(22,163,74,0.25);
-            color: var(--green-soft);
-            padding: 5px 12px; border-radius: 100px;
-            font-size: 0.75rem; font-weight: 700;
-        }
-        .nav-dot {
-            width: 6px; height: 6px; border-radius: 50%;
-            background: var(--green-soft);
-            animation: pulse 2s infinite;
-        }
-        @keyframes pulse {
-            0%,100% { box-shadow: 0 0 0 2px rgba(22,163,74,0.2); }
-            50%      { box-shadow: 0 0 0 5px rgba(22,163,74,0.08); }
-        }
 
         /* ===== HERO ===== */
-        .hero {
-            background: linear-gradient(175deg, var(--blue-50) 0%, var(--white) 60%);
-            padding: 80px 24px 68px;
-            text-align: center;
-        }
+        .hero { background: linear-gradient(180deg, #eef3f9 0%, var(--white) 55%);
+            padding: 80px 24px 68px; text-align: center; }
         .hero-inner { max-width: 840px; margin: 0 auto; }
-        .hero-eyebrow {
-            display: inline-flex; align-items: center; gap: 8px;
-            background: var(--blue-100); color: var(--blue-700);
+        .hero-eyebrow { display: inline-flex; align-items: center; gap: 8px;
+            background: var(--accent-light); color: var(--accent-dark);
             padding: 6px 14px; border-radius: 100px;
-            font-size: 0.8rem; font-weight: 700; margin-bottom: 24px;
-        }
-        .hero h1 {
-            font-size: clamp(1.75rem, 3.8vw, 2.5rem);
-            font-weight: 700; line-height: 1.22;
-            color: var(--blue-900); letter-spacing: -0.025em; margin-bottom: 20px;
-        }
-        .hero h1 em {
-            font-style: normal; color: var(--blue-500); position: relative;
-        }
-        .hero h1 em::after {
-            content: ''; position: absolute; bottom: 2px; left: 0; right: 0;
-            height: 5px; background: var(--gold-300); opacity: 0.5;
-            border-radius: 3px; z-index: -1;
-        }
-        .hero-sub {
-            font-size: 1.05rem; color: var(--slate-600);
-            font-weight: 500;
-            max-width: 580px; margin: 0 auto 32px; line-height: 1.75;
-        }
-        .hero-cta {
-            display: inline-flex; align-items: center; gap: 8px;
-            background: #2F72E0; color: white;
+            font-size: .8rem; font-weight: 700; margin-bottom: 24px; }
+        .hero h1 { font-size: clamp(1.75rem, 3.8vw, 2.5rem); font-weight: 700; line-height: 1.22;
+            color: var(--navy); letter-spacing: -0.025em; margin-bottom: 20px; }
+        .hero h1 em { font-style: normal; color: var(--accent); position: relative; }
+        .hero h1 em::after { content: ''; position: absolute; bottom: 2px; left: 0; right: 0;
+            height: 5px; background: var(--highlight-300); opacity: .5; border-radius: 3px; z-index: -1; }
+        .hero-sub { font-size: 1.05rem; color: var(--slate-600); font-weight: 500;
+            max-width: 580px; margin: 0 auto 32px; line-height: 1.75; }
+        .hero-cta { display: inline-flex; align-items: center; gap: 8px;
+            background: var(--accent); color: white;
             padding: 14px 30px; border-radius: var(--radius-md);
-            font-weight: 700; font-size: 0.97rem; text-decoration: none;
-            box-shadow: 0 4px 16px rgba(47,114,224,0.28);
-            transition: all 0.2s;
-        }
-        .hero-cta:hover {
-            background: #2564c8; transform: translateY(-1px);
-            box-shadow: 0 6px 22px rgba(47,114,224,0.32);
-        }
+            font-weight: 700; font-size: .97rem; text-decoration: none;
+            box-shadow: 0 4px 16px rgba(30,58,95,.3); transition: all .2s; }
+        .hero-cta:hover { background: var(--accent-600); transform: translateY(-1px);
+            box-shadow: 0 6px 22px rgba(30,58,95,.35); }
 
         /* ===== TRUST BAR ===== */
-        .trust-bar {
-            background: var(--blue-100);
-            border-top: 1px solid var(--blue-200);
-            border-bottom: 1px solid var(--blue-200);
-        }
-        .tagline-strip {
-            background: var(--blue-800);
-            border-bottom: 1px solid rgba(255,255,255,0.07);
-        }
-        .tagline-strip-inner {
-            max-width: 1000px; margin: 0 auto; padding: 22px 24px;
-            text-align: center;
-            color: var(--gold-300);
-            font-size: 1.15rem; font-weight: 600; font-style: italic;
-            letter-spacing: 0.01em;
-        }
-        .trust-bar-inner {
-            max-width: 1000px; margin: 0 auto; padding: 0 24px;
-            display: flex; align-items: center; justify-content: center;
-            flex-wrap: wrap;
-        }
-        .trust-item {
-            display: flex; align-items: center; gap: 7px;
-            padding: 14px 22px;
-            font-size: 0.83rem; color: var(--blue-700); font-weight: 600;
-        }
-        .trust-item .icon { font-size: 1rem; }
-        .trust-divider {
-            width: 1px; height: 22px;
-            background: var(--blue-200); flex-shrink: 0;
-        }
+        .trust-bar { background: var(--slate-100); border-top: 1px solid var(--slate-200);
+            border-bottom: 1px solid var(--slate-200); }
+        .trust-bar-inner { max-width: 1000px; margin: 0 auto; padding: 0 24px;
+            display: flex; align-items: center; justify-content: center; flex-wrap: wrap; }
+        .trust-item { display: flex; align-items: center; gap: 7px; padding: 14px 22px;
+            font-size: .83rem; color: var(--slate-700); font-weight: 600; }
+        .trust-divider { width: 1px; height: 22px; background: var(--slate-300); flex-shrink: 0; }
 
-        /* ===== SECTION WRAPPER ===== */
+        /* ===== SECTIONS ===== */
         .section { padding: 72px 24px; }
         .section-gray { background: var(--slate-50); }
-        .section-blue {
-            background: linear-gradient(135deg, var(--blue-900) 0%, var(--blue-800) 100%);
-        }
+        .section-dark { background: linear-gradient(135deg, var(--navy) 0%, var(--navy-dark) 100%); }
         .section-inner { max-width: 1000px; margin: 0 auto; }
         .section-header { text-align: center; margin-bottom: 48px; }
-        .section-header h2 {
-            font-size: clamp(1.5rem, 3vw, 2.1rem);
-            font-weight: 700; color: var(--blue-900);
-            letter-spacing: -0.02em; margin-bottom: 10px;
-        }
-        .section-header p {
-            font-size: 0.97rem; color: var(--slate-500);
-            max-width: 500px; margin: 0 auto; line-height: 1.7;
-        }
-        .section-header--light h2 { color: var(--white); }
-        .section-header--light p { color: var(--blue-200); }
-
-        /* ===== SETUP CARDS ===== */
-        .setup-cards { display: flex; flex-direction: column; gap: 18px; }
-        .step-card {
-            background: var(--white); border: 1px solid var(--slate-200);
-            border-radius: var(--radius-lg); box-shadow: var(--shadow-md); overflow: hidden;
-        }
-        .step-header {
-            display: flex; align-items: center; gap: 16px;
-            padding: 18px 24px; border-bottom: 1px solid var(--slate-100);
-        }
-        .step-num {
-            width: 34px; height: 34px; border-radius: 50%; flex-shrink: 0;
-            background: linear-gradient(135deg, var(--blue-500), var(--blue-600));
-            color: white; font-weight: 800; font-size: 0.95rem;
-            display: flex; align-items: center; justify-content: center;
-            box-shadow: 0 3px 10px rgba(37,99,235,0.25);
-        }
-        .step-title { font-size: 0.95rem; font-weight: 700; color: var(--blue-900); line-height: 1.35; }
-        .step-hint { font-size: 0.78rem; color: var(--slate-500); margin-top: 2px; }
-        .step-body { padding: 20px 24px; }
-
-        /* ===== ARS SUCHE ===== */
-        .ars-wrap { position: relative; margin-bottom: 12px; }
-        .ars-input {
-            width: 100%; padding: 11px 16px;
-            border: 1.5px solid var(--slate-300);
-            border-radius: var(--radius-sm);
-            font-family: var(--font); font-size: 0.92rem;
-            color: var(--slate-800); background: var(--white);
-            transition: border-color 0.2s, box-shadow 0.2s;
-        }
-        .ars-input:focus {
-            outline: none; border-color: var(--blue-400);
-            box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
-        }
-        .ars-input::placeholder { color: var(--slate-400); }
-        .ars-dropdown {
-            display: none;
-            position: absolute; top: calc(100% + 4px); left: 0; right: 0;
-            background: var(--white); border: 1.5px solid var(--blue-300);
-            border-radius: var(--radius-md); box-shadow: var(--shadow-lg);
-            z-index: 50; overflow: hidden; max-height: 280px; overflow-y: auto;
-        }
-        .ars-dropdown.open { display: block; }
-        .ars-option {
-            display: flex; align-items: center; justify-content: space-between;
-            padding: 10px 14px; cursor: pointer;
-            transition: background 0.15s; gap: 12px;
-        }
-        .ars-option:hover, .ars-option.active { background: var(--blue-50); }
-        .ars-option-left { display: flex; flex-direction: column; gap: 2px; }
-        .ars-option-name { font-size: 0.9rem; font-weight: 600; color: var(--slate-800); }
-        .ars-option-level { font-size: 0.72rem; color: var(--slate-500); }
-        .ars-option-code {
-            font-family: 'SF Mono', 'Fira Code', monospace;
-            font-size: 0.75rem; color: var(--blue-600);
-            background: var(--blue-50); padding: 2px 8px;
-            border-radius: 4px; flex-shrink: 0; white-space: nowrap;
-        }
-        .ars-no-results {
-            padding: 12px 14px; font-size: 0.85rem; color: var(--slate-500); text-align: center;
-        }
-        .ars-selected {
-            display: none; align-items: center; justify-content: space-between;
-            background: var(--blue-50); border: 1px solid var(--blue-200);
-            border-radius: var(--radius-sm); padding: 8px 14px;
-            margin-top: 8px; gap: 10px;
-        }
-        .ars-selected.show { display: flex; }
-        .ars-selected-text { font-size: 0.85rem; color: var(--blue-800); font-weight: 500; }
-        .ars-selected-code {
-            font-family: 'SF Mono', monospace; font-size: 0.78rem;
-            color: var(--blue-700); background: var(--blue-100);
-            padding: 2px 8px; border-radius: 4px;
-        }
-        .ars-clear {
-            background: none; border: none; color: var(--slate-400);
-            cursor: pointer; font-size: 0.9rem; padding: 2px 4px;
-            line-height: 1; transition: color 0.2s; margin-left: auto;
-        }
-        .ars-clear:hover { color: var(--red-700); }
-        .url-row { display: flex; gap: 8px; align-items: stretch; }
-        .url-box {
-            flex: 1; background: var(--slate-900); border-radius: var(--radius-sm);
-            padding: 11px 16px;
-            font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
-            font-size: 0.78rem; color: #a5f3fc; word-break: break-all; line-height: 1.5;
-        }
-        .copy-btn {
-            padding: 0 18px; background: var(--blue-500); color: white;
-            border: none; border-radius: var(--radius-sm);
-            font-family: var(--font); font-size: 0.85rem; font-weight: 600;
-            cursor: pointer; white-space: nowrap; min-width: 130px; transition: all 0.2s;
-        }
-        .copy-btn:hover { background: var(--blue-600); }
-        .copy-btn.copied { background: var(--green-soft); }
-        .setup-hint {
-            margin-top: 14px; padding: 12px 16px;
-            background: var(--blue-50); border: 1px solid var(--blue-200);
-            border-radius: var(--radius-md);
-            font-size: 0.82rem; color: var(--blue-800); line-height: 1.6;
-        }
-        .setup-hint strong { display: block; margin-bottom: 4px; font-size: 0.85rem; color: var(--blue-900); }
-        .setup-hint a { color: var(--blue-600); font-weight: 600; }
-        .search-tip {
-            margin-top: 10px; font-size: 0.78rem; color: var(--slate-500);
-            background: var(--slate-50); border: 1px solid var(--slate-200);
-            border-radius: var(--radius-sm); padding: 8px 12px; line-height: 1.55;
-        }
-
-        /* ===== MASTERPROMPT ===== */
-        .prompt-box {
-            background: var(--slate-50); border: 1px solid var(--slate-200);
-            border-radius: var(--radius-md); padding: 16px;
-            font-size: 0.82rem; color: var(--slate-700); line-height: 1.7;
-            white-space: pre-wrap; font-family: var(--font);
-            max-height: 280px; overflow-y: auto; margin-bottom: 12px;
-        }
-        .prompt-actions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-        .copy-prompt-btn {
-            display: inline-flex; align-items: center; gap: 6px;
-            padding: 9px 18px;
-            background: var(--white); color: var(--slate-700);
-            border: 1.5px solid var(--slate-300); border-radius: var(--radius-sm);
-            font-family: var(--font); font-size: 0.85rem; font-weight: 600;
-            cursor: pointer; transition: all 0.2s;
-        }
-        .copy-prompt-btn:hover { border-color: var(--blue-400); color: var(--blue-600); background: var(--blue-50); }
-        .copy-prompt-btn.copied { background: var(--green-soft); color: white; border-color: var(--green-soft); }
-        .prompt-note { font-size: 0.78rem; color: var(--slate-400); }
-        .step3-info { font-size: 0.9rem; color: var(--slate-600); line-height: 1.7; }
-        .step3-example {
-            margin-top: 14px; background: var(--blue-50);
-            border: 1px solid var(--blue-200); border-radius: var(--radius-md); padding: 14px 16px;
-        }
-        .step3-example-label {
-            font-size: 0.72rem; font-weight: 700; text-transform: uppercase;
-            letter-spacing: 0.06em; color: var(--blue-500); margin-bottom: 6px;
-        }
-        .step3-example p { font-size: 0.88rem; color: var(--blue-800); font-style: italic; line-height: 1.5; }
-        .step3-source {
-            display: inline-flex; align-items: center; gap: 4px;
-            background: var(--blue-100); color: var(--blue-700);
-            padding: 2px 8px; border-radius: 4px;
-            font-size: 0.72rem; font-weight: 600; margin-top: 6px; font-style: normal;
-        }
+        .section-header p { font-size: .97rem; color: var(--slate-500);
+            max-width: 500px; margin: 0 auto; line-height: 1.7; }
 
         /* ===== USE CASES ===== */
-        .usecases-grid {
-            display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
-        }
-        .usecase-card {
-            background: var(--white); border: 1px solid var(--slate-200);
+        .usecases-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; }
+        .usecase-card { background: var(--white); border: 1px solid var(--slate-200);
             border-radius: var(--radius-lg); padding: 22px; box-shadow: var(--shadow-sm);
-            transition: box-shadow 0.2s, transform 0.2s;
-        }
+            transition: box-shadow .2s, transform .2s; }
         .usecase-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
-        .usecase-icon { font-size: 1.9rem; margin-bottom: 12px; display: flex; align-items: center; justify-content: center; }
-        .usecase-title { font-size: 0.95rem; font-weight: 700; color: var(--blue-900); margin-bottom: 7px; }
-        .usecase-desc { font-size: 0.85rem; color: var(--slate-600); line-height: 1.65; margin-bottom: 12px; }
-        .usecase-example {
-            background: var(--blue-50); border: 1px solid var(--blue-100);
+        .usecase-icon { font-size: 1.9rem; margin-bottom: 12px;
+            display: flex; align-items: center; justify-content: center; color: var(--accent); }
+        .usecase-title { font-size: .95rem; font-weight: 700; color: var(--navy); margin-bottom: 7px; }
+        .usecase-desc { font-size: .85rem; color: var(--slate-600); line-height: 1.65; margin-bottom: 12px; }
+        .usecase-example { background: var(--accent-light); border: 1px solid var(--accent-light);
             border-radius: var(--radius-sm); padding: 8px 12px;
-            font-size: 0.78rem; color: var(--blue-700); line-height: 1.5; font-style: italic;
-        }
+            font-size: .78rem; color: var(--accent-dark); line-height: 1.5; font-style: italic; }
 
         /* ===== BENEFITS ===== */
-        .benefits-grid {
-            display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 20px;
-        }
-        .benefit-item {
-            display: flex; align-items: flex-start; gap: 12px;
+        .benefits-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; }
+        .benefit-item { display: flex; align-items: flex-start; gap: 12px;
             background: var(--white); border: 1px solid var(--slate-200);
-            border-radius: var(--radius-md); padding: 18px; box-shadow: var(--shadow-sm);
-        }
-        .benefit-icon { font-size: 1.5rem; flex-shrink: 0; margin-top: 2px; color: var(--blue-600); }
-        .benefit-title { font-size: 0.9rem; font-weight: 700; color: var(--blue-900); margin-bottom: 3px; }
-        .benefit-desc { font-size: 0.82rem; color: var(--slate-600); line-height: 1.55; }
-        .dsgvo-note {
-            background: var(--gold-100); border: 1px solid rgba(212,160,23,0.3);
-            border-radius: var(--radius-md); padding: 12px 16px;
-            font-size: 0.8rem; color: var(--slate-600); line-height: 1.6;
-        }
+            border-radius: var(--radius-md); padding: 18px; box-shadow: var(--shadow-sm); }
+        .benefit-icon { font-size: 1.5rem; flex-shrink: 0; margin-top: 2px; color: var(--accent); }
+        .benefit-title { font-size: .9rem; font-weight: 700; color: var(--navy); margin-bottom: 3px; }
+        .benefit-desc { font-size: .82rem; color: var(--slate-600); line-height: 1.55; }
 
         /* ===== COMPARISON ===== */
         .comp-wrap { overflow-x: auto; border-radius: var(--radius-lg); box-shadow: var(--shadow-md); }
-        .comp-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; min-width: 460px; }
-        .comp-table th {
-            background: var(--blue-900); color: white;
-            padding: 13px 20px; text-align: left; font-weight: 700; font-size: 0.87rem;
-        }
+        .comp-table { width: 100%; border-collapse: collapse; font-size: .88rem; min-width: 460px; }
+        .comp-table th { background: var(--navy); color: white;
+            padding: 13px 20px; text-align: left; font-weight: 700; font-size: .87rem; }
         .comp-table th:first-child { width: 44%; }
-        .comp-table td {
-            padding: 12px 20px; border-bottom: 1px solid var(--slate-200);
-            color: var(--slate-700); background: var(--white);
-        }
+        .comp-table td { padding: 12px 20px; border-bottom: 1px solid var(--slate-200);
+            color: var(--slate-700); background: var(--white); }
         .comp-table tr:nth-child(even) td { background: var(--slate-50); }
         .comp-table tr:last-child td { border-bottom: none; }
         .check { color: var(--green-soft); font-weight: 700; display: inline-flex; align-items: center; gap: 4px; }
         .cross { color: var(--red-700); font-weight: 700; }
-        .warn { color: var(--gold-500); font-weight: 700; display: inline-flex; align-items: center; gap: 4px; }
+        .warn { color: #b45309; font-weight: 700; display: inline-flex; align-items: center; gap: 4px; }
+
+        /* ===== HINTS ===== */
+        .hints-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; }
+        .setup-hint { padding: 16px 18px; background: var(--slate-50);
+            border: 1px solid var(--slate-200); border-radius: var(--radius-md);
+            font-size: .82rem; color: var(--slate-700); line-height: 1.6; }
+        .setup-hint strong { display: block; margin-bottom: 4px; font-size: .85rem; color: var(--slate-800); }
+        .setup-hint a { color: var(--accent); font-weight: 600; text-decoration: none; }
+
+        /* ===== SETUP ===== */
+        .setup-cards { display: flex; flex-direction: column; gap: 18px; }
+        .step-card { background: var(--white); border: 1px solid var(--slate-200);
+            border-radius: var(--radius-lg); box-shadow: var(--shadow-md); overflow: hidden; }
+        .step-header { display: flex; align-items: center; gap: 16px;
+            padding: 18px 24px; border-bottom: 1px solid var(--slate-100); }
+        .step-num { width: 34px; height: 34px; border-radius: 50%; flex-shrink: 0;
+            background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+            color: white; font-weight: 800; font-size: .95rem;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 3px 10px rgba(30,58,95,.25); }
+        .step-title { font-size: .95rem; font-weight: 700; color: var(--navy); line-height: 1.35; }
+        .step-hint { font-size: .78rem; color: var(--slate-500); margin-top: 2px; }
+        .step-body { padding: 20px 24px; }
+        .url-row { display: flex; gap: 8px; align-items: stretch; }
+        .url-box { flex: 1; background: var(--slate-900); border-radius: var(--radius-sm);
+            padding: 11px 16px; font-family: 'SF Mono','Fira Code','Cascadia Code',monospace;
+            font-size: .78rem; color: #a5f3fc; word-break: break-all; line-height: 1.5; }
+        .copy-btn { padding: 0 18px; background: var(--accent); color: white; border: none;
+            border-radius: var(--radius-sm); font-family: var(--font); font-size: .85rem;
+            font-weight: 600; cursor: pointer; white-space: nowrap; min-width: 130px; transition: all .2s; }
+        .copy-btn:hover { background: var(--accent-600); }
+        .copy-btn.copied { background: var(--green-soft); }
+        .field-label { display: block; margin-bottom: 6px; font-size: .8rem; font-weight: 700;
+            color: var(--slate-600); text-transform: uppercase; letter-spacing: .06em; }
+        .search-tip { margin-top: 10px; font-size: .78rem; color: var(--slate-500);
+            background: var(--slate-50); border: 1px solid var(--slate-200);
+            border-radius: var(--radius-sm); padding: 8px 12px; line-height: 1.55; }
+
+        /* ===== ARS SUCHE ===== */
+        .ars-wrap { position: relative; margin-bottom: 12px; }
+        .ars-input { width: 100%; padding: 11px 16px; border: 1.5px solid var(--slate-300);
+            border-radius: var(--radius-sm); font-family: var(--font); font-size: .92rem;
+            color: var(--slate-800); background: var(--white);
+            transition: border-color .2s, box-shadow .2s; }
+        .ars-input:focus { outline: none; border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(30,58,95,.1); }
+        .ars-input::placeholder { color: var(--slate-400); }
+        .ars-dropdown { display: none; position: absolute; top: calc(100% + 4px); left: 0; right: 0;
+            background: var(--white); border: 1.5px solid var(--accent-mid);
+            border-radius: var(--radius-md); box-shadow: var(--shadow-lg);
+            z-index: 50; overflow: hidden; max-height: 280px; overflow-y: auto; }
+        .ars-dropdown.open { display: block; }
+        .ars-option { display: flex; align-items: center; justify-content: space-between;
+            padding: 10px 14px; cursor: pointer; transition: background .15s; gap: 12px; }
+        .ars-option:hover, .ars-option.active { background: var(--slate-50); }
+        .ars-option-left { display: flex; flex-direction: column; gap: 2px; }
+        .ars-option-name { font-size: .9rem; font-weight: 600; color: var(--slate-800); }
+        .ars-option-level { font-size: .72rem; color: var(--slate-500); }
+        .ars-option-code { font-family: 'SF Mono','Fira Code',monospace; font-size: .75rem;
+            color: var(--accent); background: var(--accent-light); padding: 2px 8px;
+            border-radius: 4px; flex-shrink: 0; white-space: nowrap; }
+        .ars-no-results { padding: 12px 14px; font-size: .85rem; color: var(--slate-500); text-align: center; }
+        .ars-selected { display: none; align-items: center; justify-content: space-between;
+            background: var(--slate-50); border: 1px solid var(--slate-200);
+            border-radius: var(--radius-sm); padding: 8px 14px; margin-top: 8px; gap: 10px; }
+        .ars-selected.show { display: flex; }
+        .ars-selected-text { font-size: .85rem; color: var(--slate-700); font-weight: 500; }
+        .ars-selected-code { font-family: 'SF Mono',monospace; font-size: .78rem;
+            color: var(--accent); background: var(--accent-light); padding: 2px 8px; border-radius: 4px; }
+        .ars-clear { background: none; border: none; color: var(--slate-400); cursor: pointer;
+            font-size: .9rem; padding: 2px 4px; line-height: 1; transition: color .2s; margin-left: auto; }
+        .ars-clear:hover { color: var(--red-700); }
+
+        /* ===== MASTERPROMPT ===== */
+        .prompt-box { background: var(--slate-50); border: 1px solid var(--slate-200);
+            border-radius: var(--radius-md); padding: 16px; font-size: .82rem;
+            color: var(--slate-700); line-height: 1.7; white-space: pre-wrap;
+            font-family: var(--font); max-height: 280px; overflow-y: auto; margin-bottom: 12px; }
+        .prompt-actions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+        .copy-prompt-btn { display: inline-flex; align-items: center; gap: 6px; padding: 9px 18px;
+            background: var(--white); color: var(--slate-700);
+            border: 1.5px solid var(--slate-300); border-radius: var(--radius-sm);
+            font-family: var(--font); font-size: .85rem; font-weight: 600;
+            cursor: pointer; transition: all .2s; }
+        .copy-prompt-btn:hover { border-color: var(--accent-mid); color: var(--accent); background: var(--accent-light); }
+        .copy-prompt-btn.copied { background: var(--green-soft); color: white; border-color: var(--green-soft); }
+        .prompt-note { font-size: .78rem; color: var(--slate-400); }
+        .step3-info { font-size: .9rem; color: var(--slate-600); line-height: 1.7; }
+        .step3-example { margin-top: 14px; background: var(--accent-light);
+            border: 1px solid var(--accent-light); border-radius: var(--radius-md); padding: 14px 16px; }
+        .step3-example-label { font-size: .72rem; font-weight: 700; text-transform: uppercase;
+            letter-spacing: .06em; color: var(--accent); margin-bottom: 6px; }
+        .step3-example p { font-size: .88rem; color: var(--navy); font-style: italic; line-height: 1.5; }
+        .step3-source { display: inline-flex; align-items: center; gap: 4px;
+            background: rgba(30,58,95,.12); color: var(--accent-dark);
+            padding: 2px 8px; border-radius: 4px; font-size: .72rem; font-weight: 600; margin-top: 6px; }
 
         /* ===== HOW IT WORKS ===== */
-        .hiw-steps {
-            display: flex; align-items: flex-start;
-            justify-content: center; gap: 0;
-        }
+        .hiw-steps { display: flex; align-items: flex-start; justify-content: center; gap: 0; }
         .hiw-step { flex: 1; text-align: center; padding: 0 20px; max-width: 260px; }
-        .hiw-icon-wrap {
-            width: 72px; height: 72px; margin: 0 auto 16px;
-            background: var(--blue-100); border-radius: 50%;
+        .hiw-icon-wrap { width: 72px; height: 72px; margin: 0 auto 16px;
+            background: var(--slate-100); border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
-            font-size: 2rem; color: var(--blue-600);
-        }
-        .hiw-step-num {
-            font-size: 0.72rem; font-weight: 800; text-transform: uppercase;
-            letter-spacing: 0.08em; color: var(--blue-400); margin-bottom: 6px;
-        }
-        .hiw-step-title { font-size: 0.97rem; font-weight: 700; color: var(--blue-900); margin-bottom: 6px; }
-        .hiw-step-desc { font-size: 0.85rem; color: var(--slate-600); line-height: 1.65; }
-        .hiw-arrow {
-            flex-shrink: 0; align-self: center; padding-top: 0;
-            font-size: 1.6rem; color: var(--blue-200); margin-top: -20px;
-        }
+            font-size: 2rem; color: var(--accent); }
+        .hiw-step-num { font-size: .72rem; font-weight: 800; text-transform: uppercase;
+            letter-spacing: .08em; color: var(--slate-400); margin-bottom: 6px; }
+        .hiw-step-title { font-size: .97rem; font-weight: 700; color: var(--navy); margin-bottom: 6px; }
+        .hiw-step-desc { font-size: .85rem; color: var(--slate-600); line-height: 1.65; }
+        .hiw-arrow { flex-shrink: 0; align-self: center; font-size: 1.6rem;
+            color: var(--slate-300); margin-top: -20px; }
 
-        /* ===== PERSONAS ===== */
-        .persona-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
-        .persona-card {
-            background: var(--white); border: 1px solid var(--slate-200);
-            border-radius: var(--radius-lg); padding: 26px; box-shadow: var(--shadow-sm);
-        }
-        .persona-icon { font-size: 2.1rem; margin-bottom: 12px; }
-        .persona-title { font-size: 1.02rem; font-weight: 800; color: var(--blue-900); margin-bottom: 8px; }
-        .persona-desc { font-size: 0.87rem; color: var(--slate-600); line-height: 1.7; }
-        .persona-example {
-            margin-top: 12px; padding: 9px 12px;
-            background: var(--blue-50); border-radius: var(--radius-sm);
-            font-size: 0.78rem; color: var(--blue-700); font-style: italic; line-height: 1.5;
-        }
+        /* ===== MEHR WOLLEN ===== */
+        .mehr-box { background: var(--white); border: 1.5px solid var(--slate-200);
+            border-radius: var(--radius-lg); padding: 40px; text-align: center; box-shadow: var(--shadow-sm); }
+        .mehr-box h3 { font-size: 1.2rem; font-weight: 700; color: var(--navy); margin-bottom: 12px; }
+        .mehr-box p { font-size: .95rem; color: var(--slate-600); max-width: 540px; margin: 0 auto 24px; line-height: 1.75; }
+        .mehr-btn { display: inline-flex; align-items: center; gap: 8px;
+            background: var(--accent); color: white; padding: 12px 28px;
+            border-radius: var(--radius-md); font-weight: 700; font-size: .92rem;
+            text-decoration: none; transition: all .2s; }
+        .mehr-btn:hover { background: var(--accent-600); transform: translateY(-1px); }
 
         /* ===== ABOUT ===== */
-        .about-content {
-            max-width: 660px; margin: 0 auto;
-        }
-        .about-content p {
-            font-size: 0.97rem; color: var(--slate-700); line-height: 1.85; margin-bottom: 16px;
-        }
-        .about-content p:last-child { margin-bottom: 0; }
-        .about-tag {
-            display: inline-flex; align-items: center; gap: 8px;
-            background: var(--blue-50); border: 1px solid var(--blue-200);
-            color: var(--blue-700); border-radius: 100px;
-            padding: 5px 14px; font-size: 0.82rem; font-weight: 600; margin-bottom: 24px;
-        }
+        .about-content { max-width: 660px; margin: 0 auto; text-align: center; }
+        .about-content p { font-size: .97rem; color: var(--slate-700); line-height: 1.85; margin-bottom: 16px; }
+        .about-tag { display: inline-flex; align-items: center; gap: 8px;
+            background: var(--slate-100); border: 1px solid var(--slate-200);
+            color: var(--slate-700); border-radius: 100px;
+            padding: 5px 14px; font-size: .82rem; font-weight: 600; margin-bottom: 24px; }
 
         /* ===== TECH ===== */
         .tech-content { text-align: center; }
-        .tech-badge-row {
-            display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin: 22px 0;
-        }
-        .tech-badge {
-            display: inline-flex; align-items: center; gap: 6px;
+        .tech-badge-row { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin: 22px 0; }
+        .tech-badge { display: inline-flex; align-items: center; gap: 6px;
             background: var(--white); border: 1px solid var(--slate-200);
             border-radius: var(--radius-md); padding: 9px 16px;
-            font-size: 0.85rem; color: var(--slate-700); font-weight: 500;
-            box-shadow: var(--shadow-sm);
-        }
-        .tech-desc {
-            font-size: 0.95rem; color: var(--slate-600); max-width: 540px;
-            margin: 0 auto 8px; line-height: 1.75;
-        }
-        .tech-link { color: var(--blue-500); font-weight: 700; text-decoration: none; }
+            font-size: .85rem; color: var(--slate-700); font-weight: 500; box-shadow: var(--shadow-sm); }
+        .tech-desc { font-size: .95rem; color: var(--slate-600); max-width: 540px;
+            margin: 0 auto 8px; line-height: 1.75; }
+        .tech-link { color: var(--accent); font-weight: 700; text-decoration: none; }
         .tech-link:hover { text-decoration: underline; }
 
         /* ===== CTA ===== */
-        .cta-box {
-            background: linear-gradient(135deg, var(--blue-800) 0%, var(--blue-900) 100%);
+        .cta-box { background: linear-gradient(135deg, var(--navy) 0%, var(--navy-dark) 100%);
             border-radius: var(--radius-lg); padding: 60px 40px; text-align: center;
-            box-shadow: var(--shadow-lg);
-        }
-        .cta-title {
-            font-size: clamp(1.5rem, 3vw, 2.1rem);
-            font-weight: 800; color: var(--white); margin-bottom: 12px; letter-spacing: -0.02em;
-        }
-        .cta-sub {
-            font-size: 1rem; color: var(--blue-200); margin-bottom: 32px; line-height: 1.7;
-            max-width: 460px; margin-left: auto; margin-right: auto;
-        }
-        .cta-btn {
-            display: inline-flex; align-items: center; gap: 8px;
-            background: var(--gold-400); color: var(--blue-900);
+            box-shadow: var(--shadow-lg); }
+        .cta-title { font-size: clamp(1.5rem,3vw,2.1rem); font-weight: 800;
+            color: var(--white); margin-bottom: 12px; letter-spacing: -0.02em; }
+        .cta-sub { font-size: 1rem; color: rgba(255,255,255,.75); margin-bottom: 32px;
+            line-height: 1.7; max-width: 460px; margin-left: auto; margin-right: auto; }
+        .cta-btn { display: inline-flex; align-items: center; gap: 8px;
+            background: var(--white); color: var(--navy);
             padding: 15px 34px; border-radius: var(--radius-md);
-            font-weight: 800; font-size: 0.97rem; text-decoration: none;
-            box-shadow: 0 4px 16px rgba(232,184,48,0.4); transition: all 0.2s;
-        }
-        .cta-btn:hover { background: var(--gold-300); transform: translateY(-1px); }
+            font-weight: 800; font-size: .97rem; text-decoration: none;
+            box-shadow: 0 4px 16px rgba(0,0,0,.2); transition: all .2s; }
+        .cta-btn:hover { background: var(--accent-light); transform: translateY(-1px); }
 
-        /* ===== IMPRESSUM ===== */
-        .impressum {
-            background: var(--slate-100); border-top: 1px solid var(--slate-200);
-            padding: 48px 24px;
-        }
-        .impressum-inner {
-            max-width: 1000px; margin: 0 auto;
-            display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 32px;
-        }
-        .impressum h3 {
-            font-size: 0.75rem; font-weight: 700; text-transform: uppercase;
-            letter-spacing: 0.08em; color: var(--slate-500); margin-bottom: 10px;
-        }
-        .impressum p, .impressum a {
-            font-size: 0.82rem; color: var(--slate-600); line-height: 1.7;
-        }
-        .impressum a { color: var(--blue-500); text-decoration: none; }
-        .impressum a:hover { text-decoration: underline; }
-        .impressum-bottom {
-            max-width: 1000px; margin: 20px auto 0;
-            padding-top: 16px; border-top: 1px solid var(--slate-200);
-            font-size: 0.75rem; color: var(--slate-400);
-            display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px;
-        }
-        .impressum-bottom a { color: var(--slate-400); text-decoration: none; }
-        .impressum-bottom a:hover { color: var(--blue-500); }
-
-        /* ===== LABEL ===== */
-        .field-label {
-            display: block; margin-bottom: 6px;
-            font-size: 0.8rem; font-weight: 700; color: var(--slate-600);
-            text-transform: uppercase; letter-spacing: 0.06em;
-        }
+        /* ===== FOOTER ===== */
+        .footer { background: var(--slate-100); border-top: 1px solid var(--slate-200); padding: 24px; }
+        .footer-inner { max-width: 1000px; margin: 0 auto;
+            font-size: .75rem; color: var(--slate-400);
+            display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+        .footer-inner a { color: var(--slate-400); text-decoration: none; }
+        .footer-inner a:hover { color: var(--accent); }
 
         /* ===== RESPONSIVE ===== */
-        .hints-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-        @media (max-width: 768px) { .hints-grid { grid-template-columns: 1fr; } }
-
-        @media (max-width: 900px) {
-            .benefits-grid { grid-template-columns: repeat(2, 1fr); }
-        }
-        @media (max-width: 768px) {
-            .usecases-grid { grid-template-columns: repeat(2, 1fr); }
+        .hints-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; }
+        @media (max-width:900px) { .benefits-grid { grid-template-columns: repeat(2,1fr); } }
+        @media (max-width:768px) {
+            .usecases-grid { grid-template-columns: repeat(2,1fr); }
+            .hints-grid { grid-template-columns: 1fr; }
             .hiw-steps { flex-direction: column; align-items: center; gap: 24px; }
             .hiw-arrow { display: none; }
             .hiw-step { max-width: 320px; padding: 0 8px; }
         }
-        @media (max-width: 640px) {
-            .section { padding: 48px 16px; }
-            .hero { padding: 48px 16px 40px; }
-            .nav-center { display: none; }
-            .nav-inner { padding: 0 16px; }
+        @media (max-width:640px) {
+            .section { padding: 48px 16px; } .hero { padding: 48px 16px 40px; }
+            .nav-center { display: none; } .nav-inner { padding: 0 16px; }
             .usecases-grid { grid-template-columns: 1fr; }
             .benefits-grid { grid-template-columns: 1fr; }
-            .persona-grid { grid-template-columns: 1fr; }
             .trust-divider { display: none; }
-            .trust-item { padding: 10px 12px; font-size: 0.78rem; }
+            .trust-item { padding: 10px 12px; font-size: .78rem; }
             .url-row { flex-direction: column; }
             .copy-btn { width: 100%; padding: 12px; }
-            .step-header { padding: 14px 16px; }
-            .step-body { padding: 16px; }
+            .step-header { padding: 14px 16px; } .step-body { padding: 16px; }
             .cta-box { padding: 40px 20px; }
-            .impressum-inner { grid-template-columns: 1fr; gap: 24px; }
-            .impressum-bottom { flex-direction: column; }
-        }
-        @media (max-width: 400px) {
-            .hero h1 { font-size: 1.7rem; }
+            .mehr-box { padding: 28px 20px; }
+            .footer-inner { flex-direction: column; }
         }
     </style>
 </head>
@@ -667,10 +432,6 @@
     <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/>
     <path d="M12 9v4"/><path d="M12 17h.01"/>
   </symbol>
-  <symbol id="icon-house" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/>
-    <path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-  </symbol>
   <symbol id="icon-cookie" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
     <path d="M12 2a10 10 0 1 0 10 10 4 4 0 0 1-5-5 4 4 0 0 1-5-5"/>
     <path d="M8.5 8.5v.01"/><path d="M16 15.5v.01"/><path d="M12 12v.01"/><path d="M11 17v.01"/><path d="M7 14v.01"/>
@@ -679,13 +440,28 @@
     <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>
     <path d="M22 21v-2a4 4 0 0 1-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
   </symbol>
+  <symbol id="icon-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+  </symbol>
 </svg>
+
+<!-- ============================================================ TOPBAR -->
+<div class="topbar">
+    <div class="topbar-inner">
+        <span class="topbar-live"><span class="topbar-dot"></span> Server erreichbar</span>
+        <div class="topbar-right">
+            <span class="topbar-hide">MCP-API · v0.4.2</span>
+            <a href="https://github.com/ragsource-ai/ragsource-server" target="_blank" rel="noopener">Quellcode ↗</a>
+        </div>
+    </div>
+</div>
 
 <!-- ============================================================ NAV -->
 <nav class="nav">
     <div class="nav-inner">
         <a href="#" class="logo">
-            <div class="logo-text" style="font-size:1.1rem">amtsschimmel<span>.ai</span></div>
+            <span class="logo-badge">&gt;rag</span>
+            <div class="logo-text">amtsschimmel<span>.ai</span></div>
         </a>
         <nav class="nav-center">
             <a href="#anwendungsfaelle" class="nav-link">Anwendungsfälle</a>
@@ -693,10 +469,7 @@
             <a href="#ueber-uns" class="nav-link">Über amtsschimmel.ai</a>
         </nav>
         <div class="nav-right">
-            <div class="nav-badge">
-                <div class="nav-dot"></div>
-                Server live
-            </div>
+            <a href="#einrichten" class="nav-cta-btn">MCP-Link holen</a>
         </div>
     </div>
 </nav>
@@ -735,7 +508,7 @@
 <section id="anwendungsfaelle" class="section">
     <div class="section-inner">
         <div class="section-header">
-            <h2>Anwendungsfälle</h2>
+            <div class="sec-tag">Anwendungsfälle</div>
             <p>Beispiele, die Sie mit amtsschimmel.ai täglich erledigen können:</p>
         </div>
         <div class="usecases-grid">
@@ -783,7 +556,7 @@
 <section id="vorteile" class="section section-gray">
     <div class="section-inner">
         <div class="section-header">
-            <h2>Vorteile auf einen Blick</h2>
+            <div class="sec-tag">Vorteile auf einen Blick</div>
             <p>Warum amtsschimmel.ai für die Verwaltung besser ist als ein LLM ohne Wissensbasis.</p>
         </div>
         <div class="benefits-grid">
@@ -837,7 +610,7 @@
 <section id="vergleich" class="section">
     <div class="section-inner">
         <div class="section-header">
-            <h2>amtsschimmel.ai vs. LLM ohne Wissensbasis</h2>
+            <div class="sec-tag">amtsschimmel.ai vs. LLM ohne Wissensbasis</div>
             <p>Was der Unterschied in der Praxis bedeutet.</p>
         </div>
         <div class="comp-wrap">
@@ -895,28 +668,26 @@
 <section id="hinweise" class="section section-gray">
     <div class="section-inner">
         <div class="section-header">
-            <h2>Wichtige Hinweise</h2>
+            <div class="sec-tag">Wichtige Hinweise</div>
         </div>
         <div class="hints-grid">
             <div class="setup-hint">
-                <strong><svg class="icon" aria-hidden="true"><use href="#icon-shield"/></svg> Hinweis zur DSGVO-Konformität:</strong>
+                <strong><svg class="icon" aria-hidden="true"><use href="#icon-shield"/></svg> Hinweis zur DSGVO-Konformität</strong>
                 amtsschimmel.ai überträgt ausschließlich Rechtstexte an das anfragende Sprachmodell.
                 Nutzeranfragen, Bürgerdaten und sonstige vertrauliche Inhalte verlassen Ihre KI-Umgebung
                 nicht und werden nicht an amtsschimmel.ai übermittelt.
             </div>
             <div class="setup-hint">
-                <strong><svg class="icon" aria-hidden="true"><use href="#icon-info"/></svg> Hinweis zum Umfang:</strong>
+                <strong><svg class="icon" aria-hidden="true"><use href="#icon-info"/></svg> Hinweis zum Umfang</strong>
                 amtsschimmel.ai ist ein junges Projekt – die Zahl der angebundenen Gemeinden und Bundesländer
-                wächst laufend. Falls Ihre Gemeinde oder Ihr Bundesland noch nicht hinterlegt sind, liefert
-                der Server Bundesrecht und – falls verfügbar – Landesrecht.<br><br>
-                Für Infos zur Aufnahme Ihrer Gemeinde:
-                <a href="mailto:kontakt@amtsschimmel.ai">kontakt@amtsschimmel.ai</a>
+                wächst laufend. Falls Ihre Gemeinde noch nicht hinterlegt ist, liefert der Server Bundesrecht
+                und – falls verfügbar – Landesrecht.<br><br>
+                Fragen zum Umfang: <a href="mailto:kontakt@amtsschimmel.ai">kontakt@amtsschimmel.ai</a>
             </div>
             <div class="setup-hint">
-                <strong><svg class="icon" aria-hidden="true"><use href="#icon-lock"/></svg> Interne Daten &amp; Wissensartikel:</strong>
-                Die Einbindung gemeindespezifischer interner Dokumente und Wissensartikel ist über eine
-                authentifizierte Erweiterung möglich. Für weitere Informationen ist eine Kontaktaufnahme
-                erforderlich: <a href="mailto:kontakt@amtsschimmel.ai">kontakt@amtsschimmel.ai</a>
+                <strong><svg class="icon" aria-hidden="true"><use href="#icon-lock"/></svg> Interne Daten &amp; Wissensartikel</strong>
+                Die Einbindung gemeindespezifischer interner Dokumente ist über eine authentifizierte
+                Erweiterung möglich. Für weitere Informationen: <a href="mailto:kontakt@amtsschimmel.ai">kontakt@amtsschimmel.ai</a>
             </div>
         </div>
     </div>
@@ -926,7 +697,7 @@
 <section id="einrichten" class="section">
     <div class="section-inner">
         <div class="section-header">
-            <h2>In 3 einfachen Schritten einrichten</h2>
+            <div class="sec-tag">In 3 einfachen Schritten einrichten</div>
             <p>Kostenlos. Ohne Registrierung. In 5 Minuten einsatzbereit.</p>
         </div>
         <div class="setup-cards">
@@ -941,7 +712,7 @@
                     </div>
                 </div>
                 <div class="step-body">
-                    <span class="field-label">Ihre Gemeinde oder Körperschaft</span>
+                    <span class="field-label">Ihre Gemeinde oder Körperschaft (optional)</span>
                     <div class="ars-wrap" id="arsWrap">
                         <input
                             type="text"
@@ -969,14 +740,12 @@
                     </div>
                     <div style="margin-top:8px; display:flex; align-items:center; gap:8px">
                         <input type="checkbox" id="leanModeCheckbox" onchange="updateUrl()">
-                        <label for="leanModeCheckbox" style="font-size:0.85rem; color:var(--slate-600); cursor:pointer">Deaktivierung der Freitextsuche</label>
+                        <label for="leanModeCheckbox" style="font-size:0.85rem; color:var(--slate-600); cursor:pointer">Freitextsuche deaktivieren (schnellerer Modus)</label>
                     </div>
-                    
-                    <div class="search-tip">
-                        <svg class="icon" aria-hidden="true"><use href="#icon-lightbulb"/></svg> <strong>Wie binde ich den MCP-Server an meine KI an?</strong>
-                        Suchen Sie im Internet nach „<em>[Ihr KI-Tool] MCP Server einrichten</em>"
-                        – Anleitungen gibt es für alle gängigen Tools. Eigene Schritt-für-Schritt-Anleitungen
-                        für Claude, ChatGPT und Langdock folgen in Kürze auf amtsschimmel.ai.
+                    <div class="search-tip" style="margin-top:12px">
+                        <svg class="icon" aria-hidden="true"><use href="#icon-lightbulb"/></svg>
+                        <strong>Wie binde ich den MCP-Server an meine KI an?</strong>
+                        Suchen Sie im Internet nach „<em>[Ihr KI-Tool] MCP Server einrichten</em>" – Anleitungen gibt es für alle gängigen Tools.
                     </div>
                 </div>
             </div>
@@ -998,8 +767,7 @@
                             <span id="cpText">Masterprompt kopieren</span>
                         </button>
                         <span class="prompt-note">
-                            Diesen Prompt als Systemprompt eintragen: in Claude als Projekt-Systemanweisung,
-                            in ChatGPT als Custom Instructions, in Langdock als Assistenten-Systemprompt.
+                            Als Systemprompt eintragen: Claude → Projekt-Systemanweisung · ChatGPT → Custom Instructions · Langdock → Assistenten-Systemprompt
                         </span>
                     </div>
                 </div>
@@ -1011,12 +779,12 @@
                     <div class="step-num">3</div>
                     <div>
                         <div class="step-title">Loslegen – einfach wie gewohnt chatten</div>
-                        <div class="step-hint">Die KI greift automatisch und korrekt auf Verwaltungswissen zu</div>
+                        <div class="step-hint">Die KI greift automatisch auf Verwaltungswissen zu</div>
                     </div>
                 </div>
                 <div class="step-body">
                     <p class="step3-info">
-                        Starten Sie einen Chat in Ihrem konfigurierten Assistenten oder Projekt.
+                        Starten Sie einen Chat in Ihrem konfigurierten Assistenten.
                         Die KI erkennt automatisch, wann sie auf Verwaltungswissen zugreifen muss –
                         und liefert quellensichere Antworten mit Paragraphenangabe.
                         Kein spezieller Befehl nötig.
@@ -1029,34 +797,34 @@
                 </div>
             </div>
 
-        </div><!-- /setup-cards -->
-    </div><!-- /section-inner -->
+        </div>
+    </div>
 </section>
 
 <!-- ============================================================ SO FUNKTIONIERT'S -->
 <section id="so-funktionierts" class="section section-gray">
     <div class="section-inner">
         <div class="section-header">
-            <h2>So funktioniert's</h2>
+            <div class="sec-tag">So funktioniert's</div>
             <p>Drei einfache Schritte – vollautomatisch im Hintergrund.</p>
         </div>
         <div class="hiw-steps">
             <div class="hiw-step">
-                <div class="hiw-icon-wrap"><svg class="icon" aria-hidden="true"><use href="#icon-message-circle"/></svg></div>
+                <div class="hiw-icon-wrap"><svg class="icon" style="font-size:2rem" aria-hidden="true"><use href="#icon-message-circle"/></svg></div>
                 <div class="hiw-step-num">Schritt 1</div>
                 <div class="hiw-step-title">Frage stellen</div>
                 <div class="hiw-step-desc">Sie fragen Ihre KI wie gewohnt auf Deutsch – kein spezieller Befehl nötig.</div>
             </div>
             <div class="hiw-arrow">→</div>
             <div class="hiw-step">
-                <div class="hiw-icon-wrap"><svg class="icon" aria-hidden="true"><use href="#icon-search"/></svg></div>
+                <div class="hiw-icon-wrap"><svg class="icon" style="font-size:2rem" aria-hidden="true"><use href="#icon-search"/></svg></div>
                 <div class="hiw-step-num">Schritt 2</div>
                 <div class="hiw-step-title">Quellen laden</div>
                 <div class="hiw-step-desc">Die KI ruft automatisch die passenden Gesetze und Satzungen aus der amtsschimmel.ai-Datenbank ab.</div>
             </div>
             <div class="hiw-arrow">→</div>
             <div class="hiw-step">
-                <div class="hiw-icon-wrap"><svg class="icon" aria-hidden="true"><use href="#icon-circle-check"/></svg></div>
+                <div class="hiw-icon-wrap"><svg class="icon" style="font-size:2rem" aria-hidden="true"><use href="#icon-circle-check"/></svg></div>
                 <div class="hiw-step-num">Schritt 3</div>
                 <div class="hiw-step-title">Antwort erhalten</div>
                 <div class="hiw-step-desc">Sie erhalten eine fundierte Antwort mit Paragraphenangabe und direktem Link zur Quelle.</div>
@@ -1065,13 +833,30 @@
     </div>
 </section>
 
+<!-- ============================================================ MEHR WOLLEN -->
+<section class="section">
+    <div class="section-inner">
+        <div class="mehr-box">
+            <h3>Mehr als der öffentliche Wissensstand?</h3>
+            <p>
+                Sie möchten eigene Dokumente, interne Richtlinien oder gemeindespezifische Unterlagen einbinden?
+                Wir helfen beim Aufbau einer eigenen Instanz – mit gesichertem Zugang nur für Sie.
+            </p>
+            <a href="mailto:kontakt@amtsschimmel.ai" class="mehr-btn">
+                <svg class="icon" aria-hidden="true"><use href="#icon-mail"/></svg>
+                Kontakt aufnehmen
+            </a>
+        </div>
+    </div>
+</section>
+
 <!-- ============================================================ ÜBER UNS -->
-<section id="ueber-uns" class="section">
+<section id="ueber-uns" class="section section-gray">
     <div class="section-inner">
         <div class="section-header">
-            <h2>Über amtsschimmel.ai</h2>
+            <div class="sec-tag">Über amtsschimmel.ai</div>
         </div>
-        <div class="about-content" style="margin: 0 auto; text-align: center;">
+        <div class="about-content">
             <div class="about-tag"><svg class="icon" aria-hidden="true"><use href="#icon-lock-open"/></svg> Open-Source-Projekt</div>
             <p>
                 amtsschimmel.ai ist ein Open-Source-Projekt: Jeder darf es nutzen und daran mitarbeiten.
@@ -1084,19 +869,22 @@
                 und mit mehr als 15 Jahren Entwickler-, Führungs- und Organisationsentwicklungserfahrung
                 rund um KI-Themen.
             </p>
+            <p>
+                Für die Feuerwehr gibt es das Schwesterprojekt
+                <a href="https://brandmeister.ai" style="color:var(--accent); font-weight:600;">brandmeister.ai</a> –
+                mit dem gleichen Ansatz für Feuerwehrrecht, Dienstvorschriften und lokales Wissen.
+            </p>
         </div>
     </div>
 </section>
 
 <!-- ============================================================ TECHNOLOGIE -->
-<section id="technologie" class="section section-gray">
+<section id="technologie" class="section">
     <div class="section-inner">
         <div class="section-header">
-            <h2>Technologie</h2>
+            <div class="sec-tag">Technologie</div>
             <p>amtsschimmel.ai ist auf <a href="https://ragsource.ai" target="_blank" rel="noopener" class="tech-link">RAGSource</a> aufgebaut –
-            einem Open-Source-Framework für <strong>hierarchisches Context Retrieval</strong>. Über Verwaltungswissen
-            hinaus einsetzbar für Unternehmens-Wissensmanagement, Technologieentwicklung und überall dort,
-            wo präzises, quellengebundenes KI-Wissen gebraucht wird.</p>
+            einem Open-Source-Framework für agentic Retrieval Augmented Generation.</p>
         </div>
         <div class="tech-content">
             <div class="tech-badge-row">
@@ -1108,7 +896,7 @@
             <p class="tech-desc">
                 RAGSource kommuniziert via <strong>MCP</strong> direkt mit Ihrem KI-Tool – ohne Middleware,
                 ohne Datenweitergabe. Als Framework navigiert RAGSource eigenständig durch Wissenshierarchien:
-                vom Überblick bis zum exakten Paragraph.
+                vom Überblick bis zum exakten Paragraphen.
                 → <a href="https://ragsource.ai" target="_blank" rel="noopener" class="tech-link">ragsource.ai</a>
             </p>
         </div>
@@ -1122,105 +910,28 @@
             <div class="cta-title">Bereit, Ihre Verwaltung zu entlasten?</div>
             <p class="cta-sub">
                 Kostenlos. Ohne Registrierung. In 5 Minuten einsatzbereit.<br>
-                Fragen? <a href="mailto:kontakt@amtsschimmel.ai" style="color:var(--gold-300); font-weight:600;">kontakt@amtsschimmel.ai</a>
+                Fragen? <a href="mailto:kontakt@amtsschimmel.ai" style="color:rgba(255,255,255,.9); font-weight:600;">kontakt@amtsschimmel.ai</a>
             </p>
             <a href="#einrichten" class="cta-btn">Jetzt einrichten →</a>
         </div>
     </div>
 </section>
 
-<!-- ============================================================ IMPRESSUM -->
-<footer class="impressum" id="impressum">
-    <div class="impressum-inner">
-        <div>
-            <h3>Angaben gem. § 5 TMG</h3>
-            <p>
-                Christian Traub<br>
-                Hauptstraße 71<br>
-                73087 Bad Boll<br><br>
-                E-Mail: <a href="mailto:kontakt@amtsschimmel.ai">kontakt@amtsschimmel.ai</a><br>
-                USt-IdNr.: DE459613042
-            </p>
-        </div>
-        <div>
-            <h3>Verantwortlich</h3>
-            <p>
-                Verantwortlich für den Inhalt<br>
-                gem. § 18 Abs. 2 MStV:<br><br>
-                Christian Traub<br>
-                Hauptstraße 71, 73087 Bad Boll
-            </p>
-        </div>
-        <div>
-            <h3>Haftungshinweis</h3>
-            <p>
-                amtsschimmel.ai stellt Verwaltungswissen
-                quellensicher bereit. Die Inhalte ersetzen
-                keine anwaltliche Rechtsberatung.<br><br>
-                Technik: <a href="https://ragsource.ai" target="_blank" rel="noopener">RAGSource Open Source</a>
-            </p>
-        </div>
-    </div>
-    <div style="max-width:1000px;margin:0 auto 0;padding:16px 0 0;border-top:1px solid var(--slate-200);font-size:0.78rem;color:var(--slate-500);line-height:1.6;">
-        <strong>Streitbeilegung:</strong> EU-Plattform OS: <a href="https://ec.europa.eu/consumers/odr" target="_blank" rel="noopener" style="color:var(--blue-500)">ec.europa.eu/consumers/odr</a> · Wir sind nicht bereit oder verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen (§ 36 VSBG).
-    </div>
-    <div class="impressum-bottom">
+<!-- ============================================================ FOOTER -->
+<footer class="footer">
+    <div class="footer-inner">
         <span>© 2026 amtsschimmel.ai · Christian Traub · Hauptstraße 71, 73087 Bad Boll</span>
         <span>
-            <a href="#impressum">Impressum</a> ·
+            <a href="/impressum.html">Impressum</a> ·
             <a href="/datenschutz.html">Datenschutz</a> ·
             <a href="mailto:kontakt@amtsschimmel.ai">Kontakt</a> ·
-            Powered by <a href="https://ragsource.ai" target="_blank" rel="noopener">RAGSource</a>
+            Powered by <a href="https://ragsource.ai" target="_blank" rel="noopener">RAGSource</a> ·
+            Für Feuerwehren: <a href="https://brandmeister.ai" target="_blank" rel="noopener">brandmeister.ai</a>
         </span>
     </div>
 </footer>
 
 <script>
-// ============================================================
-// LEVEL-LABELS
-// ============================================================
-const LEVEL_LABEL = {
-    bund:       "🇩🇪 Bundesrepublik",
-    land:       "Bundesland",
-    kreis:      "📍 Landkreis",
-    kreisfrei:  "🏙️ Kreisfreie Stadt",
-    verband:    "🔗 Gemeindeverband",
-    gemeinde:   "Gemeinde"
-};
-
-// ARS-Daten lazy-loaded beim ersten Fokus auf das Suchfeld
-let ARS_DATA = [];
-let _arsLoaded = false;
-let _arsLoading = null;
-
-function ensureArsData() {
-    if (_arsLoaded) return Promise.resolve();
-    if (_arsLoading) return _arsLoading;
-    _arsLoading = new Promise(resolve => {
-        const s = document.createElement('script');
-        s.src = 'https://cdn.ragsource.ai/ars_data.js';
-        s.onload = () => {
-            ARS_DATA = (typeof ARS_RAW !== 'undefined' ? ARS_RAW : [])
-                .map(([name, ars, level]) => ({name, ars, level}));
-            _arsLoaded = true;
-            resolve();
-        };
-        document.head.appendChild(s);
-    });
-    return _arsLoading;
-}
-
-function onArsFocus() {
-    ensureArsData(); // Daten im Hintergrund vorladen
-    onArsInput();
-}
-
-// Daten frühzeitig laden – sobald die Seite fertig ist (nicht erst on focus)
-window.addEventListener('load', () => setTimeout(() => ensureArsData(), 600));
-
-// ============================================================
-// MASTERPROMPT (vollständiger Text)
-// ============================================================
 const MASTERPROMPT = `# System-Instruktion: amtsschimmel.ai
 
 ## IDENTITÄT
@@ -1388,6 +1099,47 @@ Wenn Gerichtsurteile zur Beantwortung erforderlich sind und eine Websuche verfü
 - Niemals Details aus den Quellen weglassen`;
 
 // ============================================================
+// LEVEL-LABELS
+// ============================================================
+const LEVEL_LABEL = {
+    bund:       "🇩🇪 Bundesrepublik",
+    land:       "Bundesland",
+    kreis:      "📍 Landkreis",
+    kreisfrei:  "🏙️ Kreisfreie Stadt",
+    verband:    "🔗 Gemeindeverband",
+    gemeinde:   "Gemeinde"
+};
+
+// ARS-Daten lazy-loaded beim ersten Fokus auf das Suchfeld
+let ARS_DATA = [];
+let _arsLoaded = false;
+let _arsLoading = null;
+
+function ensureArsData() {
+    if (_arsLoaded) return Promise.resolve();
+    if (_arsLoading) return _arsLoading;
+    _arsLoading = new Promise(resolve => {
+        const s = document.createElement('script');
+        s.src = 'https://cdn.ragsource.ai/ars_data.js';
+        s.onload = () => {
+            ARS_DATA = (typeof ARS_RAW !== 'undefined' ? ARS_RAW : [])
+                .map(([name, ars, level]) => ({name, ars, level}));
+            _arsLoaded = true;
+            resolve();
+        };
+        document.head.appendChild(s);
+    });
+    return _arsLoading;
+}
+
+function onArsFocus() {
+    ensureArsData();
+    onArsInput();
+}
+
+window.addEventListener('load', () => setTimeout(() => ensureArsData(), 600));
+
+// ============================================================
 // AUTOCOMPLETE LOGIK
 // ============================================================
 let selectedArs = null;
@@ -1404,13 +1156,11 @@ function onArsInput() {
     const q = document.getElementById('arsSearchInput').value.trim();
     if (q.length < 2) { closeDropdown(); return; }
     if (!_arsLoaded) {
-        // Kurzer Lade-Hinweis zeigen, dann Ergebnis nachliefern
         const dd = document.getElementById('arsDropdown');
         dd.innerHTML = '<div class="ars-no-results">⏳ Gemeindeliste wird geladen…</div>';
         dd.classList.add('open');
     }
     ensureArsData().then(() => {
-        // Nur rendern wenn Input noch dem gesuchten Begriff entspricht
         const current = document.getElementById('arsSearchInput').value.trim();
         if (current !== q) return;
         const qn = normalizeStr(q);
@@ -1489,7 +1239,6 @@ function closeDropdown() {
     document.getElementById('arsDropdown').classList.remove('open');
 }
 
-// Dropdown schließen bei Klick außerhalb
 document.addEventListener('click', (e) => {
     if (!document.getElementById('arsWrap').contains(e.target)) closeDropdown();
 });
@@ -1531,7 +1280,7 @@ function copyPrompt() {
         document.getElementById('cpText').textContent = 'Kopiert!';
         setTimeout(() => {
             btn.classList.remove('copied');
-            document.getElementById('cpIcon').innerHTML = '<svg class=\"icon\" aria-hidden=\"true\"><use href=\"#icon-clipboard-list\"/></svg>';
+            document.getElementById('cpIcon').innerHTML = '<svg class="icon" aria-hidden="true"><use href="#icon-clipboard-list"/></svg>';
             document.getElementById('cpText').textContent = 'Masterprompt kopieren';
         }, 2500);
     });
