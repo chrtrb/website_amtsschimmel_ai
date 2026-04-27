@@ -11,6 +11,7 @@
     <meta property="og:title" content="amtsschimmel.ai – Verwaltungswissen. KI-gestützt. Quellensicher.">
     <meta property="og:description" content="Satzungen, Gesetze und Verwaltungsvorschriften zitierfähig in jeder KI – kostenlos, ohne Registrierung, Open Source.">
     <meta name="twitter:card" content="summary">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.ragsource.ai; style-src 'self' 'unsafe-inline' https://fonts.bunny.net; font-src https://fonts.bunny.net; img-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'self';">
     <!-- JetBrains Mono via Bunny Fonts (DSGVO-konform, kein Google) -->
     <link rel="preconnect" href="https://fonts.bunny.net" crossorigin>
     <link href="https://fonts.bunny.net/css?family=jetbrains-mono:400,500&display=swap" rel="stylesheet">
@@ -1123,6 +1124,8 @@ const LEVEL_LABEL = {
 };
 
 // ARS-Daten lazy-loaded beim ersten Fokus auf das Suchfeld
+// SRI-Hash wird durch update-sri.sh aktualisiert
+const ARS_DATA_INTEGRITY = 'sha384-tFBwxB777ncioj/SEGmH0n4mIvS8uJCoga3Jm4PnEBo6Dd/tea7RnhczfZycogL8';
 let ARS_DATA = [];
 let _arsLoaded = false;
 let _arsLoading = null;
@@ -1133,6 +1136,8 @@ function ensureArsData() {
     _arsLoading = new Promise(resolve => {
         const s = document.createElement('script');
         s.src = 'https://cdn.ragsource.ai/ars_data.js';
+        s.integrity = ARS_DATA_INTEGRITY;
+        s.crossOrigin = 'anonymous';
         s.onload = () => {
             ARS_DATA = (typeof ARS_RAW !== 'undefined' ? ARS_RAW : [])
                 .map(([name, ars, level]) => ({name, ars, level}));
@@ -1191,15 +1196,37 @@ function renderDropdown(results) {
         dd.classList.add('open');
         return;
     }
-    dd.innerHTML = results.map((e, i) => `
-        <div class="ars-option" data-i="${i}" onmousedown="selectArs(${i})">
-            <div class="ars-option-left">
-                <span class="ars-option-name">${e.name}</span>
-                <span class="ars-option-level">${LEVEL_LABEL[e.level] || e.level}</span>
-            </div>
-            <span class="ars-option-code">${e.ars}</span>
-        </div>
-    `).join('');
+    const fragment = document.createDocumentFragment();
+    results.forEach((e, i) => {
+        const div = document.createElement('div');
+        div.className = 'ars-option';
+        div.dataset.i = i;
+        div.addEventListener('mousedown', () => selectArs(i));
+
+        const left = document.createElement('div');
+        left.className = 'ars-option-left';
+
+        const nameSpan = document.createElement('span');
+        nameSpan.className = 'ars-option-name';
+        nameSpan.textContent = e.name;
+
+        const levelSpan = document.createElement('span');
+        levelSpan.className = 'ars-option-level';
+        levelSpan.textContent = LEVEL_LABEL[e.level] || e.level;
+
+        left.appendChild(nameSpan);
+        left.appendChild(levelSpan);
+
+        const codeSpan = document.createElement('span');
+        codeSpan.className = 'ars-option-code';
+        codeSpan.textContent = e.ars;
+
+        div.appendChild(left);
+        div.appendChild(codeSpan);
+        fragment.appendChild(div);
+    });
+    dd.innerHTML = '';
+    dd.appendChild(fragment);
     dd.classList.add('open');
 }
 
