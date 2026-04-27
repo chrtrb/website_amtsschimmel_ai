@@ -1001,12 +1001,10 @@ Nutzer antwortet mit **1 / 2 / 3** oder **Ja / Nein**.
 
 ## TOOLS
 
-Routing-Logik und Limits beim Verbindungsaufbau laden und befolgen.
-**Skills (typ:skill) aus dem Catalog-Response immer zuerst prüfen und großzügig laden.**
-
 | Tool | Wann |
 |---|---|
-| \`RAGSource_catalog\` | Pflicht bei jeder Anfrage — Skills + Quellen laden |
+| ToolSearch | **Vor allem anderen**, falls RAGSource-Tools als „deferred" gelistet sind: query exakt \`select:RAGSource_catalog,RAGSource_toc,RAGSource_get,RAGSource_query\` |
+| \`RAGSource_catalog\` | Pflicht bei jeder Anfrage |
 | \`RAGSource_toc\` | Vor \`get\` für M/L-Quellen |
 | \`RAGSource_get\` | Nach \`catalog\` (S direkt) oder nach \`toc\` (M/L) — bündeln |
 | \`RAGSource_query\` | Nur auf Nutzerwunsch oder nach expliziter Rückfrage |
@@ -1014,6 +1012,11 @@ Routing-Logik und Limits beim Verbindungsaufbau laden und befolgen.
 ---
 
 ## WORKFLOW
+
+### Schritt 0 — Tool-Initialisierung (nur bei deferred Tools)
+Falls RAGSource-Tools in der Session als „deferred" gelistet sind, **zuerst** ToolSearch aufrufen:
+Query: \`select:RAGSource_catalog,RAGSource_toc,RAGSource_get,RAGSource_query\`
+Danach direkt weiter mit Schritt 2 — kein keyword-basiertes ToolSearch, kein anderer Schritt davor.
 
 ### Schritt 1 — Kontext erfassen
 Modus bestimmen (Eilmodus / Beratungsmodus). Relevante Rechtsgebiete identifizieren
@@ -1024,23 +1027,24 @@ Noch keine inhaltliche Antwort formulieren.
 \`RAGSource_catalog\` aufrufen. Extensions-Parameter im Standard leer lassen.
 
 Response auswerten:
-- **skills** vorhanden → **alle thematisch passenden Skills großzügig laden**
-  (im Zweifel: laden statt übergehen) — Anweisungen vor der Antwort befolgen
 - **system_message** vorhanden → als kursiven Systemhinweis vor dem Inhalt ausgeben
   (eingerahmt mit \`---\`)
 - **hinweis** vorhanden → mit Link in die Antwort einbetten
 - **not_configured: true** → Nutzer informieren: verfügbare Ebenen aus \`sources\`-Liste
   benennen, auf fehlende Ebene hinweisen
 
-### Schritt 3 — Quellen laden
-Relevante Quellen identifizieren → \`RAGSource_toc\` für M/L-Quellen →
-\`RAGSource_get\` (mehrere Quellen bündeln).
+### Schritt 3 — Säule 1 laden (Rechtsquellen)
+Alle relevanten Quellen aus dem Catalog laden (Gesetze, VwVen, Satzungen):
+\`RAGSource_toc\` für M/L-Quellen → \`RAGSource_get\` (mehrere Quellen bündeln, parallel).
+Lücken nicht mit „typischerweise" füllen — Catalog-Extensions erweitern oder weitere Quellen nachladen.
+Fehlende Quellenlage als Lücke benennen (→ Confidence ⚠️ / ❌).
 
-Lücken nicht mit „typischerweise" oder „üblicherweise" füllen — Catalog-Extensions
-erweitern oder weitere Quellen nachladen. Fehlende Quellenlage als Lücke benennen
-(→ Confidence ⚠️ / ❌).
+### Schritt 4 — Säule 2 laden (Skills)
+Alle thematisch passenden Skills aus dem Catalog laden (im Zweifel: laden statt übergehen):
+\`RAGSource_toc\` für M-Skills → \`RAGSource_get\` für Sektionen.
+Skills bauen auf Säule-1-Inhalten auf — keine Doppelladung.
 
-### Schritt 4 — Antworten
+### Schritt 5 — Antworten
 Struktur je nach Modus (siehe **MODUS**). Confidence-Level und Handlungsoptionen ausgeben.
 
 ---
@@ -1262,6 +1266,7 @@ function updateUrl() {
     el.textContent = url;
     el.dataset.url = url;
     document.getElementById('copyBtn').classList.remove('copied');
+    document.getElementById('promptBox').textContent = getActivePrompt();
 }
 
 function copyUrl() {
@@ -1278,10 +1283,25 @@ function copyUrl() {
 // ============================================================
 // MASTERPROMPT
 // ============================================================
-document.getElementById('promptBox').textContent = MASTERPROMPT;
+function getActivePrompt() {
+    const lean = document.getElementById('leanModeCheckbox')?.checked;
+    if (!lean) return MASTERPROMPT;
+    return MASTERPROMPT
+        .replace(
+            '| `RAGSource_query` | Nur auf Nutzerwunsch oder nach expliziter Rückfrage |',
+            '| `RAGSource_query` | **Lean Mode — nicht verfügbar** |'
+        )
+        .replace(
+            /## VOLLTEXTSUCHE \(`RAGSource_query`\)[\s\S]*?(?=\n---\n)/,
+            '## VOLLTEXTSUCHE (`RAGSource_query`)\n\n**Lean Mode aktiv** — RAGSource_query ist deaktiviert. Keine Volltextsuche verfügbar.\n'
+        )
+        .replace('- `RAGSource_query` nicht proaktiv aufrufen\n', '');
+}
+
+document.getElementById('promptBox').textContent = getActivePrompt();
 
 function copyPrompt() {
-    navigator.clipboard.writeText(MASTERPROMPT).then(() => {
+    navigator.clipboard.writeText(getActivePrompt()).then(() => {
         const btn = document.getElementById('copyPromptBtn');
         btn.classList.add('copied');
         document.getElementById('cpIcon').textContent = '✓';
