@@ -10,7 +10,11 @@
     <meta property="og:url" content="https://amtsschimmel.ai">
     <meta property="og:title" content="amtsschimmel.ai – Verwaltungswissen. KI-gestützt. Quellensicher.">
     <meta property="og:description" content="Satzungen, Gesetze und Verwaltungsvorschriften zitierfähig in jeder KI – kostenlos, ohne Registrierung, Open Source.">
-    <meta name="twitter:card" content="summary">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta property="og:image" content="https://amtsschimmel.ai/assets/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta name="twitter:image" content="https://amtsschimmel.ai/assets/og-image.png">
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.ragsource.ai; style-src 'self' 'unsafe-inline' https://fonts.bunny.net; font-src https://fonts.bunny.net; img-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'self';">
     <!-- JetBrains Mono via Bunny Fonts (DSGVO-konform, kein Google) -->
     <link rel="preconnect" href="https://fonts.bunny.net" crossorigin>
@@ -355,6 +359,29 @@
             .footer-inner { flex-direction: column; }
         }
     </style>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "amtsschimmel.ai",
+      "url": "https://amtsschimmel.ai",
+      "description": "amtsschimmel.ai macht Satzungen, Gesetze und Verwaltungsvorschriften in jeder KI-Lösung zitierfähig verfügbar – kostenlos, ohne Registrierung, Open Source.",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "Web",
+      "inLanguage": "de",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "EUR"
+      },
+      "author": {
+        "@type": "Organization",
+        "name": "RAGSource",
+        "url": "https://amtsschimmel.ai"
+      },
+      "keywords": "Verwaltungswissen, Satzungen, Gesetze, Verwaltungsvorschriften, KI, MCP, Claude, ChatGPT, Langdock, Open Source"
+    }
+    </script>
 </head>
 <body>
 
@@ -1004,7 +1031,7 @@ Nutzer antwortet mit **1 / 2 / 3** oder **Ja / Nein**.
 
 | Tool | Wann |
 |---|---|
-| ToolSearch | **Vor allem anderen**, falls RAGSource-Tools als „deferred" gelistet sind: query exakt \`select:RAGSource_catalog,RAGSource_toc,RAGSource_get,RAGSource_query\` |
+| ToolSearch | **Vor allem anderen**, falls RAGSource-Tools als „deferred" gelistet sind: query \`select:RAGSource_catalog,RAGSource_toc,RAGSource_get,RAGSource_query,RAGSource_db_query\`, max_results: 20 |
 | \`RAGSource_catalog\` | Pflicht bei jeder Anfrage |
 | \`RAGSource_toc\` | Vor \`get\` für M/L-Quellen |
 | \`RAGSource_get\` | Nach \`catalog\` (S direkt) oder nach \`toc\` (M/L) — bündeln |
@@ -1016,7 +1043,7 @@ Nutzer antwortet mit **1 / 2 / 3** oder **Ja / Nein**.
 
 ### Schritt 0 — Tool-Initialisierung (nur bei deferred Tools)
 Falls RAGSource-Tools in der Session als „deferred" gelistet sind, **zuerst** ToolSearch aufrufen:
-Query: \`select:RAGSource_catalog,RAGSource_toc,RAGSource_get,RAGSource_query\`
+Query: \`select:RAGSource_catalog,RAGSource_toc,RAGSource_get,RAGSource_query,RAGSource_db_query\`, max_results: 20
 Danach direkt weiter mit Schritt 2 — kein keyword-basiertes ToolSearch, kein anderer Schritt davor.
 
 ### Schritt 1 — Kontext erfassen
