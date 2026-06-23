@@ -1,0 +1,20 @@
+.DS_Store
+*.log
+.wrangler/
+
+# Bild-Quellen (groß, redundant zu ausgelieferten webp/jpg)
+/Screenshot.png
+/assets/Amtsschimmel*.png
+/assets/af330c9e*.png
+/assets/Portrait.png
+/assets/hero-orig.png
+
+# Interne Planung — NICHT öffentlich (Repo ist public)
+/OPEN-POINTS.md
+/PARKPLATZ.md
+/RELAUNCH-COPY.md
+/MARKETING-STACK.md
+
+# Content-Entwürfe, noch nicht live verlinkt
+/whitepaper-ki-in-der-verwaltung.*
+/ki-praxisleitfaden-verwaltung.*

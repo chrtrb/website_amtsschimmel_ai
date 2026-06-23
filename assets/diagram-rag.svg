@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 262" role="img" aria-label="RAGSource Context-Management: Rechtsquellen von EU bis Ortsrecht paragrafengenau in den Kontext, Antwort mit Fundstelle und Link zur Originalquelle">
+  <style>
+    .chip{fill:#ffffff;stroke:#d8d8d2;}
+    .chipt{font-family:ui-monospace,'JetBrains Mono',monospace;font-size:12px;fill:#272b33;}
+    .lbl{font-family:ui-monospace,'JetBrains Mono',monospace;font-size:11px;letter-spacing:.5px;fill:#8a8f99;}
+    .hub{fill:#1e3a5f;}
+    .hubt{font-family:'Instrument Serif',Georgia,serif;font-size:23px;fill:#ffffff;}
+    .hubs{font-family:ui-monospace,'JetBrains Mono',monospace;font-size:11px;fill:#aebfd4;letter-spacing:.3px;}
+    .ans{fill:#fbfaf6;stroke:#1e3a5f;stroke-width:1.5;}
+    .anst{font-family:'Instrument Serif',Georgia,serif;font-size:20px;fill:#0f1013;}
+    .arr{stroke:#0f1013;stroke-width:1.6;fill:none;}
+  </style>
+  <text class="lbl" x="300" y="13" text-anchor="middle">RECHTSQUELLEN · §-GRANULAR</text>
+
+  <!-- 6 Quellen-Kaestchen, volle Breite -->
+  <rect class="chip" x="0"   y="24" width="90" height="34" rx="5"/><text class="chipt" x="45"  y="46" text-anchor="middle">EU</text>
+  <rect class="chip" x="102" y="24" width="90" height="34" rx="5"/><text class="chipt" x="147" y="46" text-anchor="middle">Bund</text>
+  <rect class="chip" x="204" y="24" width="90" height="34" rx="5"/><text class="chipt" x="249" y="46" text-anchor="middle">Land</text>
+  <rect class="chip" x="306" y="24" width="90" height="34" rx="5"/><text class="chipt" x="351" y="46" text-anchor="middle">Kreis</text>
+  <rect class="chip" x="408" y="24" width="90" height="34" rx="5"/><text class="chipt" x="453" y="46" text-anchor="middle">Verband</text>
+  <rect class="chip" x="510" y="24" width="90" height="34" rx="5"/><text class="chipt" x="555" y="46" text-anchor="middle">Ortsrecht</text>
+
+  <!-- schwarze senkrechte Pfeile nach unten -->
+  <path class="arr" d="M45 58 L45 92"   marker-end="url(#a)"/>
+  <path class="arr" d="M147 58 L147 92" marker-end="url(#a)"/>
+  <path class="arr" d="M249 58 L249 92" marker-end="url(#a)"/>
+  <path class="arr" d="M351 58 L351 92" marker-end="url(#a)"/>
+  <path class="arr" d="M453 58 L453 92" marker-end="url(#a)"/>
+  <path class="arr" d="M555 58 L555 92" marker-end="url(#a)"/>
+
+  <!-- blauer Block, gleiche Breite wie die Kaestchen -->
+  <rect class="hub" x="0" y="98" width="600" height="64" rx="8"/>
+  <text class="hubt" x="300" y="128" text-anchor="middle">RAGSource Context-Management</text>
+  <text class="hubs" x="300" y="150" text-anchor="middle">paragrafengenaues Retrieval · laufend aktuell</text>
+
+  <!-- Pfeil auf die Antwort -->
+  <path class="arr" d="M300 162 L300 196" marker-end="url(#a)"/>
+
+  <!-- Antwort-Box, gleiche Breite -->
+  <rect class="ans" x="0" y="202" width="600" height="56" rx="8"/>
+  <text class="anst" x="300" y="236" text-anchor="middle">Antwort mit Fundstelle und Link zur Originalquelle</text>
+
+  <defs>
+    <marker id="a" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6 z" fill="#0f1013"/></marker>
+  </defs>
+</svg>

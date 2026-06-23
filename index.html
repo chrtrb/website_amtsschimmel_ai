@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="de" data-brand="amtsschimmel">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.bunny.net; font-src https://fonts.bunny.net; img-src 'self' data:; media-src 'self'; connect-src 'self'; form-action 'self' mailto:; base-uri 'self'; object-src 'none'; frame-ancestors 'self'">
+<title>amtsschimmel.ai — Die KI, die Ihre Verwaltung einsetzen darf</title>
+<meta name="description" content="amtsschimmel.ai: die rechtssichere KI für die öffentliche Verwaltung in Deutschland. Führende Modelle, paragrafengenaues Fachrecht, Compliance im Paket. Eine moderne, skalierbare Plattform für KI in Ihrer Behörde.">
+<link rel="icon" type="image/svg+xml" href="assets/favicon-amtsschimmel.svg">
+<link rel="preconnect" href="https://fonts.bunny.net" crossorigin>
+<link href="https://fonts.bunny.net/css?family=instrument-serif:400,400i|jetbrains-mono:400,500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0f1013;--ink-2:#272b33;--ink-3:#555a64;--ink-4:#8a8f99;
+  --line:#e5e5e1;--line-2:#d8d8d2;
+  --paper:#fbfaf6;--paper-2:#f3f1e9;--paper-3:#ecead9;
+  --acc:#1e3a5f;--acc-ink:#0f2543;--acc-wash:#eef3f9;
+  --ok:#116c37;
+  --serif:'Instrument Serif','Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif;
+  --sans:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;
+  --mono:'JetBrains Mono','SF Mono','Fira Code',ui-monospace,Menlo,Consolas,monospace;
+  --gutter:24px;--container:1120px;
+}
+*{box-sizing:border-box;} html,body{margin:0;padding:0;} html{scroll-behavior:smooth;}
+body{font-family:var(--sans);font-size:17px;line-height:1.55;color:var(--ink-2);background:var(--paper);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
+a{color:inherit;text-decoration:none;} button{font:inherit;cursor:pointer;background:none;border:0;padding:0;color:inherit;}
+.wrap{max-width:var(--container);margin:0 auto;padding:0 var(--gutter);}
+
+/* NAV */
+.nav{border-bottom:1px solid var(--line);background:var(--paper);position:sticky;top:0;z-index:40;}
+.nav-inner{height:74px;display:flex;align-items:center;justify-content:space-between;}
+.brand{display:flex;align-items:center;gap:11px;color:var(--ink);}
+.brand .fav{font-family:var(--mono);font-weight:500;font-size:13px;letter-spacing:0;line-height:1;color:var(--paper);background:var(--acc);padding:4px 7px;border-radius:3px;display:inline-flex;align-items:center;}
+.brand .wm{display:flex;flex-direction:column;line-height:1;}
+.brand .wm .name{font-family:var(--sans);font-weight:600;font-size:19px;letter-spacing:-0.02em;color:var(--ink);}
+.brand .wm .name .ai{color:var(--acc);}
+.brand .wm .desc{font-family:var(--mono);font-size:9.5px;letter-spacing:.04em;color:var(--ink-4);margin-top:3px;}
+.nav-links{display:flex;gap:2px;}
+.nav-links a{font-size:14px;color:var(--ink-3);padding:8px 12px;border-radius:4px;transition:color .15s;}
+.nav-links a:hover{color:var(--acc);}
+.nav-cta{font-size:13px;font-weight:600;padding:9px 16px;background:transparent;color:var(--acc);border:1px solid var(--acc);border-radius:2px;transition:background .15s,color .15s;margin-left:8px;}
+.nav-cta:hover{background:var(--acc);color:#fff;}
+.nav-burger{display:none;background:none;border:0;cursor:pointer;padding:8px;margin-left:4px;}
+.nav-burger span{display:block;width:22px;height:2px;background:var(--ink);margin:4px 0;border-radius:2px;}
+@media(max-width:920px){
+  .nav-links{display:none;position:absolute;top:100%;left:0;right:0;background:var(--paper);border-bottom:1px solid var(--line);flex-direction:column;gap:0;padding:6px 24px 14px;box-shadow:0 10px 26px -14px rgba(15,16,19,.15);}
+  .nav-links.open{display:flex;}
+  .nav-links a{padding:12px 2px;font-size:16px;border-bottom:1px solid var(--line);}
+  .nav-burger{display:block;}
+}
+@media(max-width:560px){.nav-cta{display:none;}}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;gap:8px;padding:13px 22px;font-size:15px;font-weight:500;border-radius:2px;transition:background .15s,color .15s,transform .15s;border:1px solid transparent;}
+.btn-primary{background:var(--acc);color:#fff;} .btn-primary:hover{background:var(--acc-ink);transform:translateY(-1px);}
+.btn-ghost{background:transparent;color:var(--ink);border-color:var(--ink);} .btn-ghost:hover{background:var(--ink);color:var(--paper);}
+.btn .arr{transition:transform .2s;} .btn:hover .arr{transform:translateX(3px);}
+
+/* HERO */
+.hero{padding:84px 0 56px;}
+.hero-top{display:grid;grid-template-columns:1fr 1fr;gap:44px;align-items:center;}
+@media(max-width:900px){.hero-top{grid-template-columns:1fr;gap:20px;}}
+.hero-visual{display:flex;justify-content:center;align-items:center;}
+.hero-below{margin-top:40px;}
+.hero .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.02em;color:var(--acc);text-transform:uppercase;margin-bottom:22px;display:flex;align-items:center;gap:10px;}
+.hero .eyebrow::before{content:"";width:20px;height:1px;background:var(--acc);display:inline-block;}
+.hero h1{font-family:var(--serif);font-weight:400;font-size:clamp(32px,4.4vw,52px);line-height:1.04;letter-spacing:-0.02em;color:var(--ink);margin:0;max-width:none;}
+.hero h1 em{font-style:italic;color:var(--acc);}
+.hero .lead{font-size:19px;line-height:1.55;color:var(--ink-2);max-width:none;margin:0 0 28px;text-align:center;}
+.hero-actions{display:flex;gap:14px;align-items:center;justify-content:center;flex-wrap:wrap;}
+
+/* PRODUKT-FRAME (Demo) */
+.frame{background:#fff;border:1px solid var(--line);border-radius:3px;box-shadow:0 1px 0 rgba(0,0,0,.02),0 14px 44px -16px rgba(15,16,19,.10);overflow:hidden;}
+.frame-head{padding:10px 16px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;font-family:var(--mono);font-size:11.5px;color:var(--ink-3);background:var(--paper-2);text-transform:uppercase;letter-spacing:.03em;}
+.frame-head .tag{color:var(--ink-4);}
+.demo-body{padding:24px 24px 16px;min-height:400px;font-size:15px;}
+.demo-msg{margin-bottom:20px;}
+.demo-msg .who{font-family:var(--mono);font-size:11px;color:var(--ink-4);text-transform:uppercase;letter-spacing:.04em;margin-bottom:8px;}
+.demo-msg.user .bubble{color:var(--ink);font-weight:500;font-size:16px;}
+.demo-msg.user .bubble::before{content:"› ";color:var(--acc);font-weight:600;}
+.demo-msg.ai .bubble{font-family:var(--serif);font-size:19px;line-height:1.5;color:var(--ink);}
+.demo-msg.ai .bubble p{margin:0 0 12px;} .demo-msg.ai .bubble p:last-child{margin-bottom:0;}
+.cite{font-family:var(--mono);font-size:12px;color:var(--acc);font-weight:500;background:var(--acc-wash);padding:1px 5px;border-radius:2px;cursor:pointer;white-space:nowrap;transition:background .15s;}
+.cite:hover{background:#dfe9f4;}
+.cite sup{font-family:var(--serif);font-size:11px;font-style:italic;margin-left:2px;}
+.demo-foot{border-top:1px dashed var(--line);padding:12px 24px;display:flex;align-items:center;justify-content:space-between;font-size:12px;color:var(--ink-3);font-family:var(--mono);background:#fafaf5;}
+.demo-foot b{color:var(--ink-2);font-weight:500;}
+.caret{display:inline-block;width:2px;height:.9em;background:var(--ink);vertical-align:-2px;margin-left:2px;animation:blink 1s infinite;}
+@keyframes blink{50%{opacity:0;}}
+.pop{position:absolute;background:var(--ink);color:var(--paper);padding:14px 16px;border-radius:2px;max-width:360px;font-family:var(--sans);font-size:13px;line-height:1.55;z-index:60;box-shadow:0 12px 32px rgba(0,0,0,.25);pointer-events:none;opacity:0;transform:translateY(4px);transition:opacity .15s,transform .15s;}
+.pop.show{opacity:1;transform:translateY(0);}
+.pop .src{color:var(--paper-3);font-family:var(--mono);font-size:11px;margin-bottom:6px;}
+.pop .q{font-family:var(--serif);font-size:15px;font-style:italic;color:#fff;}
+
+/* TRUST STRIP */
+.trust{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--paper-2);}
+.trust-inner{display:flex;flex-wrap:wrap;justify-content:center;}
+.trust-item{display:flex;align-items:center;gap:7px;padding:13px 12px;font-size:13px;color:var(--ink-2);font-weight:500;white-space:nowrap;}
+.trust-item .ck{color:var(--acc);font-family:var(--serif);font-style:italic;}
+.trust-item svg.ti{width:15px;height:15px;stroke:var(--acc);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;}
+.trust-sep{width:1px;align-self:center;height:20px;background:var(--line-2);}
+@media(max-width:760px){.trust-sep{display:none;}.trust-item{padding:10px 14px;}}
+
+/* SECTION */
+.sec{padding:56px 0;} @media(max-width:820px){.sec,.cta-inner,.leadmag-grid{padding:40px 0;}.hero{padding:56px 0 40px;}}
+.sec-head{margin-bottom:50px;display:grid;grid-template-columns:1fr 2fr;gap:40px;align-items:end;}
+@media(max-width:820px){.sec-head{grid-template-columns:1fr;gap:14px;}}
+.sec-head .tag{font-family:var(--mono);font-size:12px;text-transform:uppercase;letter-spacing:.04em;border-top:1px solid var(--ink);padding-top:12px;color:var(--ink);}
+.sec-head h2{font-family:var(--serif);font-weight:400;font-size:clamp(26px,3.2vw,40px);line-height:1.08;letter-spacing:-0.02em;color:var(--ink);margin:0;max-width:26ch;}
+.sec-head h2 em{font-style:italic;color:var(--acc);}
+.sec-head .sub{font-size:16px;color:var(--ink-3);margin:14px 0 0;max-width:58ch;line-height:1.6;}
+
+/* IMG-PLATZHALTER */
+.imgband{border:1px solid var(--line);border-radius:4px;overflow:hidden;background:repeating-linear-gradient(45deg,#fafaf7,#fafaf7 14px,#f3f1e9 14px,#f3f1e9 28px);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:6px;color:var(--ink-4);text-align:center;padding:48px 24px;min-height:230px;}
+.imgband .big{font-family:var(--serif);font-style:italic;font-size:22px;color:var(--ink-3);}
+.imgband .sm{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.04em;}
+
+/* CARDS */
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:1px solid var(--line);}
+@media(max-width:820px){.cards{grid-template-columns:1fr;}}
+.card{padding:30px 28px 30px 0;border-bottom:1px solid var(--line);}
+.card:not(:nth-child(3n)){border-right:1px solid var(--line);padding-right:32px;}
+.card .k{font-family:var(--mono);font-size:12px;letter-spacing:.06em;color:var(--acc);margin-bottom:14px;}
+.card h3{font-family:var(--sans);font-weight:600;font-size:17px;color:var(--ink);margin:0 0 8px;letter-spacing:-0.01em;}
+.card p{margin:0;font-size:15px;color:var(--ink-3);line-height:1.6;}
+@media(max-width:820px){.card{padding:22px 0;}.card:not(:nth-child(3n)){border-right:0;padding-right:0;}}
+.cards.two{grid-template-columns:repeat(2,1fr);}
+.cards.two .card:nth-child(odd){border-right:1px solid var(--line);padding-right:32px;}
+.cards.two .card:nth-child(even){border-right:0;padding-right:0;padding-left:32px;}
+@media(max-width:820px){.cards.two{grid-template-columns:1fr;}.cards.two .card{border-right:0;padding-right:0;padding-left:0;}}
+.ex-label{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:var(--ink-3);margin:34px 0 0;}
+.aktuell-strip{margin-top:26px;padding-top:16px;border-top:1px solid var(--line);font-size:13px;color:var(--ink-3);display:flex;gap:12px;flex-wrap:wrap;align-items:baseline;}
+.aktuell-strip .al{font-family:var(--mono);text-transform:uppercase;letter-spacing:.04em;font-size:11px;color:var(--acc);}
+.aktuell-strip .ai b{color:var(--ink);font-family:var(--mono);font-size:11px;}
+.aktuell{display:grid;grid-template-columns:1.3fr 1fr;gap:40px;align-items:center;margin-top:34px;padding-top:30px;border-top:1px solid var(--line);}
+@media(max-width:820px){.aktuell{grid-template-columns:1fr;gap:22px;}}
+.aktuell .al-head{font-family:var(--serif);font-size:23px;color:var(--ink);margin-bottom:14px;line-height:1.2;}
+.aktuell .al-head em{font-style:italic;color:var(--acc);}
+.aktuell-img{min-height:210px;}
+.dia{width:100%;height:auto;display:block;}
+.photo{width:100%;height:auto;display:block;border:1px solid var(--line);border-radius:4px;}
+.hero-img{width:100%;max-width:720px;height:auto;display:block;}
+.midcta{background:var(--paper-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
+.midcta-inner{padding:22px 0;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;}
+.midcta-inner .t{font-size:17px;color:var(--ink-2);} .midcta-inner .t b{color:var(--ink);}
+.proof-badges{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);}
+@media(max-width:720px){.proof-badges{grid-template-columns:repeat(2,1fr);}}
+.proof-badges .pb{background:var(--paper);padding:18px 20px;font-size:14.5px;color:var(--ink);}
+.proof-badges .pb .k{display:block;font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.04em;color:var(--acc);margin-bottom:5px;}
+.quote{margin:32px 0 0;padding:24px 28px;border-left:3px solid var(--acc);background:var(--paper-2);border-radius:2px;}
+.quote p{font-family:var(--serif);font-size:21px;font-style:italic;color:var(--ink);margin:0 0 8px;line-height:1.4;}
+.quote footer{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:var(--ink-4);}
+
+/* VS-KONTRAST */
+.vs{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);}
+@media(max-width:720px){.vs{grid-template-columns:1fr;}}
+.vs .col{background:var(--paper);padding:28px 26px;}
+.vs .col.them{background:var(--paper-2);}
+.vs .col.us{box-shadow:inset 3px 0 0 var(--acc);}
+.vs .col .lbl{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.04em;margin-bottom:12px;}
+.vs .col.them .lbl{color:var(--ink-4);} .vs .col.us .lbl{color:var(--acc);}
+.vs .col h3{font-family:var(--serif);font-weight:400;font-size:20px;color:var(--ink);margin:0 0 8px;line-height:1.2;}
+.vs .col p{margin:0;font-size:14.5px;color:var(--ink-3);line-height:1.6;}
+.vs .col p b{color:var(--ink);}
+.vs-note{margin-top:28px;font-family:var(--serif);font-size:19px;line-height:1.5;color:var(--ink-2);}
+.vs-note b{color:var(--ink);}
+.vs-lead{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-3);text-align:center;margin-bottom:16px;}
+.vs .col .lbl{font-size:13px;font-weight:600;display:inline-flex;align-items:center;gap:7px;}
+.vs .col.them .lbl::before{content:"\26A0";font-family:var(--sans);font-style:normal;color:#c8920a;font-size:15px;line-height:1;}
+.vs .col.us .lbl::before{content:"\2713";font-family:var(--serif);font-style:normal;color:var(--ok);font-size:16px;line-height:1;}
+
+/* LÖSUNG */
+.sol{display:grid;grid-template-columns:repeat(2,1fr);gap:0;border-top:1px solid var(--line);}
+@media(max-width:720px){.sol{grid-template-columns:1fr;}}
+.sol-item{display:flex;gap:18px;padding:26px 28px 26px 0;border-bottom:1px solid var(--line);align-items:baseline;}
+.sol-item:nth-child(odd){border-right:1px solid var(--line);padding-right:36px;}
+@media(max-width:720px){.sol-item:nth-child(odd){border-right:0;padding-right:0;}}
+.sol-item .s{font-family:var(--mono);font-size:12px;color:var(--acc);flex-shrink:0;padding-top:3px;}
+.sol-item b{display:block;color:var(--ink);font-weight:600;font-size:16px;margin-bottom:3px;}
+.sol-item span.t{font-size:14.5px;color:var(--ink-3);line-height:1.55;}
+
+/* PRODUKT-SHOT */
+.shot-frame{border:1px solid var(--line);border-radius:4px;overflow:hidden;background:#fff;box-shadow:0 14px 44px -18px rgba(15,16,19,.12);}
+.shot-bar{height:38px;background:var(--paper-2);border-bottom:1px solid var(--line);display:flex;align-items:center;padding:0 14px;font-family:var(--mono);font-size:11px;color:var(--ink-4);}
+.shot-ph{aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;background:repeating-linear-gradient(45deg,#fafaf7,#fafaf7 14px,#f3f1e9 14px,#f3f1e9 28px);color:var(--ink-4);text-align:center;padding:24px;}
+.shot-ph .big{font-family:var(--serif);font-style:italic;font-size:22px;color:var(--ink-3);}
+.shot-ph .sm{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.04em;}
+
+/* ANWENDUNG */
+.p-grid{border-top:1px solid var(--line);}
+.p-card{border-bottom:1px solid var(--line);padding:32px 0;display:grid;grid-template-columns:1fr 2fr;gap:44px;align-items:start;}
+@media(max-width:820px){.p-card{grid-template-columns:1fr;gap:18px;}}
+.p-card .pq{font-family:var(--mono);font-size:13px;color:var(--ink-2);line-height:1.6;padding:14px 18px;border-left:2px solid var(--acc);background:var(--paper-2);}
+.p-card .tag-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;font-family:var(--mono);font-size:11px;color:var(--ink-3);text-transform:uppercase;letter-spacing:.04em;}
+.p-card .tag-row span{padding:3px 7px;border:1px solid var(--line-2);border-radius:2px;}
+.p-card .pa{font-family:var(--serif);font-size:20px;line-height:1.5;color:var(--ink);}
+.p-card .pa p{margin:0 0 14px;} .p-card .pa p:last-child{margin-bottom:0;}
+
+/* QA-AKKORDEON (Beispiel-Chats) */
+.qa-list{margin-top:6px;}
+.qa{background:#fff;border:1px solid var(--line);border-radius:4px;margin-bottom:14px;overflow:hidden;box-shadow:0 1px 0 rgba(0,0,0,.02),0 16px 46px -28px rgba(15,16,19,.10);}
+.qa>summary{list-style:none;cursor:pointer;display:flex;gap:16px;align-items:flex-start;padding:20px 24px;}
+.qa[open]>summary{border-bottom:1px solid var(--line);}
+.qa>summary::-webkit-details-marker{display:none;}
+.qa .q-ic{flex-shrink:0;width:24px;height:24px;border:1px solid var(--line-2);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--acc);transition:transform .2s,background .2s,color .2s,border-color .2s;margin-top:2px;}
+.qa .q-ic::before{content:"+";font-size:19px;line-height:1;font-family:var(--sans);}
+.qa[open] .q-ic{background:var(--acc);color:#fff;border-color:var(--acc);transform:rotate(45deg);}
+.qa .q-text{font-family:var(--serif);font-size:20px;line-height:1.35;color:var(--ink);}
+.qa[open] .q-text{color:var(--acc);}
+.qa .q-tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:9px;font-family:var(--mono);font-size:11px;color:var(--ink-3);text-transform:uppercase;letter-spacing:.04em;}
+.qa .q-tags span{padding:3px 7px;border:1px solid var(--line-2);border-radius:2px;}
+.qa-answer{padding:18px 24px 24px;}
+@media(max-width:600px){.qa>summary{padding:18px;}.qa-answer{padding:14px 18px 20px;}}
+.qa-src{display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:var(--acc);margin-bottom:18px;}
+.qa-src .dot{width:6px;height:6px;border-radius:50%;background:var(--ok);flex-shrink:0;}
+.qa-answer h4{font-family:var(--sans);font-weight:600;font-size:18px;letter-spacing:-0.01em;color:var(--ink);margin:20px 0 8px;}
+.qa-answer h5{font-family:var(--mono);font-weight:500;font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:var(--ink-3);margin:20px 0 8px;}
+.qa-answer p{font-size:15px;line-height:1.6;color:var(--ink-2);margin:0 0 12px;}
+.qa-answer p b{color:var(--ink);}
+.ref{font-family:var(--mono);font-size:12px;color:var(--acc);font-weight:500;background:var(--acc-wash);padding:1px 5px;border-radius:2px;white-space:nowrap;}
+.qa-quote{font-family:var(--sans);font-style:italic;font-size:14.5px;color:var(--ink-2);border-left:2px solid var(--line-2);padding:2px 0 2px 14px;margin:0 0 12px;}
+.qa-result{font-family:var(--sans);font-size:15px;line-height:1.5;color:var(--ink);border-left:3px solid var(--acc);background:var(--paper-2);padding:14px 18px;border-radius:2px;margin:14px 0;}
+.qa-tbl.fees{table-layout:fixed;}
+.qa-tbl.fees th:first-child,.qa-tbl.fees td:first-child{width:50%;text-align:left;font-family:inherit;color:var(--ink-2);white-space:normal;}
+.qa-tbl.fees th:not(:first-child),.qa-tbl.fees td:not(:first-child){text-align:right;font-family:inherit;color:var(--ink-2);white-space:normal;font-variant-numeric:tabular-nums;}
+.qa-tbl.fees thead th{color:var(--ink-3);}
+.qa-tbl{width:100%;border-collapse:collapse;margin:8px 0 14px;font-size:13.5px;}
+.qa-tbl th,.qa-tbl td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top;}
+.qa-tbl thead th{font-family:var(--mono);font-size:10.5px;text-transform:uppercase;letter-spacing:.04em;color:var(--ink-3);font-weight:500;}
+.qa-tbl td:first-child,.qa-tbl th:first-child{font-family:var(--mono);color:var(--ink-4);width:1%;white-space:nowrap;}
+.qa-tbl td:last-child{font-family:var(--mono);color:var(--ink-3);width:1%;white-space:nowrap;}
+.qa-tbl.plain td:first-child,.qa-tbl.plain th:first-child,.qa-tbl.plain td:last-child,.qa-tbl.plain th:last-child{font-family:inherit;color:var(--ink-2);width:auto;white-space:normal;text-align:left;}
+.qa-tbl.plain th{color:var(--ink-3);}
+.qa-note{font-size:14px;line-height:1.55;color:var(--ink-3);background:var(--paper-2);border-radius:2px;padding:12px 14px;margin:10px 0 0;}
+.qa-note b{color:var(--ink);}
+.qa-foot{margin-top:18px;padding-top:14px;border-top:1px dashed var(--line);font-size:13px;color:var(--ink-3);}
+.qa-foot b{color:var(--ok);font-weight:600;}
+
+/* SICHERHEIT */
+.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);}
+@media(max-width:820px){.tiles{grid-template-columns:1fr;}}
+.tile{background:var(--paper);padding:26px 26px;}
+.tile .lbl{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:var(--acc);margin-bottom:12px;}
+.tile h3{font-family:var(--serif);font-weight:400;font-size:21px;color:var(--ink);margin:0 0 8px;line-height:1.2;}
+.tile p{margin:0;font-size:14.5px;color:var(--ink-3);line-height:1.6;}
+
+/* EHRLICHKEIT */
+.honesty-box{border:1px solid var(--line);border-left:3px solid var(--acc);background:var(--paper-2);padding:32px 34px;border-radius:3px;}
+.honesty-box .h{font-family:var(--serif);font-size:24px;color:var(--ink);margin:0 0 22px;}
+.honesty-box .h em{font-style:italic;color:var(--acc);}
+.honesty-list{display:grid;grid-template-columns:repeat(2,1fr);gap:30px;}
+@media(max-width:760px){.honesty-list{grid-template-columns:1fr;gap:18px;}}
+.honesty-list .it b{display:block;color:var(--ink);font-weight:600;font-size:15.5px;margin-bottom:5px;}
+.honesty-list .it span{font-size:14px;color:var(--ink-3);line-height:1.55;}
+.honesty-outro{margin-top:24px;font-family:var(--serif);font-style:italic;font-size:18px;color:var(--ink-2);max-width:62ch;line-height:1.5;}
+
+/* WHITE PAPER */
+.leadmag{background:var(--acc);color:#fff;}
+.leadmag-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:56px;align-items:center;padding:56px 0;}
+@media(max-width:860px){.leadmag-grid{grid-template-columns:1fr;gap:32px;}}
+.leadmag .tag{font-family:var(--mono);font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:rgba(255,255,255,.6);margin-bottom:16px;}
+.leadmag h2{font-family:var(--serif);font-weight:400;font-size:clamp(28px,3.6vw,44px);line-height:1.1;color:#fff;margin:0 0 16px;}
+.leadmag h2 em{font-style:italic;color:#e8c66a;}
+.leadmag p{color:rgba(255,255,255,.82);font-size:16px;line-height:1.6;margin:0 0 24px;max-width:46ch;}
+.leadmag .btn-light{background:#fff;color:var(--acc);font-weight:600;} .leadmag .btn-light:hover{background:var(--acc-wash);transform:translateY(-1px);}
+.lm-card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.16);border-radius:4px;padding:26px 28px;}
+.lm-card h4{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:rgba(255,255,255,.6);margin:0 0 16px;}
+.lm-card ul{list-style:none;margin:0;padding:0;}
+.lm-card li{display:flex;gap:12px;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.1);font-size:14.5px;color:#fff;}
+.lm-card li:last-child{border-bottom:0;} .lm-card li .ck{color:#e8c66a;font-family:var(--serif);font-style:italic;}
+.lm-form{display:flex;flex-direction:column;gap:11px;max-width:460px;}
+.lm-row{display:flex;gap:11px;} .lm-row input{flex:1;min-width:0;}
+.lm-form input:not([type=checkbox]){width:100%;padding:11px 13px;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.08);color:#fff;border-radius:2px;font-family:var(--sans);font-size:14px;}
+.lm-form input::placeholder{color:rgba(255,255,255,.55);}
+.lm-form input:focus{outline:none;border-color:#fff;background:rgba(255,255,255,.14);}
+.lm-consent{display:flex;gap:9px;align-items:flex-start;font-size:12px;color:rgba(255,255,255,.78);line-height:1.45;}
+.lm-consent input{margin-top:2px;flex-shrink:0;} .lm-consent a{color:#fff;text-decoration:underline;}
+.lm-form .btn-light{align-self:flex-start;margin-top:4px;}
+.lm-success p{color:#fff;font-size:16px;line-height:1.5;} .lm-success a{color:#e8c66a;text-decoration:underline;}
+
+/* ABLAUF */
+.setup{background:var(--paper-2);}
+.step{display:grid;grid-template-columns:80px 1fr;gap:28px;padding:32px 0;border-bottom:1px solid var(--line);align-items:start;}
+.step:last-child{border-bottom:0;}
+.step .n{font-family:var(--serif);font-style:italic;font-size:52px;color:var(--acc);line-height:1;}
+.step h3{font-family:var(--serif);font-weight:400;font-size:25px;margin:0 0 8px;color:var(--ink);line-height:1.2;}
+.step p{margin:0;color:var(--ink-2);font-size:16px;max-width:62ch;}
+
+/* CHANGELOG */
+.feed{border-top:1px solid var(--line);max-width:780px;}
+.cl-row{display:grid;grid-template-columns:130px 1fr;gap:24px;padding:18px 0;border-bottom:1px solid var(--line);align-items:start;}
+@media(max-width:640px){.cl-row{grid-template-columns:1fr;gap:4px;}}
+.cl-row .date{font-family:var(--mono);font-size:12px;color:var(--ink-3);text-transform:uppercase;letter-spacing:.04em;padding-top:2px;}
+.cl-row .body{font-size:15.5px;color:var(--ink-2);line-height:1.55;}
+.cl-row .body b{color:var(--ink);font-weight:500;}
+.cl-row .chip{display:inline-block;font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.06em;padding:2px 6px;border-radius:2px;margin-right:6px;vertical-align:2px;border:1px solid var(--line-2);color:var(--ink-3);}
+.cl-row .chip.add{color:var(--ok);border-color:var(--ok);} .cl-row .chip.upd{color:var(--acc);border-color:var(--acc);}
+
+/* ÜBER UNS */
+.about-grid{display:grid;grid-template-columns:2.3fr 1fr;gap:48px;align-items:center;}
+@media(max-width:820px){.about-grid{grid-template-columns:1fr;gap:28px;}}
+.portrait{aspect-ratio:4/5;border:1px solid var(--line);border-radius:4px;overflow:hidden;}
+.portrait picture{display:contents;}
+.portrait img{width:100%;height:100%;object-fit:cover;object-position:center top;display:block;}
+.portrait .sm{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.04em;}
+.about p{font-family:var(--serif);font-size:21px;line-height:1.5;color:var(--ink-2);margin:0 0 18px;}
+.about p b{color:var(--ink);font-style:normal;}
+
+/* CTA */
+.cta{background:var(--ink);color:#fff;}
+.cta-inner{padding:56px 0;text-align:center;}
+.cta h2{font-family:var(--serif);font-weight:400;font-size:clamp(28px,3.6vw,46px);line-height:1.1;color:#fff;margin:0 0 14px;}
+.cta p{color:rgba(255,255,255,.74);font-size:17px;max-width:52ch;margin:0 auto 30px;line-height:1.55;}
+.cta-actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;}
+.cta .btn-light{background:#fff;color:var(--ink);font-weight:600;} .cta .btn-light:hover{background:var(--acc-wash);transform:translateY(-1px);}
+.cta .btn-outline{border-color:rgba(255,255,255,.4);color:#fff;} .cta .btn-outline:hover{background:rgba(255,255,255,.1);}
+.cta-contact{max-width:480px;margin:30px auto 0;text-align:left;}
+.cta-contact>summary{cursor:pointer;text-align:center;font-size:14px;color:rgba(255,255,255,.7);}
+.cta-contact>summary:hover{color:#fff;}
+.cta-form{margin-top:18px;}
+.cta-form textarea{width:100%;padding:11px 13px;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.08);color:#fff;border-radius:2px;font-family:var(--sans);font-size:14px;resize:vertical;}
+.cta-form textarea::placeholder{color:rgba(255,255,255,.55);} .cta-form textarea:focus{outline:none;border-color:#fff;}
+.cta-success p{color:#fff;font-size:16px;}
+
+/* FOOTER */
+.footer{background:var(--paper);border-top:1px solid var(--line);padding:52px 0 30px;font-size:13px;color:var(--ink-3);}
+.footer-grid{display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:40px;margin-bottom:44px;}
+@media(max-width:820px){.footer-grid{grid-template-columns:1fr 1fr;gap:30px;}}
+.footer h4{font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--ink);margin:0 0 12px;}
+.footer ul{list-style:none;margin:0;padding:0;} .footer ul li{margin-bottom:7px;}
+.footer ul li a:hover{color:var(--acc);}
+.sig{border-top:1px solid var(--line);padding-top:26px;display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:18px;}
+.sig-text{font-family:var(--serif);font-style:italic;font-size:15px;color:var(--ink-3);max-width:52ch;line-height:1.5;}
+.sig-text b{color:var(--ink);font-style:normal;font-weight:500;}
+.mini-marks{display:flex;gap:16px;align-items:center;font-family:var(--serif);font-size:14px;color:var(--ink-4);}
+.mini-marks a:hover{color:var(--acc);} .mini-marks .here{color:var(--acc);} .mini-marks .sep{color:var(--line-2);}
+.powered{margin-top:24px;font-family:var(--mono);font-size:11px;color:var(--ink-4);letter-spacing:.04em;}
+
+/* REVEAL */
+.reveal{opacity:0;transform:translateY(12px);transition:opacity .6s,transform .6s;}
+.reveal.in{opacity:1;transform:translateY(0);}
+:focus-visible{outline:2px solid var(--acc);outline-offset:2px;border-radius:2px;}
+@media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none;}.caret{animation:none;}}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></symbol>
+  <symbol id="i-server" viewBox="0 0 24 24"><rect width="20" height="8" x="2" y="2" rx="2"/><rect width="20" height="8" x="2" y="14" rx="2"/><path d="M6 6h.01"/><path d="M6 18h.01"/></symbol>
+  <symbol id="i-file" viewBox="0 0 24 24"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="m9 15 2 2 4-4"/></symbol>
+  <symbol id="i-cpu" viewBox="0 0 24 24"><rect width="16" height="16" x="4" y="4" rx="2"/><rect width="6" height="6" x="9" y="9" rx="1"/><path d="M15 2v2M15 20v2M2 15h2M2 9h2M20 15h2M20 9h2M9 2v2M9 20v2"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24"><path d="M12 7v14"/><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/></symbol>
+</svg>
+
+<!-- NAV -->
+<nav class="nav"><div class="wrap nav-inner">
+  <a class="brand" href="#" aria-label="amtsschimmel.ai Startseite">
+    <span class="fav">&gt;rag</span>
+    <span class="wm"><span class="name">amtsschimmel<span class="ai">.ai</span></span><span class="desc">Eine RAGSource-Lösung</span></span>
+  </a>
+  <div class="nav-links" id="navLinks">
+    <a href="#problem">Was wir lösen</a>
+    <a href="#unterschied">Antwortqualität</a>
+    <a href="#sicherheit">Sicherheit</a>
+    <a href="#loesung">Leistungen</a>
+    <a href="#kontakt">Kontakt</a>
+  </div>
+  <a class="nav-cta" href="mailto:kontakt@amtsschimmel.ai?subject=Demo%20amtsschimmel.ai">Demo vereinbaren</a>
+  <button class="nav-burger" id="navBurger" aria-label="Menü" aria-expanded="false"><span></span><span></span><span></span></button>
+</div></nav>
+
+<!-- HERO -->
+<section class="hero"><div class="wrap">
+  <div class="eyebrow">KI für die öffentliche Verwaltung in Deutschland</div>
+  <div class="hero-top">
+    <div class="hero-head">
+      <h1>Die KI, die Ihre Verwaltung einsetzen <em>darf.</em><br>Mit Antworten, die <em>stimmen.</em></h1>
+    </div>
+    <div class="hero-visual">
+      <picture>
+        <source srcset="assets/hero.webp" type="image/webp">
+        <img class="hero-img" src="assets/hero.png" alt="amtsschimmel.ai — der digitale Amtsschimmel mit Ihrer Verwaltungs-Instanz" loading="eager" width="1440" height="810">
+      </picture>
+    </div>
+  </div>
+  <div class="hero-below">
+    <p class="lead">In Deutschland gehostet, mit den führenden KI-Modellen und der Compliance, die Sie rechtlich absichert. Eine moderne, offene und erweiterbare Plattform für KI in Ihrer Behörde.</p>
+    <div class="hero-actions">
+      <a href="mailto:kontakt@amtsschimmel.ai?subject=Demo%20amtsschimmel.ai" class="btn btn-primary">Demo vereinbaren <span class="arr">→</span></a>
+    </div>
+  </div>
+</div>
+<div class="pop" id="pop"></div>
+</section>
+
+<!-- TRUST STRIP -->
+<div class="trust"><div class="wrap trust-inner">
+  <div class="trust-item"><svg class="ti"><use href="#i-shield"/></svg> EU-souverän</div><div class="trust-sep"></div>
+  <div class="trust-item"><svg class="ti"><use href="#i-server"/></svg> In Deutschland gehostet</div><div class="trust-sep"></div>
+  <div class="trust-item"><svg class="ti"><use href="#i-file"/></svg> DSGVO &amp; AVV inklusive</div><div class="trust-sep"></div>
+  <div class="trust-item"><svg class="ti"><use href="#i-cpu"/></svg> Führende Modelle, rechtssicher</div><div class="trust-sep"></div>
+  <div class="trust-item"><svg class="ti"><use href="#i-book"/></svg> Paragrafengenau &amp; aktuell</div>
+</div></div>
+
+<!-- 01 PROBLEME, DIE WIR LÖSEN -->
+<section class="sec" id="problem"><div class="wrap">
+  <div class="sec-head reveal">
+    <div class="tag">01 · Was wir lösen</div>
+    <div><h2>Die vier Probleme, die amtsschimmel.ai <em>löst.</em></h2>
+    <p class="sub">In vielen Behörden wird längst mit KI gearbeitet — und überall stoßen Verwaltungen auf dieselben vier Hürden. Genau die nehmen wir Ihnen ab.</p></div>
+  </div>
+  <div class="cards two reveal">
+    <div class="card"><div class="k">Problem 1 · Antwortqualität</div><h3>Antworten, die nicht stimmen</h3><p>KI, die halluziniert und veraltete oder falsche Paragrafen ausgibt — im Verwaltungsalltag unbrauchbar. amtsschimmel.ai lädt zu jeder Frage den exakten, aktuellen §-Wortlaut mit Fundstelle. Wortlaut statt Wahrscheinlichkeit.</p></div>
+    <div class="card"><div class="k">Problem 2 · Datenschutz</div><h3>Dürfen wir das als Behörde überhaupt nutzen?</h3><p>ChatGPT &amp; Co. laufen typischerweise über US-Anbieter — für personenbezogene Verwaltungsdaten bedeutet das zusätzlichen Prüfaufwand (Auftragsverarbeitung, Drittlandtransfer). amtsschimmel.ai läuft auf Servern in Deutschland, mit EU-Modellen für sensible Daten, DSGVO und AVV im Paket.</p></div>
+    <div class="card"><div class="k">Problem 3 · Schatten-IT</div><h3>Die Risiken der Schatten-IT</h3><p>Fehlt das offizielle Werkzeug, ist die Gefahr groß, dass private ChatGPT-Accounts genutzt werden — mit Verwaltungsdaten, ohne Vertrag und ohne Kontrolle. amtsschimmel.ai ist so vertraut und gut bedienbar, dass es genutzt wird — die beste Versicherung dagegen.</p></div>
+    <div class="card"><div class="k">Problem 4 · Technologieoffenheit</div><h3>Welche KI sollen wir überhaupt kaufen?</h3><p>Unzählige Angebote, überbordende Informationen und die Angst, sich falsch festzulegen. amtsschimmel.ai baut modular auf etablierter Open-Source, ist transparent im Tech-Stack und lässt sich mit Ihrem IT-Dienstleister betreuen. Kein Lock-in.</p></div>
+  </div>
+  <picture>
+    <source srcset="assets/img-probleme.webp" type="image/webp">
+    <img class="photo reveal" style="margin-top:38px" src="assets/img-probleme.png" alt="amtsschimmel.ai im Verwaltungsalltag — Mitarbeitende im Rathausbüro, unterstützt vom digitalen Amtsschimmel" loading="lazy">
+  </picture>
+</div></section>
+
+<!-- 02 ANTWORTQUALITÄT -->
+<section class="sec" id="unterschied"><div class="wrap">
+  <div class="sec-head reveal">
+    <div class="tag">02 · Antwortqualität</div>
+    <div><h2>Warum die Antworten mit amtsschimmel.ai <em>besser</em> sind.</h2>
+    <p class="sub">Den Unterschied macht nicht die Verpackung, sondern die Qualität der Antworten — und die entscheidet sich am exakten, aktuellen Gesetzestext.</p></div>
+  </div>
+  <div class="vs-lead reveal">Dieselbe Rechtsfrage — zwei Ansätze:</div>
+  <div class="vs reveal">
+    <div class="col them">
+      <div class="lbl">Klassischer Behörden-Bot</div>
+      <h3>Flache, semantische Suche über Website und PDFs.</h3>
+      <p>Generische Assistenten erschließen ihr Wissen aus der Gemeinde-Homepage und geteilten Dokumenten — solide für allgemeine Fragen. Beim exakten, aktuellen Gesetzes-Wortlaut stößt dieser Ansatz an seine Grenze: Er kann nur paraphrasieren, was er findet — und ergänzt notfalls aus unscharfem Modellwissen.</p>
+    </div>
+    <div class="col us">
+      <div class="lbl">amtsschimmel.ai</div>
+      <h3>Lädt den exakten §-Wortlaut. Immer aktuell.</h3>
+      <p>Über das paragrafengenaue Kontextmanagement von RAGSource kommt zu jeder Frage der originale, aktuelle Paragraf in den Kontext — mit Fundstelle, über die ganze Normenhierarchie von der Ortssatzung bis zur EU-Verordnung. <b>Gebaut für unser föderales Rechtssystem — Wortlaut statt Wahrscheinlichkeit.</b></p>
+    </div>
+  </div>
+
+  <div class="ex-label reveal">Drei echte Anfragen — Frage antippen, Antwort aufklappen:</div>
+  <div class="qa-list reveal">
+
+    <!-- BEISPIEL 1 — Räumlichkeiten (ortsneutral) -->
+    <details class="qa">
+      <summary><span class="q-ic"></span><span><span class="q-text">Welche Räumlichkeiten können in unserer Gemeinde zu welchen Bedingungen von Bürgerinnen und Bürgern angemietet werden? Wann war jeweils die letzte Anpassung?</span><span class="q-tags"><span>Bürgeranfrage</span><span>Ortsrecht</span><span>Gebühren</span></span></span></summary>
+      <div class="qa-answer">
+        <div class="qa-src"><span class="dot"></span>amtsschimmel.ai · Antwort mit Fundstelle · Originaldokumente im Wortlaut geladen</div>
+        <h4>Öffentliche Räumlichkeiten zur Anmietung — Übersicht</h4>
+        <p>Alle kommunalen Räume und Flächen, die Bürgerinnen und Bürger nutzen können — mit Bedingungen und dem jeweiligen Stand der Regelung.</p>
+
+        <h5>1 · Bürgersaal im Rathaus — <span class="ref">Gebührenordnung, Stand Jan. 2019</span></h5>
+        <table class="qa-tbl fees"><thead><tr><th>Nutzungsart</th><th>Örtl. Verein</th><th>Privatperson</th></tr></thead><tbody>
+          <tr><td>Tagessatz</td><td>35,00 €</td><td>nicht ausgewiesen</td></tr>
+          <tr><td>Stundensatz</td><td>5,00 €</td><td>nicht ausgewiesen</td></tr>
+        </tbody></table>
+
+        <h5>2 · Mehrzweckraum in der Wohnanlage am Lindenweg — <span class="ref">Gebührenordnung, Stand Jan. 2019</span></h5>
+        <table class="qa-tbl fees"><thead><tr><th>Nutzungsart</th><th>Örtl. Verein</th><th>Privatperson</th></tr></thead><tbody>
+          <tr><td>Tagessatz</td><td>35,00 €</td><td>nicht ausgewiesen</td></tr>
+          <tr><td>Stundensatz</td><td>5,00 €</td><td>nicht ausgewiesen</td></tr>
+        </tbody></table>
+
+        <h5>3 · Dorfhaus in Weiler — <span class="ref">Gebührenordnung, Stand Jan. 2019</span></h5>
+        <table class="qa-tbl fees"><thead><tr><th>Nutzungsart</th><th>Örtl. Verein</th><th>Privatperson</th></tr></thead><tbody>
+          <tr><td>Tagessatz</td><td>35,00 €</td><td>75,00 €</td></tr>
+          <tr><td>Stundensatz</td><td>5,00 €</td><td>10,00 €</td></tr>
+        </tbody></table>
+
+        <h5>4 · Aula im Schulzentrum — <span class="ref">Gebührenordnung, Stand Jan. 2019</span></h5>
+        <table class="qa-tbl fees"><thead><tr><th>Nutzungsart</th><th>Örtl. Verein</th><th>Privatperson</th></tr></thead><tbody>
+          <tr><td>Tagessatz</td><td>150,00 €</td><td>nicht ausgewiesen</td></tr>
+          <tr><td>Stundensatz</td><td>20,00 €</td><td>nicht ausgewiesen</td></tr>
+        </tbody></table>
+
+        <h5>5 · Sporthalle (alt) — <span class="ref">Gebühren- &amp; Benutzungsordnung, Stand Jan. 2019</span></h5>
+        <table class="qa-tbl fees"><thead><tr><th>Nutzungsart</th><th>Gebühr (zzgl. MwSt.)</th></tr></thead><tbody>
+          <tr><td>Stundensatz Erwachsene (Vereinsbetrieb)</td><td>6,00 €</td></tr>
+          <tr><td>Stundensatz Kinder/Jugendliche (Vereinsbetrieb)</td><td>3,00 €</td></tr>
+          <tr><td>Tagessatz außerhalb Vereinsbetrieb</td><td>75,00 €</td></tr>
+          <tr><td>Stundensatz außerhalb Vereinsbetrieb</td><td>10,00 €</td></tr>
+        </tbody></table>
+        <div class="qa-note"><b>Nutzungsbedingungen</b> (<span class="ref">§§ 1–6 BenutzungsO</span>): Schul- und Sportveranstaltungen haben Vorrang · Belegungsplan wird mit der Gemeinde abgestimmt · verantwortliche Aufsichtsperson stets anwesend · Versicherungsschutz Pflicht · kein Alkohol, keine Tiere, keine Straßenschuhe in der Halle.</div>
+
+        <h5>6 · Sporthalle (neu) — <span class="ref">Gebühren- &amp; Benutzungsordnung, Stand Jan. 2019</span></h5>
+        <table class="qa-tbl fees"><thead><tr><th>Nutzungsart</th><th>Gebühr (zzgl. MwSt.)</th></tr></thead><tbody>
+          <tr><td>Stundensatz je Hallendrittel (Vereinsbetrieb)</td><td>5,00 €</td></tr>
+          <tr><td>Tagessatz außerhalb Vereinsbetrieb</td><td>150,00 €</td></tr>
+          <tr><td>Stundensatz außerhalb Vereinsbetrieb</td><td>20,00 €</td></tr>
+        </tbody></table>
+
+        <h5>7 · Kleinspielfeld am Sportgelände — <span class="ref">Benutzungsordnung, Stand Jan. 2011</span></h5>
+        <p>Kostenlos nutzbar für die Allgemeinheit außerhalb Schul-/Vereinsbetrieb. Täglich bis 22:00 Uhr; Mo–Fr 7:30–16:00 Uhr hat die Schule Vorrang. Für Sonderveranstaltungen: Reservierungsantrag mindestens 10 Tage vorher bei der Gemeinde. Nur Sportschuhe, kein Alkohol, keine Tiere.</p>
+
+        <h5>8 · Schulhof Schulzentrum — <span class="ref">Benutzungsordnung, Stand Apr. 2015</span></h5>
+        <p>Kostenlos nutzbar für die Öffentlichkeit außerhalb des Schulbetriebs. Täglich 8:00–22:00 Uhr (bei Schulbetrieb Mo–Fr ab 7:00 Uhr). Kein Alkohol, kein Rauchen, keine motorisierten Fahrzeuge, keine Tiere. Für Ausnahmen (z. B. Veranstaltungen) ist eine Genehmigung der Gemeinde erforderlich.</p>
+
+        <h5>Letzte Aktualisierungen</h5>
+        <table class="qa-tbl plain"><thead><tr><th>Regelwerk</th><th>Letzte Anpassung</th></tr></thead><tbody>
+          <tr><td>Gebührenordnung öffentliche Räume</td><td>21. Januar 2019 (GR-Beschluss)</td></tr>
+          <tr><td>Benutzungsordnung Sporthallen</td><td>21. Januar 2019</td></tr>
+          <tr><td>Benutzungsordnung Schulhof</td><td>19. April 2015</td></tr>
+          <tr><td>Benutzungsordnung Kleinspielfeld</td><td>Stand Januar 2011</td></tr>
+        </tbody></table>
+
+        <p class="qa-result"><b>Kurz:</b> Für die private Anmietung kommt vor allem das Dorfhaus in Weiler in Frage (eigener Privattarif); die übrigen Räume nennen nur Vereinstarife — Privatnutzung daher direkt mit der Verwaltung klären.</p>
+
+        <div class="qa-note"><b>Auswärtigenzuschlag:</b> Auf alle Gebühren wird ein Zuschlag von 100 % erhoben, wenn der Nutzer nicht ortsansässig ist.</div>
+        <div class="qa-note"><b>Soziale Zwecke:</b> Gebühren entfallen, wenn der Reinerlös der Veranstaltung nicht dem Veranstalter, sondern einem sozialen Zweck zufließt.</div>
+        <div class="qa-note"><b>Aktualisierungsbedarf:</b> Mehrere Regelwerke stammen aus 2019, 2015 bzw. 2011 — eine Überprüfung auf Aktualität (Kostensteigerungen, Energiepreise, ggf. neue Räume) erscheint empfehlenswert. Allgemeiner verwaltungspraktischer Hinweis, kein Rechtsgutachten.</div>
+
+        <div class="qa-foot">✓ <b>quellengestützt</b> — alle Angaben basieren auf im Wortlaut geladenen Originaldokumenten Ihrer Gemeinde.</div>
+      </div>
+    </details>
+
+    <!-- BEISPIEL 2 — Streupflicht (ortsneutral) -->
+    <details class="qa">
+      <summary><span class="q-ic"></span><span><span class="q-text">Wie ist bei uns die Streupflicht geregelt?</span><span class="q-tags"><span>Bürgeranfrage</span><span>Ortsrecht</span><span>Landesrecht</span></span></span></summary>
+      <div class="qa-answer">
+        <div class="qa-src"><span class="dot"></span>amtsschimmel.ai · Antwort mit Fundstelle · 3 Quellen im Wortlaut geladen</div>
+        <h4>Streupflicht — Überblick</h4>
+        <p>Die Räum-, Streu- und Reinigungspflicht ist zweistufig geregelt: durch das Landesstraßenrecht als gesetzliche Grundlage und durch eine eigene Gemeindesatzung, die die Pflicht auf die Anlieger überträgt.</p>
+
+        <h5>1 · Gesetzliche Grundlage — § 41 StrG Baden-Württemberg</h5>
+        <p>Nach <span class="ref">§ 41 Abs. 1 StrG</span> trifft die Gemeinde grundsätzlich die öffentlich-rechtliche Pflicht zu Beleuchtung, Reinigung, Schneeräumen und Bestreuen bei Schnee- oder Eisglätte — im Rahmen des Zumutbaren und soweit aus polizeilichen Gründen geboten. Auftausalze sind so gering wie möglich zu halten.</p>
+        <p><span class="ref">§ 41 Abs. 2 StrG</span> ermächtigt die Gemeinde ausdrücklich, diese Pflichten (außer Beleuchtung) per Satzung auf die Straßenanlieger zu übertragen — davon hat die Gemeinde Gebrauch gemacht.</p>
+
+        <h5>2 · Streupflichtsatzung der Gemeinde (vom 25.10.2007)</h5>
+        <p><b>Wer ist verpflichtet? (<span class="ref">§ 2</span>)</b> Eigentümer und Besitzer (auch Mieter und Pächter) von Grundstücken, die an einer Straße liegen oder von ihr Zugang/Zufahrt haben — ebenso bei Trennung durch eine gemeindeeigene unbebaute Fläche bis 10 m Abstand. Mehrere Verpflichtete haften gesamtschuldnerisch; bei einseitigen Gehwegen nur die Anlieger der Gehwegseite.</p>
+        <p><b>Was ist zu räumen/streuen? (<span class="ref">§ 3</span>)</b> Gewidmete Gehwege; bei fehlendem Gehweg seitliche Fahrbahnrandflächen in 1,50 m Breite; verkehrsberuhigte Bereiche (1,50 m Randstreifen); gemeinsame Rad- und Gehwege; Friedhof-, Kirch-, Schul-, Wander- und Fußwege.</p>
+        <p><b>Reinigung (<span class="ref">§ 4</span>)</b> Beseitigung von Schmutz, Unrat, Unkraut und Laub nach Verkehrs- und Ordnungsbedürfnis; Kehricht sofort beseitigen, nicht in Straßenrinnen oder Entwässerungsanlagen schütten.</p>
+        <p><b>Schneeräumen (<span class="ref">§ 5</span>)</b> Mindestens 1,50 m Breite (Fußwege: in der Mitte); Schnee am Fahrbahnrand anhäufen, bei Tauwetter Straßeneinläufe freihalten; je Hausgrundstück ein Zugang zur Fahrbahn von mind. 1,00 m; an Bushaltestellen gefahrloses Ein- und Aussteigen sicherstellen.</p>
+        <p><b>Streuen bei Glätte (<span class="ref">§ 6</span>)</b> Rechtzeitiges Bestreuen, sodass Fußgänger die Flächen bei gehöriger Sorgfalt möglichst gefahrlos nutzen können. Erlaubt: Sand, Splitt oder Asche (abstumpfendes Material). Verboten: auftauende Streumittel, die nicht biologisch abbaubar sind (Streusalz untersagt, soweit nicht biologisch abbaubar).</p>
+        <p><b>Zeiten (<span class="ref">§ 7</span>)</b> — Räum-/Streupflicht erfüllt bis:</p>
+        <table class="qa-tbl plain"><thead><tr><th>Tag</th><th>erfüllt bis …</th></tr></thead><tbody>
+          <tr><td>Montag – Freitag</td><td>7:00 Uhr</td></tr>
+          <tr><td>Samstag</td><td>8:00 Uhr</td></tr>
+          <tr><td>Sonn- und Feiertage</td><td>9:00 Uhr</td></tr>
+        </tbody></table>
+        <p>Bei späterem Schneefall oder Glatteis: unverzüglich und ggf. wiederholt räumen und streuen — die Pflicht endet um 20:00 Uhr.</p>
+        <div class="qa-note"><b>Sanktion (<span class="ref">§ 8</span>):</b> Verstöße sind Ordnungswidrigkeiten nach <span class="ref">§ 54 Abs. 1 Nr. 5 StrG</span> — Bußgeld 5 € bis 500 € (bei Fahrlässigkeit bis 250 €).</div>
+
+        <h5>3 · Ausnahme — gemeindliche Grundstücke (§ 1 Abs. 2 Satzung)</h5>
+        <p>Für gemeindliche Grundstücke, die nicht überwiegend Wohnzwecken dienen (z. B. Verwaltungsgebäude, Alters- und Wohnheime), verbleibt die Pflicht bei der Gemeinde selbst (<span class="ref">§ 41 Abs. 1 StrG</span>).</p>
+
+        <p class="qa-result"><b>Kurz:</b> Die gesetzliche Räum- und Streupflicht (§ 41 StrG BW) ist per Satzung auf die Anlieger übertragen — mind. 1,50 m Breite, nur abstumpfende Streumittel, werktags bis 7 Uhr (Sa 8 / So+Fei 9), Pflicht endet 20 Uhr; Verstoß 5–500 € Bußgeld.</p>
+
+        <table class="qa-tbl plain"><thead><tr><th>Thema</th><th>Regelung</th></tr></thead><tbody>
+          <tr><td>Gesetzliche Grundlage</td><td>§ 41 StrG BW</td></tr>
+          <tr><td>Übertragungssatzung</td><td>Streupflichtsatzung vom 25.10.2007</td></tr>
+          <tr><td>Verpflichtete</td><td>Anlieger (Eigentümer und Besitzer)</td></tr>
+          <tr><td>Mindestbreite Räumen</td><td>1,50 m (Fußwege: Mitte)</td></tr>
+          <tr><td>Streumittel</td><td>Sand, Splitt, Asche — kein nicht-biologisch abbaubares Auftausalz</td></tr>
+          <tr><td>Zeiten</td><td>Mo–Fr 7 / Sa 8 / So+Fei 9 Uhr; endet 20 Uhr</td></tr>
+          <tr><td>Bußgeld</td><td>5–500 €</td></tr>
+        </tbody></table>
+
+        <div class="qa-foot">✓ <b>quellengestützt</b> — alle zitierten §§ wurden im Gespräch im Wortlaut geladen aus: Streupflichtsatzung · StrG BW</div>
+      </div>
+    </details>
+
+    <!-- BEISPIEL 3 — Feuerwehr-Kostenersatz -->
+    <details class="qa">
+      <summary><span class="q-ic"></span><span><span class="q-text">Im Anhang der Einsatzbericht unserer Feuerwehr — besteht eine Kostenersatzpflicht? Wenn ja, durch wen?</span><span class="q-tags"><span>Feuerwehr</span><span>Kostenersatz</span><span>mit Anhang</span></span></span></summary>
+      <div class="qa-answer">
+        <div class="qa-src"><span class="dot"></span>amtsschimmel.ai · Antwort mit Fundstelle · 2 Quellen im Wortlaut geladen</div>
+        <h4>Kostenersatzpflicht für den Feuerwehreinsatz</h4>
+        <h5>Sachverhalt (aus dem Einsatzbericht)</h5>
+        <p>Die Feuerwehr wurde mit dem Stichwort „H1-HiloPe" alarmiert. Die Feuerwehr musste davon ausgehen, dass sich die Person in einer Notlage befindet. Sie verschaffte sich Zugang und ermöglichte dem Rettungsdienst den Zugriff. Die Patientin wurde anschließend versorgt und in eine Klinik gebracht.</p>
+        <h5>Rechtliche Einordnung</h5>
+        <p><b>1. Wahrgenommene Aufgabe.</b> Maßgeblich ist <span class="ref">§ 2 Abs. 1 Nr. 2 FwG BW</span>:</p>
+        <p class="qa-quote">„zur Rettung von Menschen und Tieren aus lebensbedrohlichen Lagen technische Hilfe zu leisten."</p>
+        <p>Es lag ein Pflichtaufgaben-Einsatz nach <span class="ref">§ 2 Abs. 1 FwG</span> vor — die Rettung einer Person aus einer tatsächlich vorliegenden lebensbedrohlichen Lage, kein Einsatz nach § 2 Abs. 2 FwG.</p>
+        <p><b>2. Grundsatz: Unentgeltlichkeit.</b> Für Pflichtaufgaben-Einsätze gilt nach <span class="ref">§ 34 Abs. 1 S. 1 FwG BW</span> und <span class="ref">§ 3 Abs. 1 S. 1 Feuerwehr-Kostenersatz-Satzung</span>: Einsätze nach § 2 Abs. 1 sind unentgeltlich. Der Einsatz ist also grundsätzlich kostenfrei.</p>
+        <p><b>3. Greift eine Ausnahme?</b> <span class="ref">§ 3 Abs. 1 S. 2</span> der Kostenersatz-Satzung nennt abschließend folgende Tatbestände:</p>
+        <table class="qa-tbl">
+          <thead><tr><th>Nr.</th><th>Tatbestand</th><th>Im Fall</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td>Gefahr vorsätzlich/grob fahrlässig herbeigeführt</td><td>nein</td></tr>
+            <tr><td>2</td><td>Einsatz durch Fahrzeugbetrieb verursacht</td><td>nein</td></tr>
+            <tr><td>3</td><td>Sonderlöschmittel in Gewerbe-/Industriebetrieb</td><td>nein</td></tr>
+            <tr><td>4</td><td>Gefahrstoffe für gewerbliche/militärische Zwecke</td><td>nein</td></tr>
+            <tr><td>5</td><td>vorsätzl./grob fahrl. Alarmierung ohne Schadensereignis</td><td>nein</td></tr>
+            <tr><td>6</td><td>Fehlalarm einer Brandmeldeanlage</td><td>nein</td></tr>
+            <tr><td>7</td><td>automatischer Kfz-Notruf ohne Schadensereignis</td><td>nein</td></tr>
+          </tbody>
+        </table>
+        <p>Keiner der Tatbestände nach <span class="ref">§ 3 Abs. 1 S. 2</span> i.V.m. <span class="ref">§ 34 Abs. 1 FwG BW</span> ist erfüllt.</p>
+        <p class="qa-result"><b>Ergebnis: Keine Kostenersatzpflicht.</b> Der Einsatz ist die echte Rettung einer Person aus lebensbedrohlicher Lage (Pflichtaufgabe nach § 2 Abs. 1 Nr. 2 FwG BW) und damit unentgeltlich — es gibt also auch niemanden, der zum Kostenersatz heranzuziehen wäre.</p>
+        <div class="qa-note"><b>Härteklausel:</b> Selbst wenn ein Tatbestand griffe, soll nach <span class="ref">§ 3 Abs. 3</span> kein Kostenersatz verlangt werden, soweit dies eine unbillige Härte wäre oder im öffentlichen Interesse liegt — gerade bei einem Rettungseinsatz für eine hilfsbedürftige Person sollte das stets geprüft werden.</div>
+        <div class="qa-foot">✓ <b>quellengestützt</b> — alle zitierten §§ wurden im Gespräch im Wortlaut geladen aus: Feuerwehr-Kostenersatz-Satzung · FwG BW</div>
+      </div>
+    </details>
+
+  </div>
+
+  <p class="vs-note reveal">Sie bekommen damit <b>dreierlei in einem</b>: ein <b>wertvolles Arbeitswerkzeug</b> für Ihre Mitarbeitenden, eine <b>KI-Plattform</b> zum Einbinden in Website (Bürger-Chat) und interne Abläufe, und die <b>Rechtsquellen-Tiefe</b>, die Sie sonst teuer bei einem Rechtsdatenbank-Dienst einkaufen würden. EU-souverän, in einem System.</p>
+
+  <picture>
+    <source srcset="assets/img-retrieval.webp" type="image/webp">
+    <img class="photo reveal" style="margin-top:48px" src="assets/img-retrieval.png" alt="Paragrafengenaues Retrieval — der Amtsschimmel zwischen den Rechtsquellen, vom Gesetz bis zur Ortssatzung" loading="lazy">
+  </picture>
+</div></section>
+
+<!-- 03 SICHERHEIT (P2 · nach Antwortqualität) -->
+<section class="sec" id="sicherheit"><div class="wrap">
+  <div class="sec-head reveal">
+    <div class="tag">03 · Sicherheit &amp; Souveränität</div>
+    <div><h2>Sicherheit ist bei uns <em>kein Zusatzfeature.</em></h2>
+    <p class="sub">amtsschimmel.ai wurde von Grund auf auf Compliance, Rechtssicherheit und Qualität gebaut — basierend auf handfester Praxiserfahrung.</p></div>
+  </div>
+  <div class="tiles reveal">
+    <div class="tile"><div class="lbl">Datensouveränität</div><h3>Daten bleiben in Deutschland</h3><p>Plattform und Ihre Daten laufen auf Servern in Deutschland. Die Modell-Verarbeitung findet in der EU statt; Drittlandtransfers werden vermieden und, wo unvermeidbar, per AVV und EU-Standardvertragsklauseln abgesichert.</p></div>
+    <div class="tile"><div class="lbl">Zweckbindung</div><h3>Kein Training mit Ihren Daten</h3><p>Ihre Eingaben werden ausschließlich zur Beantwortung Ihrer Anfrage verarbeitet, nicht zum Training der Modelle — vertraglich mit den Modellbetreibern abgesichert.</p></div>
+    <div class="tile"><div class="lbl">EU-Compliance</div><h3>Auf den EU AI Act ausgelegt</h3><p>Klare Zweckbestimmung als Assistenzwerkzeug, Transparenzhinweis nach EU AI Act, dokumentierte Schulung Ihres Personals — von uns vorbereitet, nicht Ihr Problem.</p></div>
+    <div class="tile"><div class="lbl">DSGVO</div><h3>Höchste Datenschutzstandards</h3><p>DSGVO-konforme Verarbeitung mit AVV, klare Zweckbindung und Dokumentation — auf die besonderen Anforderungen der Verwaltung ausgelegt.</p></div>
+    <div class="tile"><div class="lbl">Mitbestimmung</div><h3>Personalrat &amp; Gemeinderat</h3><p>Muster und Begleitung für Mitbestimmung und Beschlussfassung. Die Einführung wird dadurch schneller und transparenter.</p></div>
+    <div class="tile"><div class="lbl">Offener Tech-Stack</div><h3>Etablierte Open-Source-Bausteine</h3><p>Bausteine wie Open WebUI und Docker, gehostet bei Hetzner in Deutschland. Prüfbar, modular und anbieterunabhängig.</p></div>
+  </div>
+  <picture>
+    <source srcset="assets/img-rechenzentrum.webp" type="image/webp">
+    <img class="photo reveal" style="margin-top:32px" src="assets/img-rechenzentrum.jpg" alt="EU-souveränes Hosting — Rechenzentrum in Deutschland unter der EU-Flagge, kein US-Cloud-Zugriff" loading="lazy">
+  </picture>
+</div></section>
+
+<!-- 03 PRODUKT-SHOT -->
+<section class="sec" id="produkt"><div class="wrap">
+  <div class="sec-head reveal">
+    <div class="tag">04 · So sieht es aus</div>
+    <div><h2>Vertraute Benutzeroberfläche — <em>rechtssicher und anwenderfreundlich.</em></h2>
+    <p class="sub">So sieht Ihre Instanz im Alltag aus: eine vertraute, aufgeräumte Oberfläche, die Ihr Team am ersten Tag bedient — denn nur ein Werkzeug, das wirklich genutzt wird, gewinnt gegen die Schatten-IT.</p></div>
+  </div>
+  <div style="max-width:980px;margin:0 auto" class="reveal">
+    <div class="shot-frame">
+      <div class="shot-bar">amtsschimmel.ai · Ihre Instanz</div>
+      <picture>
+        <source srcset="assets/ui-screenshot.webp" type="image/webp">
+        <img src="assets/ui-screenshot.png" alt="Die vertraute Oberfläche von amtsschimmel.ai — KI-Assistent für die Verwaltung mit Auswahl der Instanz und Eingabefeld" loading="lazy" style="width:100%;height:auto;display:block">
+      </picture>
+    </div>
+  </div>
+</div></section>
+
+<!-- MID-CTA -->
+<div class="midcta reveal"><div class="wrap midcta-inner">
+  <div class="t">Genug gelesen? <b>Lernen Sie amtsschimmel.ai an Ihren eigenen Fragen kennen</b> — im kostenlosen Erstgespräch.</div>
+  <a href="mailto:kontakt@amtsschimmel.ai?subject=Demo%20amtsschimmel.ai" class="btn btn-primary">Demo vereinbaren →</a>
+</div></div>
+
+<!-- (Anwendungs-Beispiele nach §02 „Antwortqualität" verschoben) -->
+
+<!-- 05 MITWACHSEND (P4) -->
+<section class="sec" id="mitwachsend"><div class="wrap">
+  <div class="sec-head reveal">
+    <div class="tag">05 · Mitwachsend</div>
+    <div><h2>Eine Plattform, die mit Ihren <em>Aufgaben wächst.</em></h2>
+    <p class="sub">Das Tempo der KI ist enorm. Entscheidend ist, nachhaltig offen für Innovationen zu bleiben. Ihre Plattform nimmt neue Entwicklungen und Features auf und bindet neue Systeme an. Sie starten klar umrissen und bauen aus, wenn es trägt.</p></div>
+  </div>
+  <div class="cards two reveal">
+    <div class="card"><div class="k">Bürgerservice</div><h3>Bürger-Chat</h3><p>Ein quellensicherer Assistent auf Ihrer Website — beantwortet Bürgeranfragen rund um die Uhr, mit denselben geprüften Quellen.</p></div>
+    <div class="card"><div class="k">Automatisierung</div><h3>Interne Workflows</h3><p>Wiederkehrende Aufgaben schneller erledigen — Aktenvermerke und Serienbriefe vorformulieren, Anträge vorprüfen, Sitzungsprotokolle zusammenfassen. Weniger Routine, mehr Zeit für die eigentliche Arbeit.</p></div>
+    <div class="card"><div class="k">Wissen</div><h3>Wissensmanagement</h3><p>Anbindung bestehender Wissens- und Dokumentensysteme — rollen- und zweckscharf, als sauberer Projektbaustein.</p></div>
+    <div class="card"><div class="k">Integration</div><h3>Anbindung an bestehende Systeme</h3><p>Unsere paragrafengenaue Rechtsquellen-Tiefe kann auch per API/MCP in Ihre bestehende Infrastruktur eingebunden werden.</p></div>
+  </div>
+</div></section>
+
+<!-- 06 LÖSUNG · Was Sie bekommen (Leistungspaket nach den vier Lösungs-Abschnitten) -->
+<section class="sec setup" id="loesung"><div class="wrap">
+  <div class="sec-head reveal">
+    <div class="tag">06 · Was Sie bekommen</div>
+    <div><h2>Ihre eigene, betreute Instanz — <em>europäisch und digital souverän.</em></h2>
+    <p class="sub">Alles eingerichtet, gepflegt und begleitet. Sie arbeiten, wir halten es sauber.</p></div>
+  </div>
+  <div class="sol reveal">
+    <div class="sol-item"><span class="s">01</span><div><b>Eigene Instanz in Deutschland</b><span class="t">Dediziert für Ihre Verwaltung, auf deutschen Servern. Keine geteilten Datenbanken für Ihre Daten.</span></div></div>
+    <div class="sol-item"><span class="s">02</span><div><b>Führende Modelle, sicher eingesetzt</b><span class="t">Die stärksten KI-Modelle. Für sensible Vorgänge führende europäische Modelle, durch unser Kontextmanagement leistungsgesteigert; freie Hochleistungsmodelle für nicht-sensible Daten. Rechtssicher und im Preis inbegriffen.</span></div></div>
+    <div class="sol-item"><span class="s">03</span><div><b>Kuratiertes Fachrecht — inkl. <a href="https://brandmeister.ai" target="_blank" rel="noopener">brandmeister.ai</a></b><span class="t">Bundes-, Landes-, Kreis- und Ortsrecht, paragrafengenau und aktuell. Ihre Feuerwehr erhält zusätzlich eine eigene, getrennte Instanz mit Feuerwehrwissen und Dienstvorschriften — eine echte Arbeitserleichterung für das Ehrenamt.</span></div></div>
+    <div class="sol-item"><span class="s">04</span><div><b>Compliance mitgeliefert</b><span class="t">AVV, Begleitung der Datenschutz-Folgenabschätzung, Nutzungsrichtlinie, Anwenderschulung und begleitende Dokumente für Personalrat und Gemeinderat.</span></div></div>
+    <div class="sol-item"><span class="s">05</span><div><b>Betrieb &amp; Pflege</b><span class="t">Laufende Aktualisierung der Rechtsquellen — eine Satzungsänderung wird direkt eingepflegt. Dazu regelmäßige Produktupdates und neue Features sowie hochverfügbarer Serverbetrieb auf deutscher Infrastruktur mit Backups.</span></div></div>
+    <div class="sol-item"><span class="s">06</span><div><b>Zukunftsfähig &amp; anbieterunabhängig</b><span class="t">Etablierte, offene Technologie, modular aufgebaut — eine Plattform, die mit Ihren Anforderungen wächst. Kein Vendor-Lock-in: Sie verbauen sich nichts. Support-Modell über Ihren IT-Dienstleister möglich.</span></div></div>
+  </div>
+</div></section>
+
+<!-- WHITE PAPER -->
+<!-- Praxis-Leitfaden vorerst ausgeblendet, bis der Leitfaden fertig ist — Fokus aktuell nur auf den Demo-CTA (display:none entfernen zum Reaktivieren) -->
+<section class="leadmag" id="whitepaper" style="display:none"><div class="wrap"><div class="leadmag-grid reveal">
+  <div>
+    <div class="tag">Sicher anfangen — kostenlos</div>
+    <h2>Ihr Einstieg: der <em>Praxis-Leitfaden</em> KI für die Verwaltung.</h2>
+    <p>Praxisnah und verständlich: worauf es beim KI-Einsatz wirklich ankommt — von der Antwortqualität über die Bedienung bis zu Datenschutz und Personalrat. Keine trockene Juristerei, sondern ein Leitfaden, der Spaß macht zu lesen. Kostenlos, ohne Verkaufsgespräch.</p>
+    <form class="lm-form" id="wpForm" novalidate>
+      <div class="lm-row">
+        <input name="name" required placeholder="Name">
+        <input name="org" required placeholder="Behörde / Gemeinde">
+      </div>
+      <input name="email" type="email" required placeholder="Dienstliche E-Mail-Adresse">
+      <label class="lm-consent"><input type="checkbox" name="consent" required> Ich willige ein, dass meine Angaben zur Bereitstellung des Praxis-Leitfadens und zur Kontaktaufnahme verarbeitet werden. <a href="datenschutz.html">Datenschutz</a></label>
+      <button type="submit" class="btn btn-light">Praxis-Leitfaden herunterladen →</button>
+    </form>
+    <div class="lm-success" id="wpSuccess" hidden>
+      <p>Vielen Dank. Ihr Download startet automatisch — falls nicht, <a href="ki-praxisleitfaden-verwaltung.pdf" id="wpDl">hier klicken</a>.</p>
+    </div>
+  </div>
+  <div class="lm-card">
+    <h4>Was der Leitfaden abdeckt</h4>
+    <ul>
+      <li><span class="ck">✓</span> Die Geschichte einer Abstimmung — wo Bots scheitern</li>
+      <li><span class="ck">✓</span> Wortlaut statt Wahrscheinlichkeit: wie gute KI funktioniert</li>
+      <li><span class="ck">✓</span> Das Rundum-sorglos-Paket: EU AI Act, DSGVO, Personalrat, Gemeinderat</li>
+      <li><span class="ck">✓</span> Die drei häufigsten Irrtümer</li>
+      <li><span class="ck">✓</span> Der sichere Einstieg in drei Schritten</li>
+    </ul>
+  </div>
+</div></div></section>
+
+<!-- 07 ÜBER UNS -->
+<section class="sec" id="ueber"><div class="wrap">
+  <div class="sec-head reveal">
+    <div class="tag">07 · Wer dahintersteht</div>
+    <div><h2>Aus der Praxis — <em>nicht aus dem Pitch.</em></h2></div>
+  </div>
+  <div class="about-grid reveal">
+    <div class="about">
+      <p>amtsschimmel.ai ist aus der <b>täglichen Praxis</b> entstanden — als Werkzeug für Menschen, die mit KI rechtssicher arbeiten müssen und verlässliche Antworten brauchen. Nicht als Produkt auf der Suche nach einem Markt.</p>
+      <p>Dahinter steht <b>RAGSource</b> — ein Anbieter, der sich auf rechtssichere, skalierbare und modulare KI-Systeme spezialisiert hat: KI-Governance, KI-Readiness, Wissens- und Kontextmanagement. Gründer ist <b>Christian Traub</b>, Ingenieur und Politologe mit über 15 Jahren Governance-, Compliance- und Audit-Erfahrung in KI- und Digitalisierungsprozessen, Feuerwehrkommandant. Kein Start-up, das fancy klingt — sondern Substanz, die Sie vor dem Gemeinderat vertreten können.</p>
+    </div>
+    <div class="portrait">
+      <picture>
+        <source srcset="assets/portrait.webp" type="image/webp">
+        <img src="assets/portrait.jpg" alt="Christian Traub — Gründer von RAGSource und amtsschimmel.ai" loading="lazy" width="820" height="1094">
+      </picture>
+    </div>
+  </div>
+</div></section>
+
+<!-- (Vertrauens-/Social-Proof-Block entfernt — kommt zurück mit echten Stimmen, siehe OPEN-POINTS) -->
+
+<!-- CTA -->
+<section class="cta" id="kontakt"><div class="wrap cta-inner reveal">
+  <h2>Reden wir über Ihre Verwaltung.</h2>
+  <p>Testen Sie amtsschimmel.ai selbst in einer kostenlosen Demo, unverbindlich.</p>
+  <div class="cta-actions">
+    <a href="mailto:kontakt@amtsschimmel.ai?subject=Erstberatung%20%26%20Demo%20amtsschimmel.ai" class="btn btn-light">Demo vereinbaren →</a>
+  </div>
+  <!-- Kontaktformular entfernt (kein Backend); nur mailto aktiv. Reaktivieren erst mit /api/contact + EU-Mailer. -->
+</div></section>
+
+<!-- FOOTER -->
+<footer class="footer"><div class="wrap">
+  <div class="footer-grid">
+    <div><h4>amtsschimmel.ai</h4><p style="margin:0;color:var(--ink-3);max-width:40ch">Die rechtssichere KI für die öffentliche Verwaltung in Deutschland. Eine RAGSource-Lösung.</p></div>
+    <div><h4>Lösung</h4><ul><li><a href="#loesung">Was Sie bekommen</a></li><li><a href="#unterschied">Antwortqualität</a></li><li><a href="#sicherheit">Sicherheit</a></li></ul></div>
+    <div><h4>Familie</h4><ul><li><a href="https://www.linkedin.com/in/christiantraub/">RAGSource</a></li><li><a href="https://brandmeister.ai">brandmeister.ai</a></li></ul></div>
+    <div><h4>Rechtliches</h4><ul><li><a href="impressum.html">Impressum</a></li><li><a href="datenschutz.html">Datenschutz</a></li><li><a href="#kontakt">Kontakt</a></li></ul></div>
+  </div>
+  <div class="sig">
+    <div class="sig-text">Gebaut von <b>Christian Traub</b> — Feuerwehrkommandant, Prozess- und Governance-Mensch — weil öffentliche Aufgaben verlässliche Werkzeuge verdienen.</div>
+    <div class="mini-marks">
+      <a href="https://www.linkedin.com/in/christiantraub/">RAGSource</a><span class="sep">·</span>
+      <a href="https://brandmeister.ai">brandmeister</a><span class="sep">·</span>
+      <span class="here">amtsschimmel</span>
+    </div>
+  </div>
+  <div class="powered">Powered by RAGSource</div>
+</div></footer>
+
+<script>
+const Q = "Welche Beschlüsse braucht der Gemeinderat, um einen Bebauungsplan aufzustellen — und wer entscheidet?";
+const A_HTML = `<p>Die Aufstellung beginnt mit dem Aufstellungsbeschluss nach <span class="cite" data-src="BauGB" data-q="„Der Beschluss, einen Bauleitplan aufzustellen, ist ortsüblich bekannt zu machen." (§ 2 Abs. 1 BauGB)">§ 2 Abs. 1 BauGB<sup>§2</sup></span>. Zuständig ist der Gemeinderat — <span class="cite" data-src="GemO BW" data-q="„Der Gemeinderat ... entscheidet über alle Angelegenheiten der Gemeinde, soweit nicht der Bürgermeister kraft Gesetzes zuständig ist." (§ 24 Abs. 1 GemO BW)">§ 24 GemO BW<sup>§24</sup></span>.</p>
+<p>Den Abschluss bildet der Satzungsbeschluss <span class="cite" data-src="BauGB" data-q="„Die Gemeinde beschließt den Bebauungsplan als Satzung." (§ 10 Abs. 1 BauGB)">§ 10 Abs. 1 BauGB<sup>§10</sup></span> — die Entscheidung trifft der Gemeinderat, nicht die Verwaltung.</p>`;
+
+function typeInto(el,text,speed=24){return new Promise(res=>{let i=0;el.innerHTML='<span class="caret"></span>';const t=setInterval(()=>{i++;el.innerHTML=text.slice(0,i)+'<span class="caret"></span>';if(i>=text.length){clearInterval(t);el.innerHTML=text;res();}},speed);});}
+async function runDemo(){
+  const q=document.getElementById('demoQ'),aWrap=document.getElementById('demoA-wrap'),a=document.getElementById('demoA'),foot=document.getElementById('demoFoot');
+  await typeInto(q,Q,26);
+  await new Promise(r=>setTimeout(r,450));
+  aWrap.style.display='';a.innerHTML=A_HTML;
+  const paras=a.querySelectorAll('p');
+  paras.forEach(p=>{p.style.opacity=0;p.style.transition='opacity .5s';});
+  for(const p of paras){await new Promise(r=>setTimeout(r,360));p.style.opacity=1;}
+  await new Promise(r=>setTimeout(r,260));
+  foot.style.display='flex';foot.style.opacity=0;foot.style.transition='opacity .3s';requestAnimationFrame(()=>foot.style.opacity=1);
+  attachCites();
+}
+function attachCites(){
+  const pop=document.getElementById('pop');
+  document.querySelectorAll('.cite').forEach(c=>{
+    c.addEventListener('mouseenter',()=>{
+      pop.innerHTML=`<div class="src">${c.dataset.src}</div><div class="q">„${c.dataset.q}"</div>`;
+      const r=c.getBoundingClientRect();
+      pop.style.top=(window.scrollY+r.bottom+10)+'px';
+      pop.style.left=Math.min(window.innerWidth-380,Math.max(12,r.left))+'px';
+      pop.classList.add('show');
+    });
+    c.addEventListener('mouseleave',()=>pop.classList.remove('show'));
+  });
+}
+const dEl=document.getElementById('demoBody');
+const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){runDemo();io.disconnect();}});},{threshold:.35});
+if(dEl)io.observe(dEl);
+const rio=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');rio.unobserve(e.target);}});},{threshold:.12});
+document.querySelectorAll('.reveal').forEach(el=>rio.observe(el));
+
+/* ── Mobile-Hamburger ── */
+const navBurger=document.getElementById('navBurger'),navLinks=document.getElementById('navLinks');
+if(navBurger&&navLinks){
+  navBurger.addEventListener('click',()=>{const o=navLinks.classList.toggle('open');navBurger.setAttribute('aria-expanded',o);});
+  navLinks.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{navLinks.classList.remove('open');navBurger.setAttribute('aria-expanded','false');}));
+}
+
+/* ── Kontaktformular ── */
+const cf=document.getElementById('contactForm');
+if(cf){
+  cf.addEventListener('submit',async(e)=>{
+    e.preventDefault(); if(!cf.reportValidity())return;
+    const fd=new FormData(cf);
+    const d={name:fd.get('name'),org:fd.get('org'),email:fd.get('email'),message:fd.get('message'),consent:cf.consent.checked};
+    try{await fetch('/api/contact',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(d)});}catch(_){/* Backend optional */}
+    cf.hidden=true; document.getElementById('contactSuccess').hidden=false;
+  });
+}
+
+/* ── White-Paper-Lead: erfassen + Download ── */
+const wpForm=document.getElementById('wpForm');
+if(wpForm){
+  wpForm.addEventListener('submit',async(e)=>{
+    e.preventDefault();
+    if(!wpForm.reportValidity())return;
+    const fd=new FormData(wpForm);
+    const data={name:fd.get('name'),org:fd.get('org'),email:fd.get('email'),consent:wpForm.consent.checked};
+    try{await fetch('/api/whitepaper-lead',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(data)});}catch(_){/* Backend optional; Download läuft trotzdem */}
+    wpForm.hidden=true;
+    document.getElementById('wpSuccess').hidden=false;
+    const dl=document.getElementById('wpDl');
+    const a=document.createElement('a');a.href=dl.href;a.download='';document.body.appendChild(a);a.click();a.remove();
+  });
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 320" role="img" aria-label="Datensouveränität: Daten bleiben in Deutschland, kein US-Cloud">
+  <style>
+    .fr{fill:#fbfaf6;stroke:#e5e5e1;}
+    .deu{fill:#eef3f9;stroke:#1e3a5f;stroke-width:1.5;}
+    .deut{font-family:ui-monospace,'JetBrains Mono',monospace;font-size:12px;letter-spacing:1px;fill:#1e3a5f;}
+    .node{fill:#ffffff;stroke:#d8d8d2;}
+    .nodet{font-family:'Instrument Serif',Georgia,serif;font-size:17px;fill:#0f1013;}
+    .nodes{font-family:ui-monospace,'JetBrains Mono',monospace;font-size:10px;fill:#8a8f99;}
+    .core{fill:#1e3a5f;}
+    .coret{font-family:'Instrument Serif',Georgia,serif;font-size:17px;fill:#ffffff;}
+    .cores{font-family:ui-monospace,'JetBrains Mono',monospace;font-size:10px;fill:#aebfd4;}
+    .arr{stroke:#1e3a5f;stroke-width:1.5;fill:none;}
+    .us{fill:#f3f1e9;stroke:#c0c0bc;stroke-width:1.5;stroke-dasharray:5 4;}
+    .ust{font-family:'Instrument Serif',Georgia,serif;font-size:16px;fill:#8a8f99;}
+    .uss{font-family:ui-monospace,'JetBrains Mono',monospace;font-size:9.5px;fill:#a8a8a2;}
+    .cut{stroke:#b03636;stroke-width:2;}
+    .lbl{font-family:ui-monospace,'JetBrains Mono',monospace;font-size:11px;letter-spacing:.5px;fill:#8a8f99;}
+  </style>
+  <rect class="fr" x="1" y="1" width="718" height="318" rx="10"/>
+  <text class="lbl" x="28" y="34">DATENSOUVERÄNITÄT</text>
+  <rect class="deu" x="28" y="56" width="486" height="232" rx="14"/>
+  <text class="deut" x="48" y="84">DEUTSCHLAND · EU</text>
+  <rect class="node" x="52" y="150" width="120" height="78" rx="8"/>
+  <text class="nodet" x="112" y="184" text-anchor="middle">Verwaltung</text>
+  <text class="nodes" x="112" y="204" text-anchor="middle">Ihre Mitarbeitenden</text>
+  <rect class="core" x="208" y="150" width="124" height="78" rx="8"/>
+  <text class="coret" x="270" y="182" text-anchor="middle">Ihre Instanz</text>
+  <text class="cores" x="270" y="202" text-anchor="middle">Hetzner · Deutschland</text>
+  <rect class="node" x="368" y="150" width="120" height="78" rx="8"/>
+  <text class="nodet" x="428" y="184" text-anchor="middle">EU-Modell</text>
+  <text class="nodes" x="428" y="204" text-anchor="middle">z. B. Mistral</text>
+  <path class="arr" d="M172 189 L206 189" marker-end="url(#b)"/>
+  <path class="arr" d="M332 189 L366 189" marker-end="url(#b)"/>
+  <rect class="us" x="560" y="150" width="132" height="78" rx="8"/>
+  <text class="ust" x="626" y="184" text-anchor="middle">US-Cloud</text>
+  <text class="uss" x="626" y="204" text-anchor="middle">CLOUD Act</text>
+  <path d="M514 189 L560 189" stroke="#c0c0bc" stroke-width="1.5" stroke-dasharray="5 4" fill="none"/>
+  <line class="cut" x1="529" y1="178" x2="545" y2="200"/>
+  <line class="cut" x1="545" y1="178" x2="529" y2="200"/>
+  <text class="uss" x="537" y="242" text-anchor="middle">kein Datenabfluss</text>
+  <defs>
+    <marker id="b" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6 z" fill="#1e3a5f"/></marker>
+  </defs>
+</svg>
