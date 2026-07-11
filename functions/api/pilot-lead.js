@@ -1,12 +1,16 @@
 // Pages Function — Pilot-Anfrage. Route: POST /api/pilot-lead
 // Persistenz: KV-Binding "LEADS" — Eintrag mit src:"pilot".
-// DSGVO: Datensparsamkeit (Name, Gemeinde, Rolle, dienstl. E-Mail, Nachricht, Einwilligung).
-// Produktiv idealerweise an EU-Posteingang weiterreichen (z. B. Scaleway TEM → kontakt@amtsschimmel.ai).
+// DSGVO: Datensparsamkeit (Name, Gemeinde, Rolle, dienstl. E-Mail, Nachricht, Einwilligung) — KEINE IP-Speicherung.
+// Spamschutz: Honeypot-Feld "website" (muss leer sein) statt Captcha.
+// Produktiv idealerweise an EU-Posteingang weiterreichen (z. B. Brevo → kontakt@amtsschimmel.ai).
 
 export async function onRequestPost(context) {
   const { request, env } = context;
   let d;
   try { d = await request.json(); } catch { return json({ ok: false, error: "bad_request" }, 400); }
+
+  // Honeypot: Bots füllen das unsichtbare Feld — Anfrage still verwerfen (ok melden, kein Hinweis).
+  if (String(d.website || "").trim() !== "") return json({ ok: true });
 
   const name     = String(d.name || "").trim().slice(0, 200);
   const gemeinde = String(d.gemeinde || "").trim().slice(0, 200);
@@ -23,7 +27,6 @@ export async function onRequestPost(context) {
   const lead = {
     name, gemeinde, rolle, email, message, consent,
     ts: new Date().toISOString(),
-    ip: request.headers.get("cf-connecting-ip") || "",
     src: "pilot",
   };
 

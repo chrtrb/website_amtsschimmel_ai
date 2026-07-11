@@ -22,7 +22,6 @@ export async function onRequestPost(context) {
   const lead = {
     name, org, email, message, consent,
     ts: new Date().toISOString(),
-    ip: request.headers.get("cf-connecting-ip") || "",
     src: "contact",
   };
 

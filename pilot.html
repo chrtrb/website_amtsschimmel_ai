@@ -6,6 +6,7 @@
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.bunny.net; font-src https://fonts.bunny.net; img-src 'self' data:; media-src 'self'; connect-src 'self'; form-action 'self' mailto:; base-uri 'self'; object-src 'none'; frame-ancestors 'self'">
 <title>Pilotprogramm — amtsschimmel.ai · 10 Pilotgemeinden in Baden-Württemberg gesucht</title>
 <meta name="description" content="amtsschimmel.ai sucht 10 Pilotgemeinden in Baden-Württemberg: eine eigene, betreute KI-Instanz für Ihre Verwaltung — 12 Monate kostenlos, rechtssicher, EU-souverän, mit paragrafengenauem Fachrecht.">
+<meta name="robots" content="noindex">
 <link rel="icon" type="image/svg+xml" href="assets/favicon-amtsschimmel.svg">
 <link rel="preconnect" href="https://fonts.bunny.net" crossorigin>
 <link href="https://fonts.bunny.net/css?family=instrument-serif:400,400i|jetbrains-mono:400,500&display=swap" rel="stylesheet">
@@ -254,6 +255,7 @@ a{color:inherit;text-decoration:none;} button{font:inherit;cursor:pointer;backgr
         <input name="gemeinde" required placeholder="Gemeinde">
       </div>
       <input name="rolle" placeholder="Ihre Rolle (z. B. Bürgermeister/in)">
+      <input name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;height:0;width:0;border:0;padding:0">
       <input name="email" type="email" required placeholder="Dienstliche E-Mail-Adresse">
       <textarea name="message" rows="3" placeholder="Nachricht (optional)"></textarea>
       <label class="lm-consent"><input type="checkbox" name="consent" required> Ich willige ein, dass meine Angaben zur Bearbeitung meiner Pilot-Anfrage verarbeitet werden. <a href="datenschutz.html">Datenschutz</a></label>
@@ -309,7 +311,7 @@ if(pf){
   pf.addEventListener('submit',async(e)=>{
     e.preventDefault(); if(!pf.reportValidity())return;
     const fd=new FormData(pf);
-    const d={name:fd.get('name'),gemeinde:fd.get('gemeinde'),rolle:fd.get('rolle'),email:fd.get('email'),message:fd.get('message'),consent:pf.consent.checked};
+    const d={name:fd.get('name'),gemeinde:fd.get('gemeinde'),rolle:fd.get('rolle'),email:fd.get('email'),message:fd.get('message'),website:fd.get('website'),consent:pf.consent.checked};
     try{await fetch('/api/pilot-lead',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(d)});}catch(_){/* Backend optional */}
     pf.hidden=true; document.getElementById('pilotSuccess').hidden=false;
   });
