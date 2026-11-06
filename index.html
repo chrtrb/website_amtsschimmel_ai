@@ -904,38 +904,6 @@ details.it{margin-top:22px;}
 
 <!-- (Anwendungs-Beispiele nach §02 „Antwortqualität" verschoben) -->
 
-<!-- WHITE PAPER -->
-<!-- Praxis-Leitfaden vorerst ausgeblendet, bis der Leitfaden fertig ist — Fokus aktuell nur auf den Demo-CTA (display:none entfernen zum Reaktivieren) -->
-<section class="leadmag" id="whitepaper" style="display:none"><div class="wrap"><div class="leadmag-grid reveal">
-  <div>
-    <div class="tag">Sicher anfangen — kostenlos</div>
-    <h2>Ihr Einstieg: der <em>Praxis-Leitfaden</em> KI für die Verwaltung.</h2>
-    <p>Praxisnah und verständlich: worauf es beim KI-Einsatz wirklich ankommt — von der Antwortqualität über die Bedienung bis zu Datenschutz und Personalrat. Keine trockene Juristerei, sondern ein Leitfaden, der Spaß macht zu lesen. Kostenlos, ohne Verkaufsgespräch.</p>
-    <form class="lm-form" id="wpForm" novalidate>
-      <div class="lm-row">
-        <input name="name" required placeholder="Name">
-        <input name="org" required placeholder="Behörde / Gemeinde">
-      </div>
-      <input name="email" type="email" required placeholder="Dienstliche E-Mail-Adresse">
-      <label class="lm-consent"><input type="checkbox" name="consent" required> Ich willige ein, dass meine Angaben zur Bereitstellung des Praxis-Leitfadens und zur Kontaktaufnahme verarbeitet werden. <a href="datenschutz.html">Datenschutz</a></label>
-      <button type="submit" class="btn btn-light">Praxis-Leitfaden herunterladen →</button>
-    </form>
-    <div class="lm-success" id="wpSuccess" hidden>
-      <p>Vielen Dank. Ihr Download startet automatisch — falls nicht, <a href="ki-praxisleitfaden-verwaltung.pdf" id="wpDl">hier klicken</a>.</p>
-    </div>
-  </div>
-  <div class="lm-card">
-    <h4>Was der Leitfaden abdeckt</h4>
-    <ul>
-      <li><span class="ck">✓</span> Die Geschichte einer Abstimmung — wo Bots scheitern</li>
-      <li><span class="ck">✓</span> Wortlaut statt Wahrscheinlichkeit: wie gute KI funktioniert</li>
-      <li><span class="ck">✓</span> Das Komplettpaket: EU AI Act, DSGVO, Personalrat, Gemeinderat</li>
-      <li><span class="ck">✓</span> Die drei häufigsten Irrtümer</li>
-      <li><span class="ck">✓</span> Der sichere Einstieg in drei Schritten</li>
-    </ul>
-  </div>
-</div></div></section>
-
 <!-- 07 ÜBER UNS -->
 <section class="sec" id="ueber"><div class="wrap">
   <div class="sec-head reveal">
@@ -1030,34 +998,6 @@ const navBurger=document.getElementById('navBurger'),navLinks=document.getElemen
 if(navBurger&&navLinks){
   navBurger.addEventListener('click',()=>{const o=navLinks.classList.toggle('open');navBurger.setAttribute('aria-expanded',o);});
   navLinks.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{navLinks.classList.remove('open');navBurger.setAttribute('aria-expanded','false');}));
-}
-
-/* ── Kontaktformular ── */
-const cf=document.getElementById('contactForm');
-if(cf){
-  cf.addEventListener('submit',async(e)=>{
-    e.preventDefault(); if(!cf.reportValidity())return;
-    const fd=new FormData(cf);
-    const d={name:fd.get('name'),org:fd.get('org'),email:fd.get('email'),message:fd.get('message'),consent:cf.consent.checked};
-    try{await fetch('/api/contact',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(d)});}catch(_){/* Backend optional */}
-    cf.hidden=true; document.getElementById('contactSuccess').hidden=false;
-  });
-}
-
-/* ── White-Paper-Lead: erfassen + Download ── */
-const wpForm=document.getElementById('wpForm');
-if(wpForm){
-  wpForm.addEventListener('submit',async(e)=>{
-    e.preventDefault();
-    if(!wpForm.reportValidity())return;
-    const fd=new FormData(wpForm);
-    const data={name:fd.get('name'),org:fd.get('org'),email:fd.get('email'),consent:wpForm.consent.checked};
-    try{await fetch('/api/whitepaper-lead',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(data)});}catch(_){/* Backend optional; Download läuft trotzdem */}
-    wpForm.hidden=true;
-    document.getElementById('wpSuccess').hidden=false;
-    const dl=document.getElementById('wpDl');
-    const a=document.createElement('a');a.href=dl.href;a.download='';document.body.appendChild(a);a.click();a.remove();
-  });
 }
 </script>
 </body>
